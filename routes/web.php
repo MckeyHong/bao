@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/', 'HomeController@index');
+Route::get('/deposit', 'DepositController@index');
+Route::get('/withdrawal', 'WithdrawalController@index');
+Route::get('/record', 'RecordController@index');
