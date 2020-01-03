@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class HomeController extends Controller
+class WithdrawalController extends Controller
 {
     /**
-     * 首頁
+     * 立即提領
      *
      * @param  Request $request
      * @return Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        return view('web.home');
+        return view('web.withdrawal');
     }
 }

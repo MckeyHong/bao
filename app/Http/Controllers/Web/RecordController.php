@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class DepositController extends Controller
+class RecordController extends Controller
 {
     /**
-     * 立即存入
+     * 異動明細
      *
      * @param  Request $request
      * @return Illuminate\Support\Facades\View
      */
     public function index(Request $request)
     {
-        return view('web.deposit');
+        return view('web.record');
     }
 }
