@@ -175,6 +175,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // 取得客戶端資訊
+        Jenssegers\Agent\AgentServiceProvider::class,
     ],
 
     /*
@@ -224,6 +226,7 @@ return [
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
+        'Agent'        => Jenssegers\Agent\Facades\Agent::class,
     ],
 
 ];
