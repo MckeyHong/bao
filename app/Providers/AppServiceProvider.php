@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Request;
 use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::share('func', config('custom.web'));
+        $path = Request::path();
+        View::share('path', $path);
+
+        $tmp = trans('custom.web.func.' . $path);
+        View::share('browserTitle', ($tmp != '') ? $tmp . ' - ' : '');
     }
 }

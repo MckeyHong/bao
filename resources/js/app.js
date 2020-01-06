@@ -6,6 +6,8 @@
 
 require('./bootstrap');
 
+const eva = require('eva-icons');
+
 window.Vue = require('vue');
 
 /**

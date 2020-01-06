@@ -13,7 +13,7 @@
 
 Route::group(['namespace' => 'Web'], function () {
     Route::get('/', 'HomeController@index');
-    Route::get('/deposit', 'DepositController@index');
     Route::get('/withdrawal', 'WithdrawalController@index');
     Route::get('/record', 'RecordController@index');
+    Route::get('/rule', 'RuleController@index');
 });

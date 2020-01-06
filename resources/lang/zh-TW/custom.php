@@ -2,10 +2,13 @@
 
 return [
     'websiteName' => '餘額寶',
-    'func' => [
-        'home'       => '首頁',
-        'deposit'    => '儲值',
-        'withdrawal' => '提領',
-        'record'     => '紀錄',
+    'web' => [
+        'func' => [
+            '/'          => '',
+            'deposit'    => '立即儲值',
+            'withdrawal' => '一鍵提領',
+            'record'     => '歷程查詢',
+            'rule'       => '規則說明',
+        ],
     ],
 ];
