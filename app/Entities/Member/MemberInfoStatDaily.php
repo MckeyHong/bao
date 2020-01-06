@@ -2,9 +2,9 @@
 
 namespace App\Entities\Member;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Entities\BaoModel;
 
-class MemberInfoStatDaily extends Model
+class MemberInfoStatDaily extends BaoModel
 {
     protected $table = 'member_info_stat_daily';
     protected $fillable = ['platform_id', 'member_id', 'bet_at', 'bet_total', 'deposit_credit', 'transfer_interest',

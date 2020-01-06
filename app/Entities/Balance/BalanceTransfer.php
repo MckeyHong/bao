@@ -2,9 +2,9 @@
 
 namespace App\Entities\Balance;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Entities\BaoModel;
 
-class BalanceTransfer extends Model
+class BalanceTransfer extends BaoModel
 {
     protected $table = 'balance_transfer';
     protected $fillable = ['platform_id', 'member_id', 'no', 'type', 'credit_before', 'credit', 'credit_after', 'memo'];

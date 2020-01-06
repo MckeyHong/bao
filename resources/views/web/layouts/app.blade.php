@@ -54,8 +54,8 @@
 
         .btn-submit {
             color: #ffffff;
-            background: #EF5145;
-            border-color: #EF5145;
+            background: #E6381D;
+            border-color: #E6381D;
         }
 
         .btn-submit:hover {

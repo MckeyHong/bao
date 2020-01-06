@@ -2,9 +2,9 @@
 
 namespace App\Entities\Platform;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Entities\BaoModel;
 
-class PlatformActivityRate extends Model
+class PlatformActivityRate extends BaoModel
 {
     protected $table = 'platform_activity_rate';
     protected $fillable = ['platform_id', 'start_at', 'end_at', 'rate', 'active'];

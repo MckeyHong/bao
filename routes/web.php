@@ -16,4 +16,6 @@ Route::group(['namespace' => 'Web'], function () {
     Route::get('/withdrawal', 'WithdrawalController@index');
     Route::get('/record', 'RecordController@index');
     Route::get('/rule', 'RuleController@index');
+
+    Route::get('/member/redirect', 'MemberController@redirect');
 });

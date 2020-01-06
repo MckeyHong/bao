@@ -2,13 +2,10 @@
 
 namespace App\Entities\Platform;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Entities\BaoModel;
 
-class Platform extends Model
+class Platform extends BaoModel
 {
     protected $table = 'platforms';
-    protected $fillable = ['name', 'present', 'future', 'active', 'api_info'];
-    protected $casts = [
-        'api_info' => 'array',
-    ];
+    protected $fillable = ['name', 'present', 'future', 'active', 'api_key', 'encrypt_key'];
 }

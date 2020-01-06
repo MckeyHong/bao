@@ -2,18 +2,19 @@
 
 @section('css')
 <style type="text/css">
-.withdrawal-func-block {
+.deposit-func-block {
     border-bottom: 1px solid #cccccc;
     margin-bottom: 5px;
     padding: 0 15px;
     line-height: 50px;
 }
 
-.withdrawal-amount {
+.deposit-amount {
     text-align: right;
+    border: 0;
 }
 
-.withdrawal-button-block {
+.deposit-button-block {
     padding: 0 15px;
     margin-top: 5vh;
 }
@@ -23,7 +24,7 @@
 }
 
 .interset-thead-td {
-    background-color: #DD2F2F;
+    background-color: #EF5145;
     color: #ffffff;
 }
 
@@ -44,30 +45,30 @@
 @section('content')
 <section>
     <div>
-        <div class="withdrawal-func-block">
+        <div class="deposit-func-block">
             <div class="float-left">余额宝余额</div>
             <div class="float-right">$1.00000012</div>
             <div class="clearfix"></div>
         </div>
-        <div class="withdrawal-func-block">
+        <div class="deposit-func-block">
             <div class="float-left">您的专属利率</div>
-            <div class="float-right">100 %</div>
+            <div class="float-right">{{ $rate }} %</div>
             <div class="clearfix"></div>
         </div>
-        <div class="withdrawal-func-block">
+        <div class="deposit-func-block">
             <div class="float-left">目前累计利息</div>
             <div class="float-right">$0.0001929</div>
             <div class="clearfix"></div>
         </div>
-        <div class="withdrawal-func-block">
+        <div class="deposit-func-block">
             <div class="float-left">转入金额</div>
-            <div class="float-right"><input type="number" minlength="1" value="100" class="withdrawal-amount" />元</div>
+            <div class="float-right"><input type="number" minlength="1" value="100" class="deposit-amount" />元</div>
             <div class="clearfix"></div>
         </div>
         <div>
             <div class="text-center text-muted">今日可存(昨日洗码量)：$ 100,000.00</div>
         </div>
-        <div class="withdrawal-button-block">
+        <div class="deposit-button-block">
             <button type="button" class="btn btn-block btn-submit" data-toggle="modal" data-target="#confirmModal">立即转入</button>
         </div>
     </div>

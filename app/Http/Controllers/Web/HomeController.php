@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Auth;
+use App\Services\Common\RateServices;
 
 class HomeController extends Controller
 {
@@ -15,6 +17,9 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        return view('web.home');
+        $srv = new RateServices();
+        return view('web.home', [
+            'rate' => $srv->getPlatformRate(1)
+        ]);
     }
 }

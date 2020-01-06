@@ -20,8 +20,11 @@ class CreatePlatformsTable extends Migration
             $table->unsignedDecimal('present', 5, 2)->default(0)->comment('目前利率(%)');
             $table->unsignedDecimal('future', 5, 2)->default(0)->comment('預設利率(%)');
             $table->unsignedTinyInteger('active')->default(1)->comment('狀態(1：啟用，2：停用)');
-            $table->json('api_info')->nullable()->comment('串接資訊');
+            $table->string('api_key', 36)->comment('平台APIkey');
+            $table->string('encrypt_key', 16)->comment('平台加密key');
             $table->timestamps();
+
+            $table->unique(['api_key', 'encrypt_key'], 'uk_' . $this->table . '_1');
         });
 
         DB::statement("ALTER TABLE `" . $this->table . "` COMMENT '平台資訊'");

@@ -66,3 +66,18 @@ if (!function_exists('get_real_ip')) {
         }
     }
 }
+
+if (!function_exists('validate_date')) {
+    /**
+     * 驗證日期是否正確
+     *
+     * @param  string $date    [要檢查的日期資料]
+     * @param  string $format  [要檢查的日期格式，預設為 Y-m-d]
+     * @return boolean
+     */
+    function validate_date($date, $format = 'Y-m-d')
+    {
+        $tmpDate = DateTime::createFromFormat($format, $date);
+        return $tmpDate && $tmpDate->format($format) == $date;
+    }
+}

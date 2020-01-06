@@ -177,6 +177,8 @@ return [
 
         // 取得客戶端資訊
         Jenssegers\Agent\AgentServiceProvider::class,
+        // 取得IP資訊
+        Torann\GeoIP\GeoIPServiceProvider::class,
     ],
 
     /*
@@ -227,6 +229,7 @@ return [
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
         'Agent'        => Jenssegers\Agent\Facades\Agent::class,
+        'GeoIP'        => Torann\GeoIP\Facades\GeoIP::class,
     ],
 
 ];

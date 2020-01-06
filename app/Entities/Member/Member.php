@@ -2,16 +2,19 @@
 
 namespace App\Entities\Member;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Entities\BaoModel;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 
-class Member extends Authenticatable
+class Member extends BaoModel implements AuthorizableContract, AuthenticatableContract
 {
-    use Notifiable;
+    use Notifiable, Authenticatable, Authorizable;
 
     protected $table = 'members';
-    protected $fillable = ['platform_id', 'account', 'password', 'credit', 'today_deposit', 'interest', 'token',
+    protected $fillable = ['platform_id', 'account', 'name', 'password', 'credit', 'today_deposit', 'interest', 'token',
                            'active', 'last_session'];
 
     protected $hidden = ['password', 'token'];

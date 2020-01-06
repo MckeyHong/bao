@@ -28,6 +28,13 @@ hr {
     border-radius: 5px;
     background: #DD2F2F;
 }
+
+.btn-quick {
+    color: #495057;
+    background: #e9ecef;
+    border: 1px solid #ced4da;
+
+}
 </style>
 @endsection
 
@@ -53,10 +60,10 @@ hr {
             </div>
         </div>
         <div class="row text-center" style="margin:0;">
-            <div class="col search-btn"><button type="button" class="btn btn-submit">昨日</button></div>
-            <div class="col search-btn"><button type="button" class="btn btn-submit">今日</button></div>
-            <div class="col search-btn"><button type="button" class="btn btn-submit">上周</button></div>
-            <div class="col search-btn"><button type="button" class="btn btn-submit">当周</button></div>
+            <div class="col search-btn"><button type="button" class="btn btn-quick">昨日</button></div>
+            <div class="col search-btn"><button type="button" class="btn btn-quick">今日</button></div>
+            <div class="col search-btn"><button type="button" class="btn btn-quick">上周</button></div>
+            <div class="col search-btn"><button type="button" class="btn btn-quick">当周</button></div>
         </div>
         <hr>
     </div>

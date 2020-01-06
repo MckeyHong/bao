@@ -2,9 +2,9 @@
 
 namespace App\Entities\Platform;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Entities\BaoModel;
 
-class PlatformRateRecord extends Model
+class PlatformRateRecord extends BaoModel
 {
     protected $table = 'platform_rate_record';
     protected $fillable = ['platform_id', 'present'];

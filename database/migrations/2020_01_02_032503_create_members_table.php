@@ -19,6 +19,7 @@ class CreateMembersTable extends Migration
             $table->unsignedSmallInteger('platform_id')->comment('平台ID');
             $table->string('account', 30)->comment('帳號');
             $table->string('password', 60)->comment('密碼');
+            $table->string('name', 30)->default('')->comment('名稱');
             $table->decimal('credit', 30, 10)->default(0)->comment('餘額寶錢包額度');
             $table->unsignedDecimal('today_deposit', 20, 4)->default(0)->comment('今日已儲值金額');
             $table->unsignedDecimal('interest', 20, 10)->default(0)->comment('利息');

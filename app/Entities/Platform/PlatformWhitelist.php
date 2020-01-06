@@ -2,9 +2,9 @@
 
 namespace App\Entities\Platform;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Entities\BaoModel;
 
-class PlatformWhitelist extends Model
+class PlatformWhitelist extends BaoModel
 {
     protected $table = 'platform_whitelist';
     protected $fillable = ['platform_id', 'ip', 'description'];
