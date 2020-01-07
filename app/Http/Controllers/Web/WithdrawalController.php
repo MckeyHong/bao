@@ -15,6 +15,6 @@ class WithdrawalController extends Controller
      */
     public function index(Request $request)
     {
-        return view('web.withdrawal');
+        return view('web.withdrawal', array_merge($this->webResponse(), []));
     }
 }

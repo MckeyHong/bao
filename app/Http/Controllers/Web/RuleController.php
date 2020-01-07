@@ -15,6 +15,6 @@ class RuleController extends Controller
      */
     public function index(Request $request)
     {
-        return view('web.rule');
+        return view('web.rule', $this->webResponse());
     }
 }

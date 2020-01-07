@@ -32,11 +32,11 @@ class AppServiceProvider extends ServiceProvider
         $tmp = trans('custom.web.func.' . $path);
         View::share('browserTitle', ($tmp != '') ? $tmp . ' - ' : '');
 
-        $member = Auth::guard('web')->loginUsingId(1);
-        foreach (['credit', 'today_deposit', 'interest'] as $field) {
-            $member[$field] = floatval($member[$field]);
-        }
-        $member['balance'] = floatval($member['credit'] + $member['today_deposit'] + $member['interest']);
-        View::share('member', $member);
+        // $member = Auth::guard('web')->loginUsingId(1);
+        // foreach (['credit', 'today_deposit', 'interest'] as $field) {
+        //     $member[$field] = floatval($member[$field]);
+        // }
+        // $member['balance'] = floatval($member['credit'] + $member['today_deposit'] + $member['interest']);
+        // View::share('member', $member);
     }
 }

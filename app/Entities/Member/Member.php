@@ -15,7 +15,7 @@ class Member extends BaoModel implements AuthorizableContract, AuthenticatableCo
 
     protected $table = 'members';
     protected $fillable = ['platform_id', 'account', 'name', 'password', 'credit', 'today_deposit', 'interest', 'token',
-                           'active', 'last_session'];
+                           'active', 'last_session', 'last_transfer_at'];
 
     protected $hidden = ['password', 'token'];
 }

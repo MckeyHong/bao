@@ -23,7 +23,10 @@ class MemberController extends Controller
      */
     public function redirect(Request $request)
     {
-        $result = $this->memberSrv->redirect($request->input('account', ''), get_real_ip($request->ip()));
+        $result = $this->memberSrv->redirect($request->input('platform', ''), $request->input('account', ''), get_real_ip($request->ip()));
+        if (!$result['result']) {
+            abort(404);
+        }
         return redirect('/');
     }
 }

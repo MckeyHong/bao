@@ -13,4 +13,19 @@ class MemberRepository
     {
         $this->setEntity(Member::class);
     }
+
+    /**
+     * 尋找某平台的會員(帳號)
+     *
+     * @param  integer $platformId
+     * @param  string  $account
+     * @param  array   $field
+     * @return mixed
+     */
+    public function findByAccount($platformId, $account, $field = ['id'])
+    {
+        return Member::select($field)->platform($platformId)
+                                     ->where('account', $account)
+                                     ->first();
+    }
 }

@@ -19,7 +19,7 @@ class CreateMemberLoginTable extends Migration
             $table->unsignedSmallInteger('platform_id')->comment('平台ID');
             $table->unsignedBigInteger('member_id')->comment('會員ID');
             $table->string('member_account', 30)->comment('會員帳號');
-            $table->string('member_name', 50)->comment('會員暱稱');
+            $table->string('member_name', 30)->comment('會員名稱');
             $table->string('login_ip', 46)->comment('登入IP');
             $table->unsignedTinyInteger('device')->default(2)->comment('使用裝置(1：電腦，2：手機)');
             $table->json('device_info')->nullable()->comment('裝置詳細資訊');

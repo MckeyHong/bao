@@ -15,6 +15,6 @@ class RecordController extends Controller
      */
     public function index(Request $request)
     {
-        return view('web.record');
+        return view('web.record', array_merge($this->webResponse(), []));
     }
 }

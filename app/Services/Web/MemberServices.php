@@ -6,82 +6,66 @@ use DB;
 use GeoIP;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Jenssegers\Agent\Agent;
-use App\Repositories\Member\MemberLoginRepository;
+use App\Services\Web\MemberLoginServices;
 use App\Repositories\Member\MemberRepository;
+use App\Repositories\Platform\PlatformRepository;
 
 class MemberServices
 {
-    const PLATFORM_ID = 1;
-
-    protected $memberLoginRepo;
+    protected $memberLoginSrv;
     protected $memberRepo;
+    protected $platformRepo;
 
     public function __construct(
-        MemberLoginRepository $memberLoginRepo,
-        MemberRepository $memberRepo
+        MemberLoginServices $memberLoginSrv,
+        MemberRepository $memberRepo,
+        PlatformRepository $platformRepo
     ) {
-        $this->memberLoginRepo = $memberLoginRepo;
-        $this->memberRepo      = $memberRepo;
+        $this->memberLoginSrv = $memberLoginSrv;
+        $this->memberRepo     = $memberRepo;
+        $this->platformRepo   = $platformRepo;
     }
 
     /**
      * 會員導轉登入
      *
-     * @param  string $account
-     * @param  string $ip
+     * @param  integer. $platformId
+     * @param  string   $account
+     * @param  string   $ip
      * @return array
      */
-    public function redirect($account, $ip)
+    public function redirect($platformId, $account, $ip)
     {
         try {
-            // $ip = GeoIp::getLocation('27.974.399.65');
-            $result = DB::transaction(function () use ($account, $ip) {
-                $member = $this->memberRepo->findByWhere('account', $account);
-                if ($member == null) {
-                    $member = $this->memberRepo->store([
-                        'platform_id' => self::PLATFORM_ID,
-                        'account'     => $account,
-                        'name'        => $account,
-                        'password'    => Hash::make(config('custom.member.password')),
-                        'token'       => '',
-                    ]);
-                }
-                $credentials = Auth::guard('web')->attempt([
-                    'platform_id' => self::PLATFORM_ID,
+            $platform = $this->platformRepo->find($platformId);
+            if ($platform == null || !isset($platform['active']) || $platform['active'] != 1) {
+                throw new \Exception('not found', 404);
+            }
+            $member = $this->memberRepo->findByAccount($platform['id'], $account);
+            if ($member == null) {
+                $member = $this->memberRepo->store([
+                    'platform_id' => $platform['id'],
                     'account'     => $account,
                     'password'    => Hash::make(config('custom.member.password')),
-                    'active'      => 1,
+                    'name'        => $account,
+                    'token'       => '',
                 ]);
-
-                $credentials = Auth::guard('web')->loginUsingId(1);
-                if ($credentials) {
-                    $agent = new Agent();
-                    $browser = $agent->browser();
-                    $platform = $agent->platform();
-                    $this->memberLoginRepo->store([
-                        'platform_id'    => $member['platform_id'],
-                        'member_id'      => $member['id'],
-                        'member_name'    => $member['name'],
-                        'member_account' => $member['account'],
-                        'login_ip'       => $ip,
-                        'device'         => ($agent->isMobile()) ? 1 : 2,
-                        'device_info'    => [
-                            'device'           => $agent->device(),
-                            'browser'          => $browser,
-                            'platform'         => $platform,
-                            'browser_version'  => $agent->version($browser),
-                            'platform_version' => $agent->version($platform),
-                        ],
-                    ]);
-                }
-                return $credentials;
-            });
-
-            return [
-                'result' => $result,
-            ];
+            }
+            $credentials = Auth::guard('web')->attempt([
+                'platform_id' => $platform['id'],
+                'account'     => $account,
+                'password'    => config('custom.member.password'),
+                'active'      => 1,
+            ]);
+            if ($credentials) {
+                $member = Auth::guard('web')->user();
+                $this->memberLoginSrv->store($member, $ip);
+                $this->memberRepo->update($member['id'], [
+                    'last_session' => session()->getId(),
+                ]);
+            }
+            return ['result' => $credentials];
         } catch (\Exception $e) {
             return [
                 'result' => false,

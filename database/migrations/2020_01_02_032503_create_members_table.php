@@ -26,6 +26,7 @@ class CreateMembersTable extends Migration
             $table->longText('token')->comment('登入Token');
             $table->unsignedTinyInteger('active')->default(1)->comment('狀態(1：啟用，2：停用)');
             $table->string('last_session', 40)->default('')->comment('登入session id');
+            $table->dateTime('last_transfer_at')->nullable()->comment('最後轉帳異動時間');
             $table->timestamps();
 
             $table->unique(['platform_id', 'account'], 'uk_' . $this->table . '_1');
