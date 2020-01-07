@@ -9,13 +9,35 @@ use App\Http\Controllers\Controller;
 class WebController extends Controller
 {
     /**
-     * 取得歷程紀錄
+     * 立即存入
      *
      * @param  Request $request
-     * @return Illuminate\Support\Facades\View
+     * @return Illuminate\Http\RedirectResponse
+     */
+    public function deposit(Request $request)
+    {
+        // todo ...
+    }
+
+    /**
+     * 一鍵提領
+     *
+     * @param  Request $request
+     * @return Illuminate\Http\RedirectResponse
+     */
+    public function withdrawal(Request $request)
+    {
+        // todo ...
+    }
+
+    /**
+     * 歷程紀錄
+     *
+     * @param  Request $request
+     * @return Illuminate\Http\RedirectResponse
      */
     public function record(Request $request)
     {
-        dd(Auth::guard('api')->user(), $request->all());
+        // todo...
     }
 }

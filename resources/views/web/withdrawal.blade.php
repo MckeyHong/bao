@@ -35,7 +35,7 @@
         </div>
         <div class="withdrawal-func-block">
             <div class="float-left">提领金额</div>
-            <div class="float-right"><input type="number" minlength="1" value="100" class="withdrawal-amount" />元</div>
+            <div class="float-right"><input type="number" minlength="1" value="100" class="withdrawal-amount" onClick="this.select();" />元</div>
             <div class="clearfix"></div>
         </div>
         <div class="withdrawal-button-block">

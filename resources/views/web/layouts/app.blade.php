@@ -69,6 +69,18 @@
             background: transparent;
             border: 0;
         }
+
+        #gotop {
+            display: none;
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            padding: 6px 10px;
+            font-size: 10px;
+            color: white;
+            cursor: pointer;
+            z-index: 999;
+        }
         </style>
         <script src="{{ asset('js/vendor/eva.min.js') }}"></script>
     </head>
@@ -88,10 +100,26 @@
             </div>
           </div>
         </div>
+        <div id="gotop"><img src="{{ asset('images/top.png') }}" width="36px"></div>
 
         <script src="{{ mix('/js/app.js') }}"></script>
         <script>
-            eva.replace()
+            eva.replace();
+
+            $(function () {
+                $("#gotop").click(function () {
+                    jQuery("html,body").animate({
+                        scrollTop: 0
+                    }, 1000);
+                });
+                $(window).scroll(function () {
+                    if ($(this).scrollTop() > 300) {
+                        $('#gotop').fadeIn("fast");
+                    } else {
+                        $('#gotop').stop().fadeOut("fast");
+                    }
+                });
+            });
         </script>
         @yield('js')
     </body>
