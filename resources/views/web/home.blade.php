@@ -62,7 +62,7 @@
         </div>
         <div class="deposit-func-block">
             <div class="float-left">转入金额</div>
-            <div class="float-right"><input type="number" minlength="1" value="0" class="deposit-amount" />元</div>
+            <div class="float-right"><input type="number" minlength="1" value="0" class="deposit-amount" onClick="this.select();" />元</div>
             <div class="clearfix"></div>
         </div>
         <div>
@@ -82,21 +82,13 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ($example as $value)
                 <tr>
-                    <td align="right">$ 100.00</td>
-                    <td align="right">$ 0.04155251</td>
-                    <td align="right">$ 1.73972027</td>
+                    <td align="right">$ {{ $value['amount'] }}</td>
+                    <td align="right">$ {{ $value['hour'] }}</td>
+                    <td align="right">$ {{ $value['day'] }}</td>
                 </tr>
-                <tr>
-                    <td align="right">$ 1,000.00</td>
-                    <td align="right">$ 1.14155251</td>
-                    <td align="right">$ 27.3972602</td>
-                </tr>
-                <tr>
-                    <td align="right">$ 10,000.00</td>
-                    <td align="right">$ 11.14155251</td>
-                    <td align="right">$ 27.3972602</td>
-                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

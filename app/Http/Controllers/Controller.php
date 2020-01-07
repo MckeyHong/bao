@@ -13,16 +13,20 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-
+    /**
+     * 會員端共用參數
+     *
+     * @return array
+     */
     public function webResponse()
     {
         $member = [];
         if (Auth::guard('web')->check()) {
             $member = Auth::guard('web')->user();
+            $member['balance'] = amount_format($member['credit'] + $member['today_deposit'] + $member['interest']);
             foreach (['credit', 'today_deposit', 'interest'] as $field) {
-                $member[$field] = floatval($member[$field]);
+                $member[$field] = amount_format($member[$field]);
             }
-            $member['balance'] = floatval($member['credit'] + $member['today_deposit'] + $member['interest']);
         }
 
         $path = Request::path();

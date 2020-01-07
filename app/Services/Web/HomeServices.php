@@ -4,18 +4,22 @@ namespace App\Services\Web;
 
 use Auth;
 use Carbon\Carbon;
+use App\Services\Common\InterestServices;
 use App\Services\Common\RateServices;
 use App\Repositories\Member\MemberInfoStatDailyRepository;
 
 class HomeServices
 {
+    protected $interestSrv;
     protected $rateSrv;
     protected $memberInfoStatDailyRepo;
 
     public function __construct(
+        InterestServices $interestSrv,
         RateServices $rateSrv,
         MemberInfoStatDailyRepository $memberInfoStatDailyRepo
     ) {
+        $this->interestSrv             = $interestSrv;
         $this->rateSrv                 = $rateSrv;
         $this->memberInfoStatDailyRepo = $memberInfoStatDailyRepo;
     }
@@ -28,17 +32,16 @@ class HomeServices
     public function index()
     {
         try {
-            $data = [
-                'rate'     => 0,
-                'betTotal' => 0,
-            ];
             $member = Auth::guard('web')->user();
-            $data['rate'] = $this->rateSrv->getPlatformRate($member['platform_id']);
-            $tmp = $this->memberInfoStatDailyRepo->findByMemberIdAndBetAt($member['id'], Carbon::now()->toDateString());
-            $data['betTotal'] = $tmp['bet_total'] ?? 0;
+            $rate = $this->rateSrv->getPlatformRate($member['platform_id']);
+            $record = $this->memberInfoStatDailyRepo->findByMemberIdAndBetAt($member['id'], Carbon::now()->toDateString());
             return [
                 'result' => true,
-                'data'   => $data,
+                'data'   => [
+                    'rate'     => $rate,
+                    'betTotal' => $record['bet_total'] ?? 0,
+                    'example'  => $this->getExampleInterest($rate),
+                ],
                 'error'  => null,
             ];
         } catch (\Exception $e) {
@@ -47,6 +50,31 @@ class HomeServices
                 'data'   => $data,
                 'error'  => $e->getMessage(),
             ];
+        }
+    }
+
+    /**
+     * 取得範例利息計算清單
+     *
+     * @param  float  $rate
+     * @return array
+     */
+    public function getExampleInterest($rate)
+    {
+        try {
+            $example = [
+                ['amount' => 100, 'hour' => 0, 'day' => 0],
+                ['amount' => 1000, 'hour' => 0, 'day' => 0],
+                ['amount' => 5000, 'hour' => 0, 'day' => 0],
+            ];
+            foreach ($example as $key => $value) {
+                $example[$key]['hour'] = amount_format($this->interestSrv->calculateInterest('hour', $value['amount'], $rate));
+                $example[$key]['day'] = amount_format($this->interestSrv->calculateInterest('day', $value['amount'], $rate));
+                $example[$key]['amount'] = amount_format($value['amount']);
+            }
+            return $example;
+        } catch (\Exception $e) {
+            return $example;
         }
     }
 }
