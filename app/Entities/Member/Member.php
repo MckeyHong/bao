@@ -11,11 +11,11 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 
 class Member extends BaoModel implements AuthorizableContract, AuthenticatableContract
 {
-    use Notifiable, Authenticatable, Authorizable;
+    use Authenticatable, Authorizable, Notifiable;
 
     protected $table = 'members';
-    protected $fillable = ['platform_id', 'account', 'name', 'password', 'credit', 'today_deposit', 'interest', 'token',
+    protected $fillable = ['platform_id', 'account', 'name', 'password', 'credit', 'today_deposit', 'interest', 'api_token',
                            'active', 'last_session', 'last_transfer_at'];
 
-    protected $hidden = ['password', 'token'];
+    protected $hidden = ['password', 'api_token'];
 }

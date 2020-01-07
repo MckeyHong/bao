@@ -23,13 +23,14 @@ class CreateMembersTable extends Migration
             $table->decimal('credit', 30, 10)->default(0)->comment('餘額寶錢包額度');
             $table->unsignedDecimal('today_deposit', 20, 4)->default(0)->comment('今日已儲值金額');
             $table->unsignedDecimal('interest', 20, 10)->default(0)->comment('利息');
-            $table->longText('token')->comment('登入Token');
             $table->unsignedTinyInteger('active')->default(1)->comment('狀態(1：啟用，2：停用)');
+            $table->string('api_token', 80)->default('')->comment('api token');
             $table->string('last_session', 40)->default('')->comment('登入session id');
             $table->dateTime('last_transfer_at')->nullable()->comment('最後轉帳異動時間');
             $table->timestamps();
 
             $table->unique(['platform_id', 'account'], 'uk_' . $this->table . '_1');
+            $table->unique(['api_token'], 'uk_' . $this->table . '_2');
             $table->index('platform_id', 'idx_' . $this->table . '_1');
         });
 

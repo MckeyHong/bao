@@ -13,4 +13,20 @@ class MemberInfoStatDailyRepository
     {
         $this->setEntity(MemberInfoStatDaily::class);
     }
+
+    /**
+     * 取得會員指定日期的資訊
+     *
+     * @param  integer $memberId
+     * @param  string  $betAt
+     * @param  array  $field
+     * @return mixed
+     */
+    public function findByMemberIdAndBetAt($memberId, $betAt, $field = ['bet_total'])
+    {
+        return MemberInfoStatDaily::select($field)
+                                  ->member($memberId)
+                                  ->where('bet_at', $betAt)
+                                  ->first();
+    }
 }

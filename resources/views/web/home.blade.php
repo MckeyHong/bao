@@ -47,7 +47,7 @@
     <div>
         <div class="deposit-func-block">
             <div class="float-left">余额宝余额</div>
-            <div class="float-right">$1.00000012</div>
+            <div class="float-right">$ {{ $member['balance'] }}</div>
             <div class="clearfix"></div>
         </div>
         <div class="deposit-func-block">
@@ -57,16 +57,16 @@
         </div>
         <div class="deposit-func-block">
             <div class="float-left">目前累计利息</div>
-            <div class="float-right">$0.0001929</div>
+            <div class="float-right">$ {{ $member['interest'] }}</div>
             <div class="clearfix"></div>
         </div>
         <div class="deposit-func-block">
             <div class="float-left">转入金额</div>
-            <div class="float-right"><input type="number" minlength="1" value="100" class="deposit-amount" />元</div>
+            <div class="float-right"><input type="number" minlength="1" value="0" class="deposit-amount" />元</div>
             <div class="clearfix"></div>
         </div>
         <div>
-            <div class="text-center text-muted">今日可存(昨日洗码量)：$ 100,000.00</div>
+            <div class="text-center text-muted">今日可存(昨日洗码量)：$ {{ amount_format($betTotal, 2) }}</div>
         </div>
         <div class="deposit-button-block">
             <button type="button" class="btn btn-block btn-submit" data-toggle="modal" data-target="#confirmModal">立即转入</button>

@@ -4,10 +4,18 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Services\Common\RateServices;
+use App\Services\Web\HomeServices;
 
 class HomeController extends Controller
 {
+    protected $homeSrv;
+
+    public function __construct(
+        HomeServices $homeSrv
+    ) {
+        $this->homeSrv = $homeSrv;
+    }
+
     /**
      * 首頁
      *
@@ -16,9 +24,6 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $srv = new RateServices();
-        return view('web.home', array_merge($this->webResponse(), [
-            'rate' => $srv->getPlatformRate(1)
-        ]));
+        return view('web.home', array_merge($this->webResponse(), $this->homeSrv->index()['data']));
     }
 }

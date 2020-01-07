@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -24,8 +25,12 @@ class Controller extends BaseController
             $member['balance'] = floatval($member['credit'] + $member['today_deposit'] + $member['interest']);
         }
 
+        $path = Request::path();
+        $browserTitle = trans('custom.web.func.' . $path);
         return [
-            'member' => $member,
+            'member'       => $member,
+            'path'         => $path,
+            'browserTitle' => ($browserTitle != '') ? $browserTitle . ' - ' : '',
         ];
     }
 }

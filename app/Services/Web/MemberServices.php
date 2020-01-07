@@ -6,6 +6,7 @@ use DB;
 use GeoIP;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Jenssegers\Agent\Agent;
 use App\Services\Web\MemberLoginServices;
 use App\Repositories\Member\MemberRepository;
@@ -49,7 +50,7 @@ class MemberServices
                     'account'     => $account,
                     'password'    => Hash::make(config('custom.member.password')),
                     'name'        => $account,
-                    'token'       => '',
+                    'api_token'   => hash('sha256', Str::random(80)),
                 ]);
             }
             $credentials = Auth::guard('web')->attempt([
