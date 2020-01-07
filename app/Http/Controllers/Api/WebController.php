@@ -5,9 +5,18 @@ namespace App\Http\Controllers\Api;
 use Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\Api\WebServices;
 
 class WebController extends Controller
 {
+    protected $webSrv;
+
+    public function __construct(
+        WebServices $webSrv
+    ) {
+        $this->webSrv = $webSrv;
+    }
+
     /**
      * 立即存入
      *
