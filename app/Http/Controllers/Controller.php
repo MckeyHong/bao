@@ -25,10 +25,7 @@ class Controller extends BaseController
         if (Auth::guard('web')->check()) {
             $member = Auth::guard('web')->user();
             $member['balance'] = amount_format($member['credit'] + $member['today_deposit'] + $member['interest']);
-            foreach (['credit', 'today_deposit', 'interest'] as $field) {
-                $member[$field] = amount_format($member[$field]);
-            }
-            $member['platform_credit'] = amount_format($this->getMemberCreditOfApi($member['account'])['data'], 2);
+            $member['platform_credit'] = $this->getMemberCreditOfApi($member['account'])['data'];
         }
 
         $path = Request::path();

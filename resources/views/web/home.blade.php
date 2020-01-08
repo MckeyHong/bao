@@ -47,22 +47,22 @@
     <div>
         <div class="deposit-func-block">
             <div class="float-left">余额宝余额</div>
-            <div class="float-right">$ {{ $member['balance'] }}</div>
+            <div class="float-right">$ {{ amount_format($member['balance'], 2) }}</div>
             <div class="clearfix"></div>
         </div>
         <div class="deposit-func-block">
             <div class="float-left">您的专属利率</div>
-            <div class="float-right">{{ $rate }} %</div>
+            <div class="float-right">{{ amount_format($rate, 2) }} %</div>
             <div class="clearfix"></div>
         </div>
         <div class="deposit-func-block">
             <div class="float-left">目前累计利息</div>
-            <div class="float-right">$ {{ $member['interest'] }}</div>
+            <div class="float-right">$ {{ amount_format($member['interest'], 8) }}</div>
             <div class="clearfix"></div>
         </div>
         <div class="deposit-func-block">
             <div class="float-left">转入金额</div>
-            <div class="float-right"><input type="number" minlength="1" value="0" class="deposit-amount" onClick="this.select();" />元</div>
+            <div class="float-right"><input type="number" value="0" class="deposit-amount" onClick="this.select();" />元</div>
             <div class="clearfix"></div>
         </div>
         <div>
@@ -104,7 +104,6 @@
           <div class="modal-body">
             <p>确定要执行下面步骤?</p>
             <p>转入$ <span class="text-danger">100.00</span> 元</p>
-            <p>余额宝钱包$ <span class="text-danger">100.00</span> 元</p>
             <p class="text-muted">* 注:利息将重新计算</p>
           </div>
           <div class="modal-footer">
