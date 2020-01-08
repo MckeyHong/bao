@@ -119,6 +119,12 @@ hr {
 <script>
 $.datepicker.setDefaults($.datepicker.regional[ "zh-CH" ]);
 
+var searchRecord = () => {
+    $('#record-list').html('');
+    $('#page').val(1);
+    this.getRecord();
+};
+
 var getRecord = () => {
     axios.defaults.headers.common['Authorization'] = 'Bearer {{ $member['api_token'] }}';
     axios.get('/api/v1/record', { params: {
@@ -197,12 +203,6 @@ var quickSearch = (type) => {
     this.searchRecord();
 };
 
-var searchRecord = () => {
-    $('#record-list').html('');
-    $('#page').val(1);
-    this.getRecord();
-};
-
 $(function () {
     $('#start, #end').datepicker({
         dateFormat: "yy-mm-dd",
@@ -212,7 +212,7 @@ $(function () {
             if ((Date.parse($('#start').val())).valueOf() > (Date.parse($('#end').val())).valueOf()) {
                 $('#start').val($('#end').val());
             }
-            this.searchRecord();
+            searchRecord();
         }
     });
 });
