@@ -50,7 +50,7 @@ class MemberServices
                     'account'     => $account,
                     'password'    => Hash::make(config('custom.member.password')),
                     'name'        => $account,
-                    'api_token'   => hash('sha256', Str::random(80)),
+                    'api_token'   => Str::random(60),
                 ]);
             }
             $credentials = Auth::guard('web')->attempt([

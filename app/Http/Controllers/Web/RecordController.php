@@ -27,7 +27,7 @@ class RecordController extends Controller
     {
         $info = $this->webResponse();
         $info['date'] = Carbon::now()->toDateString();
-        $info['record'] = $this->recordSrv->getRecord($info['member']['id'], $info['date'] . ' 00:00:00', $info['date'] . ' 23:59:59')['data'];
+        $info['record'] = $this->recordSrv->index($info['member']['id'], $info['date'] . ' 00:00:00', $info['date'] . ' 23:59:59')['data'];
         return view('web.record', $info);
     }
 }

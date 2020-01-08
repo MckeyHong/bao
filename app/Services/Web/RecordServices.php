@@ -22,7 +22,34 @@ class RecordServices
      * @param  string   $endAt
      * @return array
      */
-    public function getRecord($memberId, $startAt, $endAt)
+    public function index($memberId, $startAt, $endAt)
+    {
+        try {
+            return [
+                'result' => true,
+                'data'   => [
+                    'total' => $this->memberTransferRepo->getMemberRecordTotal($memberId, $startAt, $endAt),
+                    'list'  => $this->getRecordList($memberId, $startAt, $endAt),
+                ],
+            ];
+        } catch (\Exception $e) {
+            return [
+                'result' => false,
+                'data'   => ['total' => 0, 'list' => []],
+                'error'  => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * 取得歷程紀錄列表
+     *
+     * @param  integer. $memberId
+     * @param  string   $startAt
+     * @param  string   $endAt
+     * @return array
+     */
+    public function getRecordList($memberId, $startAt, $endAt)
     {
         try {
             $record = $this->memberTransferRepo->getMemberRecordList($memberId, $startAt, $endAt);
@@ -33,19 +60,9 @@ class RecordServices
                 $value['interest'] = amount_format($value['interest'], 8);
                 $value['class'] = (in_array($value['type'], [1, 3])) ? 'text-success' : 'text-danger';
             }
-            return [
-                'result' => true,
-                'data'   => [
-                    'total' => $this->memberTransferRepo->getMemberRecordTotal($memberId, $startAt, $endAt),
-                    'list'  => $record,
-                ],
-            ];
+            return $record;
         } catch (\Exception $e) {
-            return [
-                'result' => false,
-                'data'   => ['total' => 0, 'list' => []],
-                'error'  => $e->getMessage(),
-            ];
+            return [];
         }
     }
 }

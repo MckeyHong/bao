@@ -28,7 +28,7 @@ class MemberTransferRepository
         return MemberTransfer::select(['type', 'credit_before', 'credit', 'credit_after', 'created_at'])
                             ->member($memberId)
                             ->whereBetween('created_at', [$startAt, $endAt])
-                            ->simplePaginate(1);
+                            ->simplePaginate(10);
     }
 
     /**

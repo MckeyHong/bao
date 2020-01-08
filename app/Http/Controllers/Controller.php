@@ -36,4 +36,15 @@ class Controller extends BaseController
             'browserTitle' => ($browserTitle != '') ? $browserTitle . ' - ' : '',
         ];
     }
+
+    /**
+     * API回傳格式處理
+     *
+     * @param  array $response
+     * @return Symfony\Component\HttpFoundation\Response
+     */
+    public function apiResponse($response)
+    {
+        return response()->json(['result' => $response['result'] ?? true], $response['code'] ?? 500);
+    }
 }

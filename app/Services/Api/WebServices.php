@@ -5,21 +5,25 @@ namespace App\Services\Api;
 use Auth;
 use App\Services\Common\InterestServices;
 use App\Services\Common\RateServices;
+use App\Services\Web\RecordServices;
 use App\Repositories\Member\MemberTransferRepository;
 
 class WebServices
 {
     protected $interestSrv;
     protected $rateSrv;
+    protected $recordServices;
     protected $memberTransferRepo;
 
     public function __construct(
         InterestServices $interestSrv,
         RateServices $rateSrv,
+        RecordServices $recordServices,
         MemberTransferRepository $memberTransferRepo
     ) {
         $this->interestSrv        = $interestSrv;
         $this->rateSrv            = $rateSrv;
+        $this->recordServices     = $recordServices;
         $this->memberTransferRepo = $memberTransferRepo;
     }
 
@@ -76,14 +80,19 @@ class WebServices
     public function record($request)
     {
         try {
-            $data = [];
+            $member = Auth::guard('api')->user();
+            $record = $this->recordServices->getRecordList($member['id'], $request['start'] . ' 00:00:00', $request['end'] . ' 23:59:59');
             return [
-                'result' => true,
-                'data'   => $data,
+                'code'   => 200,
+                'result' => [
+                    'more' => $record->hasMorePages(),
+                    'list' => $record,
+                ],
             ];
         } catch (\Exception $e) {
             return [
-                'result' => false,
+                'code'   => $e->getCode() ?? 500,
+                'result' => [],
                 'error'  => $e->getMessage(),
             ];
         }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Api\WebServices;
@@ -47,6 +47,15 @@ class WebController extends Controller
      */
     public function record(Request $request)
     {
-        // todo...
+        // 參數驗證
+        $firstDay = Carbon::now()->subMonth(2)->toDateString();
+        $today = Carbon::now()->toDateString();
+        $params = [
+            'start' => (validate_date($request->input('start', '')) && $request->input('start') <= $today && $request->input('start') >= $firstDay) ? $request->input('start') : $today,
+            'end'   => (validate_date($request->input('end', '')) && $request->input('end') <= $today && $request->input('end') >= $firstDay) ? $request->input('end') : $today,
+        ];
+        $params['start'] = ($params['start'] > $params['end']) ? $params['end'] : $params['start'];
+
+        return $this->apiResponse($this->webSrv->record($params));
     }
 }
