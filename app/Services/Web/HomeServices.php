@@ -35,19 +35,21 @@ class HomeServices
             $member = Auth::guard('web')->user();
             $rate = $this->rateSrv->getPlatformRate($member['platform_id']);
             $record = $this->memberInfoStatDailyRepo->findByMemberIdAndBetAt($member['id'], Carbon::now()->toDateString());
+            $betTotal = $record['bet_total'] ?? 0;
             return [
                 'result' => true,
                 'data'   => [
-                    'rate'     => $rate,
-                    'betTotal' => $record['bet_total'] ?? 0,
-                    'example'  => $this->getExampleInterest($rate),
+                    'rate'            => $rate,
+                    'betTotal'        => $betTotal,
+                    'default_deposit' => $betTotal - $member['today_deposit'],
+                    'example'         => $this->getExampleInterest($rate),
                 ],
                 'error'  => null,
             ];
         } catch (\Exception $e) {
             return [
                 'result' => false,
-                'data'   => $data,
+                'data'   => ['rate' => 0, 'betTotal' => 0, 'default_deposit' => 0, 'exmpale' => []],
                 'error'  => $e->getMessage(),
             ];
         }

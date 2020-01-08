@@ -24,6 +24,9 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        return view('web.home', array_merge($this->webResponse(), $this->homeSrv->index()['data']));
+        $info = array_merge($this->webResponse(), $this->homeSrv->index()['data']);
+        // 計算預設可轉入的金額
+        $info['default_deposit'] = ($info['default_deposit'] > $info['member']['platform_credit']) ? $info['member']['platform_credit'] : $info['default_deposit'];
+        return view('web.home', $info);
     }
 }

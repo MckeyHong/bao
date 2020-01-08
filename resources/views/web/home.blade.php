@@ -46,7 +46,7 @@
 <section>
     <div>
         <div class="deposit-func-block">
-            <div class="float-left">余额宝余额</div>
+            <div class="float-left">余额宝钱包</div>
             <div class="float-right">$ {{ amount_format($member['balance'], 2) }}</div>
             <div class="clearfix"></div>
         </div>
@@ -62,14 +62,17 @@
         </div>
         <div class="deposit-func-block">
             <div class="float-left">转入金额</div>
-            <div class="float-right"><input type="number" value="0" class="deposit-amount" onClick="this.select();" />元</div>
+            <div class="float-right">
+                <input type="hidden" id="depositMax" name="depositMax" value="{{ $default_deposit }}" />
+                <input type="text" id="depositCredit" value="{{ floor_format($default_deposit, 2) }}" class="deposit-amount" onClick="this.select();" onchange="checkEnterCredit(this)" />元
+            </div>
             <div class="clearfix"></div>
         </div>
         <div>
             <div class="text-center text-muted">今日可存(昨日洗码量)：$ {{ amount_format($betTotal, 2) }}</div>
         </div>
         <div class="deposit-button-block">
-            <button type="button" class="btn btn-block btn-submit" data-toggle="modal" data-target="#confirmModal">立即转入</button>
+            <button type="button" class="btn btn-block btn-submit" onClick="depositConfirm()" data-toggle="modal" data-target="#confirmModal">立即转入</button>
         </div>
     </div>
     <div class="table-block">
@@ -103,12 +106,12 @@
           </div>
           <div class="modal-body">
             <p>确定要执行下面步骤?</p>
-            <p>转入$ <span class="text-danger">100.00</span> 元</p>
+            <p>转入$ <span id="credit" class="text-danger"></span> 元</p>
             <p class="text-muted">* 注:利息将重新计算</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-submit" onclick="doWithdrawal()">确定</button>
+            <button type="button" class="btn btn-submit" onclick="doDeposit()">确定</button>
           </div>
         </div>
       </div>
@@ -118,8 +121,18 @@
 
 @section('js')
 <script>
-var doWithdrawal = () => {
+var depositConfirm = () => {
+    $('#credit').html($('#depositCredit').val());
+    $('#confirmModal').modal('show');
+};
+
+var doDeposit = () => {
     $('#confirmModal').modal('hide');
+};
+
+var checkEnterCredit = (obj) => {
+    const defaultDeposit = parseFloat($('#depositMax').val());
+    obj.value = parseFloat((parseFloat(obj.value) > defaultDeposit) ? defaultDeposit : obj.value).toFixed(2);
 };
 </script>
 @endsection
