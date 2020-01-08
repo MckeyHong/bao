@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['namespace' => 'Web'], function () {
+Route::group(['namespace' => 'Web', 'middleware' => 'auth:web'], function () {
     Route::get('/', 'HomeController@index');
     Route::get('/withdrawal', 'WithdrawalController@index');
     Route::get('/record', 'RecordController@index');

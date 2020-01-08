@@ -15,7 +15,7 @@ class PlatformsTableSeeder extends Seeder
     public function run()
     {
         $data = [
-            ['id' => 1, 'name' => '350搶紅包', 'present' => 50, 'future' => 50, 'api_key' => Str::uuid()->toString(), 'encrypt_key' => 'k14od0c4S0U4tfs2'],
+            ['id' => 1, 'code' => '350', 'name' => '350搶紅包', 'present' => 50, 'future' => 50, 'api_key' => Str::uuid()->toString(), 'encrypt_key' => 'k14od0c4S0U4tfs2'],
         ];
 
         foreach ($data as $value) {

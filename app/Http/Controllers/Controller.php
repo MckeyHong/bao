@@ -8,10 +8,11 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use App\Api\Traits\Member\MemberCreditTraits;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, MemberCreditTraits;
 
     /**
      * 會員端共用參數
@@ -27,6 +28,7 @@ class Controller extends BaseController
             foreach (['credit', 'today_deposit', 'interest'] as $field) {
                 $member[$field] = amount_format($member[$field]);
             }
+            $member['platform_credit'] = amount_format($this->getMemberCreditOfApi($member['account'])['data'], 2);
         }
 
         $path = Request::path();

@@ -16,7 +16,8 @@ class CreatePlatformsTable extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->smallIncrements('id')->comment('PK');
-            $table->string('name', 20)->comment('平台名稱');
+            $table->string('code', 20)->comment('平台代碼');
+            $table->string('name', 30)->comment('平台名稱');
             $table->unsignedDecimal('present', 5, 2)->default(0)->comment('目前利率(%)');
             $table->unsignedDecimal('future', 5, 2)->default(0)->comment('預設利率(%)');
             $table->unsignedTinyInteger('active')->default(1)->comment('狀態(1：啟用，2：停用)');
@@ -24,7 +25,8 @@ class CreatePlatformsTable extends Migration
             $table->string('encrypt_key', 16)->comment('平台加密key');
             $table->timestamps();
 
-            $table->unique(['api_key', 'encrypt_key'], 'uk_' . $this->table . '_1');
+            $table->unique(['code'], 'uk_' . $this->table . '_1');
+            $table->unique(['api_key', 'encrypt_key'], 'uk_' . $this->table . '_2');
         });
 
         DB::statement("ALTER TABLE `" . $this->table . "` COMMENT '平台資訊'");
