@@ -179,6 +179,8 @@ return [
         Jenssegers\Agent\AgentServiceProvider::class,
         // 取得IP資訊
         Torann\GeoIP\GeoIPServiceProvider::class,
+        // 後台權限
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*
