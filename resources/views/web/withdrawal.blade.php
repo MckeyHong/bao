@@ -11,6 +11,7 @@
 
 .withdrawal-amount {
     text-align: right;
+    border: 0;
 }
 
 .withdrawal-button-block {
@@ -29,17 +30,20 @@
 <section>
     <div>
         <div class="withdrawal-func-block">
-            <div class="float-left">余额宝余额</div>
-            <div class="float-right">$1.00000012</div>
+            <div class="float-left">余额宝钱包</div>
+            <div class="float-right">$ {{ amount_format($member['balance'], 2) }}</div>
             <div class="clearfix"></div>
         </div>
         <div class="withdrawal-func-block">
             <div class="float-left">提领金额</div>
-            <div class="float-right"><input type="number" minlength="1" value="100" class="withdrawal-amount" onClick="this.select();" />元</div>
+            <div class="float-right">
+              <input type="hidden" id="defaultMax" name="defaultMax" value="{{ $member['balance'] }}" />
+              <input type="input" id="inputCredit" name="inputCredit" value="{{ floor_format($member['balance'], 2) }}" class="withdrawal-amount" onClick="this.select();" onchange="checkEnterCredit(this)" />元
+            </div>
             <div class="clearfix"></div>
         </div>
         <div class="withdrawal-button-block">
-            <button type="button" class="btn btn-block btn-submit" data-toggle="modal" data-target="#confirmModal">确定提领</button>
+            <button type="button" id="transferButton" class="btn btn-block btn-submit" onClick="trasnferConfirm()" @if ($member['balance'] < 0.01) disabled @endif>确定提领</button>
         </div>
     </div>
     <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true">
@@ -52,12 +56,12 @@
             </button>
           </div>
           <div class="modal-body">
-            <p>确定是否要提领$ <span class="text-danger">100.00</span> 元</p>
-            <p class="text-muted">* 注:利息将重新计算</p>
+            <p>确定是否要提领$ <span id="credit" class="text-danger"></span> 元</p>
+            <p class="text-muted">* 注:其余额宝利息将重新计算配息</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-submit" onclick="doWithdrawal()">确定</button>
+            <button type="button" class="btn btn-submit" onclick="doTransfer()">确定</button>
           </div>
         </div>
       </div>
@@ -66,9 +70,5 @@
 @endsection
 
 @section('js')
-<script>
-var doWithdrawal = () => {
-    $('#confirmModal').modal('hide');
-};
-</script>
+<script src="{{ asset('js/web/transfer.js') }}"></script>
 @endsection

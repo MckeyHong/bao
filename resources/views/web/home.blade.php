@@ -63,8 +63,8 @@
         <div class="deposit-func-block">
             <div class="float-left">转入金额</div>
             <div class="float-right">
-                <input type="hidden" id="depositMax" name="depositMax" value="{{ $default_deposit }}" />
-                <input type="text" id="depositCredit" value="{{ floor_format($default_deposit, 2) }}" class="deposit-amount" onClick="this.select();" onchange="checkEnterCredit(this)" />元
+                <input type="hidden" id="defaultMax" name="defaultMax" value="{{ $default_deposit }}" />
+                <input type="text" id="inputCredit" name="inputCredit" value="{{ floor_format($default_deposit, 2) }}" class="deposit-amount" onClick="this.select();" onchange="checkEnterCredit(this)" />元
             </div>
             <div class="clearfix"></div>
         </div>
@@ -72,7 +72,7 @@
             <div class="text-center text-muted">今日可存(昨日洗码量)：$ {{ amount_format($betTotal, 2) }}</div>
         </div>
         <div class="deposit-button-block">
-            <button type="button" class="btn btn-block btn-submit" onClick="depositConfirm()" data-toggle="modal" data-target="#confirmModal">立即转入</button>
+            <button type="button" id="transferButton" class="btn btn-block btn-submit" onClick="transferConfirm()" @if ($default_deposit < 0.01) disabled @endif>立即转入</button>
         </div>
     </div>
     <div class="table-block">
@@ -107,11 +107,11 @@
           <div class="modal-body">
             <p>确定要执行下面步骤?</p>
             <p>转入$ <span id="credit" class="text-danger"></span> 元</p>
-            <p class="text-muted">* 注:利息将重新计算</p>
+            <p class="text-muted">* 注:其余额宝利息将重新计算配息</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-submit" onclick="doDeposit()">确定</button>
+            <button type="button" class="btn btn-submit" onclick="doTransfer()">确定</button>
           </div>
         </div>
       </div>
@@ -120,19 +120,5 @@
 @endsection
 
 @section('js')
-<script>
-var depositConfirm = () => {
-    $('#credit').html($('#depositCredit').val());
-    $('#confirmModal').modal('show');
-};
-
-var doDeposit = () => {
-    $('#confirmModal').modal('hide');
-};
-
-var checkEnterCredit = (obj) => {
-    const defaultDeposit = parseFloat($('#depositMax').val());
-    obj.value = parseFloat((parseFloat(obj.value) > defaultDeposit) ? defaultDeposit : obj.value).toFixed(2);
-};
-</script>
+<script src="{{ asset('js/web/transfer.js') }}"></script>
 @endsection

@@ -15,6 +15,7 @@ mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css');
 
 mix.copyDirectory('resources/js/vendor', 'public/js/vendor')
+   .copyDirectory('resources/js/web', 'public/js/web')
    .copyDirectory('resources/images', 'public/images')
    .copyDirectory('resources/css/vendor', 'public/css/vendor');
 
