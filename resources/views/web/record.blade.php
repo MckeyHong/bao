@@ -36,6 +36,10 @@ hr {
     border: 1px solid #ced4da;
 
 }
+
+#more-block {
+    margin-bottom: 20px;
+}
 </style>
 @endsection
 
@@ -46,13 +50,13 @@ hr {
             <div class="input-group-prepend">
                 <span class="input-group-text">从</span>
             </div>
-            <input type="text" id="startAt" class="form-control text-center" value="{{ $date }}">
+            <input type="text" id="start" class="form-control text-center" value="{{ $date }}">
         </div>
         <div class="input-group mb-2">
             <div class="input-group-prepend">
                 <span class="input-group-text">自</span>
             </div>
-            <input type="text" id="endAt" class="form-control text-center" value="{{ $date }}">
+            <input type="text" id="end" class="form-control text-center" value="{{ $date }}">
         </div>
         <div class="row text-center" style="margin:0;">
             <div class="col search-btn"><button type="button" class="btn btn-quick" onclick="quickSearch('yesterday')">昨日</button></div>
@@ -63,49 +67,47 @@ hr {
         <hr>
     </div>
     <div>
-        @if ($record['list']->count() > 0)
-        <div class="record-total text-center">
-            总利息：$ <span class="font-weight-bolder">{{ $record['total'] }}</span>
+        <div id="total-block" class="record-total text-center" @if ($record['list']->count() < 0) style="display:none" @endif>
+            总利息：$ <span id="totalInterest" class="font-weight-bolder">{{ $record['total'] }}</span>
         </div>
-        @endif
         <div>
-            @if ($record['list']->count() == 0)
-            <div class="record-info-block bg-light text-center">
-                没有任何记录
-            </div>
-            @else
-                @foreach ($record['list'] as $value)
-                <div class="record-info-block bg-light">
-                    <div>
-                        <div class="float-left">异动时间</div>
-                        <div class="float-right">{{ $value['created_at'] }}</div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div>
-                        <div class="float-left">异动金额</div>
-                        <div class="float-right {{ $value['class'] }}">$ {{ $value['credit'] }}</div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div>
-                        <div class="float-left">余额宝钱包</div>
-                        <div class="float-right">$ {{ $value['credit_after'] }}</div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div>
-                        <div class="float-left">生成利息</div>
-                        <div class="float-right">$ {{ $value['interest'] }}</div>
-                        <div class="clearfix"></div>
-                    </div>
+            <div id="record-list">
+                @if ($record['list']->count() == 0)
+                <div class="record-info-block bg-light text-center">
+                    没有任何记录
                 </div>
-                <hr>
-                @endforeach
-            @endif
-            @if ($record['list']->hasMorePages())
-            <div id="more-block">
-                <button type="button" class="btn btn-block btn-submit" onclick="getRecord()">载入更多...</button>
-                <input type="hidden" id="page" name="page" value="1" />
+                @else
+                    @foreach ($record['list'] as $value)
+                    <div class="record-info-block bg-light">
+                        <div>
+                            <div class="float-left">异动时间</div>
+                            <div class="float-right">{{ $value['created_at'] }}</div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div>
+                            <div class="float-left">异动金额</div>
+                            <div class="float-right {{ $value['class'] }}">$ {{ $value['credit'] }}</div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div>
+                            <div class="float-left">余额宝钱包</div>
+                            <div class="float-right">$ {{ $value['credit_after'] }}</div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div>
+                            <div class="float-left">生成利息</div>
+                            <div class="float-right">$ {{ $value['interest'] }}</div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <hr>
+                    @endforeach
+                @endif
             </div>
-            @endif
+            <div id="more-block" @if (!$record['list']->hasMorePages()) style="display:none" @endif>
+                <button type="button" class="btn btn-block btn-submit" onclick="getRecord()">载入更多...</button>
+                <input type="hidden" id="page" name="page" value="2" />
+            </div>
         </div>
     </div>
 </div>
@@ -118,12 +120,60 @@ hr {
 $.datepicker.setDefaults($.datepicker.regional[ "zh-CH" ]);
 
 var getRecord = () => {
-    $('#loadingModal').modal('show');
-    axios.defaults.headers.common['Authorization'] = 'Bearer 6b55577df513fa3fdf497e95aec8e80758b8445670e7e09f82b90f9f825bffc7';
-    axios.get('/api/record?page=' + $('#page').val()).then(function (response) {
-        console.log(response)
-    })
-    .catch(function (response) {
+    axios.defaults.headers.common['Authorization'] = 'Bearer {{ $member['api_token'] }}';
+    axios.get('/api/v1/record', { params: {
+        start: $('#start').val(),
+        end: $('#end').val(),
+        page: $('#page').val()
+    }}).then(function (response) {
+        const { more, total, list } = response.data.result;
+        if (more !== true) {
+            $('#more-block').css('display', 'none');
+        } else {
+            $('#more-block').css('display', 'block');
+            $('#page').val(parseInt($('#page').val()) + 1);
+        }
+
+        if ($('#page').val() == '1') {
+            $('#total-block').css('display', 'block');
+            $('#totalInterest').html(total);
+        }
+
+        let html = '';
+        if (list.data.length === 0) {
+            html = '<div class="record-info-block bg-light text-center">没有任何记录</div>';
+            $('#total-block').css('display', 'none');
+        } else {
+            $('#total-block').css('display', 'block');
+            list.data.forEach(function (item) {
+                html += '<div class="record-info-block bg-light">'
+                     +  '    <div>'
+                     +  '        <div class="float-left">异动时间</div>'
+                     +  '        <div class="float-right">' + item.created_at + '</div>'
+                     +  '        <div class="clearfix"></div>'
+                     +  '    </div>'
+                     +  '    <div>'
+                     +  '        <div class="float-left">异动金额</div>'
+                     +  '        <div class="float-right ' + item.class + '">$ ' + item.credit + '</div>'
+                     +  '        <div class="clearfix"></div>'
+                     +  '    </div>'
+                     +  '    <div>'
+                     +  '        <div class="float-left">余额宝钱包</div>'
+                     +  '        <div class="float-right">$ ' + item.credit_after + '</div>'
+                     +  '        <div class="clearfix"></div>'
+                     +  '    </div>'
+                     +  '    <div>'
+                     +  '        <div class="float-left">生成利息</div>'
+                     +  '        <div class="float-right">$ ' + item.interest + '</div>'
+                     +  '        <div class="clearfix"></div>'
+                     +  '    </div>'
+                     +  '</div>'
+                     +  '<hr>';
+            });
+        }
+        $('#record-list').append(html);
+    }).catch(function (response) {
+        alert('讀取失敗，請稍後再試');
         console.log(response);
     });
 };
@@ -131,30 +181,38 @@ var getRecord = () => {
 var quickSearch = (type) => {
     switch (type) {
         case 'yesterday':
-            $('#startAt, #endAt').val(moment().subtract(1, 'day').format('YYYY-MM-DD'));
+            $('#start, #end').val(moment().subtract(1, 'day').format('YYYY-MM-DD'));
             break;
         case 'thisWeek':
-            $('#startAt').val(moment().startOf('isoWeek').format('YYYY-MM-DD'));
-            $('#endAt').val(moment().endOf('isoWeek').format('YYYY-MM-DD'));
+            $('#start').val(moment().startOf('isoWeek').format('YYYY-MM-DD'));
+            $('#end').val(moment().endOf('isoWeek').format('YYYY-MM-DD'));
             break;
         case 'lastWeek':
-            $('#startAt').val(moment().subtract(1, 'weeks').startOf('isoWeek').format('YYYY-MM-DD'));
-            $('#endAt').val(moment().subtract(1, 'weeks').endOf('isoWeek').format('YYYY-MM-DD'));
+            $('#start').val(moment().subtract(1, 'weeks').startOf('isoWeek').format('YYYY-MM-DD'));
+            $('#end').val(moment().subtract(1, 'weeks').endOf('isoWeek').format('YYYY-MM-DD'));
             break;
         default:
-            $('#startAt, #endAt').val(moment().format('YYYY-MM-DD'));
+            $('#start, #end').val(moment().format('YYYY-MM-DD'));
     }
+    this.searchRecord();
+};
+
+var searchRecord = () => {
+    $('#record-list').html('');
+    $('#page').val(1);
+    this.getRecord();
 };
 
 $(function () {
-    $('#startAt, #endAt').datepicker({
+    $('#start, #end').datepicker({
         dateFormat: "yy-mm-dd",
         minDate: "-2m",
         maxDate: 0,
         onSelect: function (changeDate) {
-            if ((Date.parse($('#startAt').val())).valueOf() > (Date.parse($('#endAt').val())).valueOf()) {
-                $('#startAt').val($('#endAt').val());
+            if ((Date.parse($('#start').val())).valueOf() > (Date.parse($('#end').val())).valueOf()) {
+                $('#start').val($('#end').val());
             }
+            this.searchRecord();
         }
     });
 });

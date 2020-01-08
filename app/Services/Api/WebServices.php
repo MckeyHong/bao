@@ -12,18 +12,18 @@ class WebServices
 {
     protected $interestSrv;
     protected $rateSrv;
-    protected $recordServices;
+    protected $recordSrv;
     protected $memberTransferRepo;
 
     public function __construct(
         InterestServices $interestSrv,
         RateServices $rateSrv,
-        RecordServices $recordServices,
+        RecordServices $recordSrv,
         MemberTransferRepository $memberTransferRepo
     ) {
         $this->interestSrv        = $interestSrv;
         $this->rateSrv            = $rateSrv;
-        $this->recordServices     = $recordServices;
+        $this->recordSrv          = $recordSrv;
         $this->memberTransferRepo = $memberTransferRepo;
     }
 
@@ -81,12 +81,17 @@ class WebServices
     {
         try {
             $member = Auth::guard('api')->user();
-            $record = $this->recordServices->getRecordList($member['id'], $request['start'] . ' 00:00:00', $request['end'] . ' 23:59:59');
+            $record = $this->recordSrv->getRecordList($member['id'], $request['start'], $request['end']);
+            $total = 0;
+            if ($request['page'] == 1) {
+                $total = $this->recordSrv->getRecordTotal($member['id'], $request['start'], $request['end']);
+            }
             return [
                 'code'   => 200,
                 'result' => [
-                    'more' => $record->hasMorePages(),
-                    'list' => $record,
+                    'more'  => $record->hasMorePages(),
+                    'list'  => $record,
+                    'total' => $total,
                 ],
             ];
         } catch (\Exception $e) {

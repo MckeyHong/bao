@@ -53,8 +53,11 @@ class WebController extends Controller
         $params = [
             'start' => (validate_date($request->input('start', '')) && $request->input('start') <= $today && $request->input('start') >= $firstDay) ? $request->input('start') : $today,
             'end'   => (validate_date($request->input('end', '')) && $request->input('end') <= $today && $request->input('end') >= $firstDay) ? $request->input('end') : $today,
+            'page'  => $request->input('page', 1),
         ];
         $params['start'] = ($params['start'] > $params['end']) ? $params['end'] : $params['start'];
+        $params['start'] = $params['start'] . ' 00:00:00';
+        $params['end'] = $params['end'] . ' 23:59:59';
 
         return $this->apiResponse($this->webSrv->record($params));
     }

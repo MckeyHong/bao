@@ -28,7 +28,7 @@ class RecordServices
             return [
                 'result' => true,
                 'data'   => [
-                    'total' => $this->memberTransferRepo->getMemberRecordTotal($memberId, $startAt, $endAt),
+                    'total' => $this->getRecordTotal($memberId, $startAt, $endAt),
                     'list'  => $this->getRecordList($memberId, $startAt, $endAt),
                 ],
             ];
@@ -42,7 +42,24 @@ class RecordServices
     }
 
     /**
-     * 取得歷程紀錄列表
+     * 取得歷程查詢總計
+     *
+     * @param  integer. $memberId
+     * @param  string   $startAt
+     * @param  string   $endAt
+     * @return float
+     */
+    public function getRecordTotal($memberId, $startAt, $endAt)
+    {
+        try {
+            return amount_format($this->memberTransferRepo->getMemberRecordTotal($memberId, $startAt, $endAt), 2);
+        } catch (\Exception $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * 取得歷程查詢列表
      *
      * @param  integer. $memberId
      * @param  string   $startAt
