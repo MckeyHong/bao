@@ -88,13 +88,14 @@ class WebServices
                 if ($response['result'] != config('apiCode.code.succcess')) {
                     throw new \Exception('平台转帐核對异常', 417);
                 }
-                $todayDepositAfter = bcadd($member['today_deposit'], $credit, 2);
+                $todayDepositBefore = bcadd($member['today_deposit'], $member['interest'], 2);
+                $todayDepositAfter = bcadd($todayDepositBefore, $credit, 2);
                 $this->balanceTransferRepo->store([
                     'platform_id'   => $member['platform_id'],
                     'member_id'     => $member['id'],
                     'no'            => $tradeNo,
                     'type'          => 1,
-                    'credit_before' => $member['today_deposit'],
+                    'credit_before' => $todayDepositBefore,
                     'credit'        => $credit,
                     'credit_after'  => $todayDepositAfter,
                 ]);
@@ -143,20 +144,76 @@ class WebServices
     /**
      * 一鍵提領
      *
-     * @param  array. $memberId
+     * @param  array  member
+     * @param  float  credit
      * @return array
      */
-    public function withdrawal($request)
+    public function withdrawal($member, $credit)
     {
         try {
-            $data = [];
+            $result = DB::transaction(function () use ($member, $credit) {
+                // 平台轉帳
+                $tradeNo = Str::uuid();
+                $response = $this->transferCreditOfApi($member['account'], $tradeNo, 'OUT', $credit);
+                if ($response['result'] != config('apiCode.code.succcess')) {
+                    throw new \Exception('平台转帐异常', 417);
+                }
+                $response = $this->checkTransferCreditOfApi($tradeNo);
+                if ($response['result'] != config('apiCode.code.succcess')) {
+                    throw new \Exception('平台转帐核對异常', 417);
+                }
+                $creditBefore = bcadd($member['today_deposit'], $member['interest'], 2);
+                $this->balanceTransferRepo->store([
+                    'platform_id'   => $member['platform_id'],
+                    'member_id'     => $member['id'],
+                    'no'            => $tradeNo,
+                    'type'          => 2,
+                    'credit_before' => $creditBefore,
+                    'credit'        => $credit,
+                    'credit_after'  => bcsub($creditBefore, $credit, 2),
+                ]);
+
+                if ($credit > $member['today_deposit']) {
+                    $todayDepositAfter = 0;
+                    $interestAfter = bcsub($member['interest'], ($credit - $member['today_deposit']), 2);
+                } else {
+                    $todayDepositAfter = bcsub($member['today_deposit'], $credit, 2);
+                    $interestAfter = $member['interest'];
+                }
+                // 計算計算&歷程查詢
+                $rate = $this->rateSrv->getPlatformRate($member['platform_id']);
+                $interest = 0;
+                if ($member['last_transfer_at'] != null) {
+                    $interest = $this->interestSrv->calculateInterest('', $member['today_deposit'], $rate, $member['last_transfer_at']);
+                }
+                $this->memberTransferRepo->store([
+                    'platform_id'   => $member['platform_id'],
+                    'member_id'     => $member['id'],
+                    'type'          => 2,
+                    'credit_before' => $creditBefore,
+                    'credit'        => $credit,
+                    'credit_after'  => $todayDepositAfter,
+                    'interest'      => $interest,
+                    'rate'          => $rate,
+                ]);
+
+                // 更新會員主資訊
+                $this->memberRepo->update($member['id'], [
+                    'today_deposit'    => $todayDepositAfter,
+                    'interest'         => $interestAfter,
+                    'last_transfer_at' => Carbon::now()->toDateTimeString(),
+                ]);
+
+                return true;
+            });
             return [
-                'result' => true,
-                'data'   => $data,
+                'code'   => 200,
+                'result' => $result,
             ];
         } catch (\Exception $e) {
             return [
-                'result' => false,
+                'code'   => $e->getCode() ?? 500,
+                'result' => [],
                 'error'  => $e->getMessage(),
             ];
         }

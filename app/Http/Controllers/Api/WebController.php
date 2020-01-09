@@ -31,7 +31,7 @@ class WebController extends Controller
         $platformCredit = $this->getMemberCreditOfApi($this->member['account'])['data'];
         $canDeposit = $this->webSrv->getTodayBetTotal($this->member['id']) - $this->member['today_deposit'];
         $request->validate([
-            'credit' => 'required|min:1|max:' . ($canDeposit > $platformCredit ? $platformCredit : $canDeposit),
+            'credit' => 'required|min:0.01|max:' . ($canDeposit > $platformCredit ? $platformCredit : $canDeposit),
         ]);
         return $this->apiResponse($this->webSrv->deposit($this->member, $request->input('credit')));
     }
@@ -44,7 +44,11 @@ class WebController extends Controller
      */
     public function withdrawal(Request $request)
     {
-        // todo ...
+        $canWithdrawal = bcadd(($this->member['credit'] + $this->member['today_deposit']), $this->member['interest'], 2);
+        $request->validate([
+            'credit' => 'required|min:0.01|max:' . $canWithdrawal,
+        ]);
+        return $this->apiResponse($this->webSrv->withdrawal($this->member, $request->input('credit')));
     }
 
     /**
