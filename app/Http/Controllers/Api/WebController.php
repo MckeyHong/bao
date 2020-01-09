@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -9,11 +10,13 @@ use App\Services\Api\WebServices;
 
 class WebController extends Controller
 {
+    private $member;
     protected $webSrv;
 
     public function __construct(
         WebServices $webSrv
     ) {
+        $this->member = Auth::guard('api')->user();
         $this->webSrv = $webSrv;
     }
 
@@ -25,7 +28,10 @@ class WebController extends Controller
      */
     public function deposit(Request $request)
     {
-        // todo ...
+        $request->validate([
+            'credit' => 'required|min:1|max:' . ($this->webSrv->getTodayBetTotal($this->member['id']) - $this->member['today_deposit']),
+        ]);
+        return $this->apiResponse($this->webSrv->deposit($this->member, $request->input('credit')));
     }
 
     /**
@@ -59,6 +65,6 @@ class WebController extends Controller
         $params['start'] = $params['start'] . ' 00:00:00';
         $params['end'] = $params['end'] . ' 23:59:59';
 
-        return $this->apiResponse($this->webSrv->record($params));
+        return $this->apiResponse($this->webSrv->record($this->member, $params));
     }
 }

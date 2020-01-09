@@ -1,11 +1,29 @@
+var toCurrency = (num) => {
+    var parts = num.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+}
+
 var transferConfirm = () => {
   if ($('#inputCredit').val() > 0) {
-    $('#credit').html($('#inputCredit').val());
+    $('#credit').html(toCurrency($('#inputCredit').val()));
     $('#confirmModal').modal('show');
   }
 };
 
 var doTransfer = () => {
+    toggleLoading('block');
+    axios.post('/api/v1/' + $('#transferType').val(), {
+        credit: $('#inputCredit').val()
+    }).then(function (response) {
+        console.log(response);
+        toggleLoading('none');
+        // window.location.reload();
+    }).catch(function (response) {
+        alert('系统忙录中，请稍后再试，谢谢。');
+        console.log(response);
+        toggleLoading('none');
+    });
     $('#confirmModal').modal('hide');
 };
 

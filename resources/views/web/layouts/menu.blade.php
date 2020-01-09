@@ -1,4 +1,4 @@
-<div class="row menu-container">
+<div class="row menu-container container">
     <div class="col menu-block">
         @if ($path == '/')
         <div class="text-center"><i data-eva="log-in-outline" data-eva-fill="#FF671A"></i></div>

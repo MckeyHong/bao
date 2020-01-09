@@ -120,13 +120,13 @@ hr {
 $.datepicker.setDefaults($.datepicker.regional[ "zh-CH" ]);
 
 var searchRecord = () => {
+    toggleLoading('block');
     $('#record-list').html('');
     $('#page').val(1);
     this.getRecord();
 };
 
 var getRecord = () => {
-    axios.defaults.headers.common['Authorization'] = 'Bearer {{ $member['api_token'] }}';
     axios.get('/api/v1/record', { params: {
         start: $('#start').val(),
         end: $('#end').val(),
@@ -178,9 +178,10 @@ var getRecord = () => {
             });
         }
         $('#record-list').append(html);
+        toggleLoading('none');
     }).catch(function (response) {
-        alert('讀取失敗，請稍後再試');
-        console.log(response);
+        alert('系统忙录中，请稍后再试，谢谢。');
+        toggleLoading('none');
     });
 };
 

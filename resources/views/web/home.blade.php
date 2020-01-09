@@ -106,7 +106,10 @@
           </div>
           <div class="modal-body">
             <p>确定要执行下面步骤?</p>
-            <p>转入$ <span id="credit" class="text-danger"></span> 元</p>
+            <p>
+                <input type="hidden" id="transferType" value="deposit" />
+                转入$ <span id="credit" class="text-danger"></span> 元
+            </p>
             <p class="text-muted">* 注:其余额宝利息将重新计算配息</p>
           </div>
           <div class="modal-footer">

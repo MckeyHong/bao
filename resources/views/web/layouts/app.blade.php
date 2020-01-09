@@ -34,7 +34,7 @@
             border-bottom: 1px solid #cccccc;
             color: #FF671A;
             margin: 0;
-            padding-top: 55px;
+            padding-top: 56px;
             position: fixed;
             width: 100%;
             height: 120px;
@@ -44,6 +44,7 @@
         .menu-block {
             margin: 8px auto;
             text-align: center;
+            padding: 0 5px;
         }
 
         .container-fluid {
@@ -64,10 +65,23 @@
             border-color: #DD2F2F;
         }
 
-        .loading-modal {
-            margin-top: 50%;
-            background: transparent;
-            border: 0;
+        #loading {
+            position: fixed;
+            z-index: 10000;
+            top: 0;
+            left: 0;
+            background: #cccccc;
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+            display: none;
+        }
+
+        #loading img {
+            position: absolute;
+            top: 35%;
+            left: 35%;
+            width: 35%;
         }
 
         #gotop {
@@ -81,29 +95,31 @@
             cursor: pointer;
             z-index: 999;
         }
+
+        #app {
+            position: relative;
+            padding: 0;
+        }
         </style>
         <script src="{{ asset('js/vendor/eva.min.js') }}"></script>
     </head>
     <body>
-        <div id="app">
+        <div id="app" class="container">
             @include('web.layouts.header')
             @include('web.layouts.menu')
-            <div  class="container-fluid">
+            <div class="container-fluid">
                 @yield('content')
             </div>
             @include('web.layouts.footer')
         </div>
-        <div id="loadingModal" tabindex="-1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content loading-modal">
-              <img src="{{ asset('images/loading.svg') }}">
-            </div>
-          </div>
+        <div id="loading">
+            <img src="{{ asset('images/loading.svg') }}" />
         </div>
         <div id="gotop"><img src="{{ asset('images/top.png') }}" width="36px"></div>
-
         <script src="{{ mix('/js/app.js') }}"></script>
         <script>
+            axios.defaults.headers.common['Authorization'] = 'Bearer {{ $member['api_token'] }}';
+
             eva.replace();
 
             $(function () {
@@ -120,6 +136,10 @@
                     }
                 });
             });
+
+            var toggleLoading = (type) => {
+                $('#loading').css('display', type);
+            }
         </script>
         @yield('js')
     </body>
