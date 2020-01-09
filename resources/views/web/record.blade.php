@@ -85,12 +85,17 @@ hr {
                             <div class="clearfix"></div>
                         </div>
                         <div>
+                            <div class="float-left">异动前钱包</div>
+                            <div class="float-right">$ {{ $value['credit_before'] }}</div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div>
                             <div class="float-left">异动金额</div>
                             <div class="float-right {{ $value['class'] }}">[{{ $value['type'] }}] $ {{ $value['credit'] }}</div>
                             <div class="clearfix"></div>
                         </div>
                         <div>
-                            <div class="float-left">余额宝钱包</div>
+                            <div class="float-left">异动后钱包</div>
                             <div class="float-right">$ {{ $value['credit_after'] }}</div>
                             <div class="clearfix"></div>
                         </div>
@@ -159,12 +164,17 @@ var getRecord = () => {
                      +  '        <div class="clearfix"></div>'
                      +  '    </div>'
                      +  '    <div>'
+                     +  '        <div class="float-left">异动前钱包</div>'
+                     +  '        <div class="float-right">$ ' + item.credit_before + '</div>'
+                     +  '        <div class="clearfix"></div>'
+                     +  '    </div>'
+                     +  '    <div>'
                      +  '        <div class="float-left">异动金额</div>'
                      +  '        <div class="float-right ' + item.class + '">[' + item.type + '] $ ' + item.credit + '</div>'
                      +  '        <div class="clearfix"></div>'
                      +  '    </div>'
                      +  '    <div>'
-                     +  '        <div class="float-left">余额宝钱包</div>'
+                     +  '        <div class="float-left">异动后钱包</div>'
                      +  '        <div class="float-right">$ ' + item.credit_after + '</div>'
                      +  '        <div class="clearfix"></div>'
                      +  '    </div>'
