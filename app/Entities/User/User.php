@@ -6,11 +6,10 @@ use App\Entities\BaoModel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends BaoModel implements Authenticatable
 {
-    use Notifiable, HasRoles;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
