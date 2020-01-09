@@ -16,9 +16,8 @@ var doTransfer = () => {
     axios.post('/api/v1/' + $('#transferType').val(), {
         credit: $('#inputCredit').val()
     }).then(function (response) {
-        console.log(response);
         toggleLoading('none');
-        // window.location.reload();
+        location.href = $('#transferUrl').val();
     }).catch(function (response) {
         alert('系统忙录中，请稍后再试，谢谢。');
         console.log(response);

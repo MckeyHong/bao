@@ -2,19 +2,27 @@
 
 namespace App\Services\Api;
 
+use DB;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
+use App\Api\Traits\Member\MemberCreditTraits;
+use App\Api\Traits\Transfer\TransferCreditTraits;
 use App\Services\Common\InterestServices;
 use App\Services\Common\RateServices;
 use App\Services\Web\RecordServices;
+use App\Repositories\Balance\BalanceTransferRepository;
 use App\Repositories\Member\MemberInfoStatDailyRepository;
 use App\Repositories\Member\MemberRepository;
 use App\Repositories\Member\MemberTransferRepository;
 
 class WebServices
 {
+    use MemberCreditTraits, TransferCreditTraits;
+
     protected $interestSrv;
     protected $rateSrv;
     protected $recordSrv;
+    protected $balanceTransferRepo;
     protected $memberInfoStatDailyRepo;
     protected $memberRepo;
     protected $memberTransferRepo;
@@ -23,6 +31,7 @@ class WebServices
         InterestServices $interestSrv,
         RateServices $rateSrv,
         RecordServices $recordSrv,
+        BalanceTransferRepository $balanceTransferRepo,
         MemberInfoStatDailyRepository $memberInfoStatDailyRepo,
         MemberRepository $memberRepo,
         MemberTransferRepository $memberTransferRepo
@@ -30,6 +39,7 @@ class WebServices
         $this->interestSrv             = $interestSrv;
         $this->rateSrv                 = $rateSrv;
         $this->recordSrv               = $recordSrv;
+        $this->balanceTransferRepo     = $balanceTransferRepo;
         $this->memberInfoStatDailyRepo = $memberInfoStatDailyRepo;
         $this->memberRepo              = $memberRepo;
         $this->memberTransferRepo      = $memberTransferRepo;
@@ -62,19 +72,58 @@ class WebServices
     {
         try {
             $result = DB::transaction(function () use ($member, $credit) {
-                $creditBefore = bcadd($member['credit'] + $member['today_deposit'] + $member['interest'], 2);
+                // 再檢查平台額度是否正常
+                $platformCredit = $this->getMemberCreditOfApi($member['account'])['data'];
+                if ($platformCredit < $credit) {
+                    throw new \Exception('平台额度不足', 417);
+                }
+
+                // 平台轉帳
+                $tradeNo = Str::uuid();
+                $response = $this->transferCreditOfApi($member['account'], $tradeNo, 'IN', $credit);
+                if ($response['result'] != config('apiCode.code.succcess')) {
+                    throw new \Exception('平台转帐异常', 417);
+                }
+                $response = $this->checkTransferCreditOfApi($tradeNo);
+                if ($response['result'] != config('apiCode.code.succcess')) {
+                    throw new \Exception('平台转帐核對异常', 417);
+                }
+                $todayDepositAfter = bcadd($member['today_deposit'], $credit, 2);
+                $this->balanceTransferRepo->store([
+                    'platform_id'   => $member['platform_id'],
+                    'member_id'     => $member['id'],
+                    'no'            => $tradeNo,
+                    'type'          => 1,
+                    'credit_before' => $member['today_deposit'],
+                    'credit'        => $credit,
+                    'credit_after'  => $todayDepositAfter,
+                ]);
+
+                // 計算計算&歷程查詢
+                $creditBefore = bcadd(($member['credit'] + $member['today_deposit']), $member['interest'], 2);
+                $rate = $this->rateSrv->getPlatformRate($member['platform_id']);
+                $interest = 0;
+                if ($member['last_transfer_at'] != null) {
+                    $interest = $this->interestSrv->calculateInterest('', $member['today_deposit'], $rate, $member['last_transfer_at']);
+                }
                 $this->memberTransferRepo->store([
                     'platform_id'   => $member['platform_id'],
                     'member_id'     => $member['id'],
                     'type'          => 1,
                     'credit_before' => $creditBefore,
                     'credit'        => $credit,
-                    'credit_after'  => bcadd($creditBefore + $credit, 2),
+                    'credit_after'  => $todayDepositAfter,
+                    'interest'      => $interest,
+                    'rate'          => $rate,
                 ]);
+
+                // 更新會員主資訊
                 $this->memberRepo->update($member['id'], [
-                    'today_deposit'    => bcadd($member['today_deposit'] + $credit, 2),
+                    'today_deposit'    => $todayDepositAfter,
+                    'interest'         => bcadd($member['interest'], $interest, 8),
                     'last_transfer_at' => Carbon::now()->toDateTimeString(),
                 ]);
+
                 return true;
             });
 

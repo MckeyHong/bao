@@ -86,7 +86,7 @@ hr {
                         </div>
                         <div>
                             <div class="float-left">异动金额</div>
-                            <div class="float-right {{ $value['class'] }}">$ {{ $value['credit'] }}</div>
+                            <div class="float-right {{ $value['class'] }}">[{{ $value['type'] }}] $ {{ $value['credit'] }}</div>
                             <div class="clearfix"></div>
                         </div>
                         <div>
@@ -160,7 +160,7 @@ var getRecord = () => {
                      +  '    </div>'
                      +  '    <div>'
                      +  '        <div class="float-left">异动金额</div>'
-                     +  '        <div class="float-right ' + item.class + '">$ ' + item.credit + '</div>'
+                     +  '        <div class="float-right ' + item.class + '">[' + item.type + '] $ ' + item.credit + '</div>'
                      +  '        <div class="clearfix"></div>'
                      +  '    </div>'
                      +  '    <div>'

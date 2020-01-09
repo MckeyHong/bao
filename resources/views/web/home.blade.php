@@ -108,6 +108,7 @@
             <p>确定要执行下面步骤?</p>
             <p>
                 <input type="hidden" id="transferType" value="deposit" />
+                <input type="hidden" id="transferUrl" value="{{ asset('/') }}" />
                 转入$ <span id="credit" class="text-danger"></span> 元
             </p>
             <p class="text-muted">* 注:其余额宝利息将重新计算配息</p>

@@ -28,8 +28,10 @@ class WebController extends Controller
      */
     public function deposit(Request $request)
     {
+        $platformCredit = $this->getMemberCreditOfApi($this->member['account'])['data'];
+        $canDeposit = $this->webSrv->getTodayBetTotal($this->member['id']) - $this->member['today_deposit'];
         $request->validate([
-            'credit' => 'required|min:1|max:' . ($this->webSrv->getTodayBetTotal($this->member['id']) - $this->member['today_deposit']),
+            'credit' => 'required|min:1|max:' . ($canDeposit > $platformCredit ? $platformCredit : $canDeposit),
         ]);
         return $this->apiResponse($this->webSrv->deposit($this->member, $request->input('credit')));
     }

@@ -24,7 +24,7 @@ class Controller extends BaseController
         $member = [];
         if (Auth::guard('web')->check()) {
             $member = Auth::guard('web')->user();
-            $member['balance'] = amount_format($member['credit'] + $member['today_deposit'] + $member['interest']);
+            $member['balance'] = bcadd(($member['credit'] + $member['today_deposit']), $member['interest'], 2);
             $member['platform_credit'] = $this->getMemberCreditOfApi($member['account'])['data'];
         }
 

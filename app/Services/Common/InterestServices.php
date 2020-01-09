@@ -28,7 +28,7 @@ class InterestServices
                 default:
                     $diffSeconds = Carbon::now()->diffInSeconds($dateTime);
             }
-            $interest = ((floor_format($deposit, 0) * $rate) / 31536000) * $diffSeconds;
+            $interest = ((floor_format($deposit, 0) * $rate / 100) / 31536000) * $diffSeconds;
             return floor_format($interest, 8);
         } catch (\Exception $e) {
             return 0;

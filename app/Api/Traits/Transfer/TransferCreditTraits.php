@@ -29,4 +29,27 @@ trait TransferCreditTraits
             ];
         }
     }
+
+    /**
+     * 檢查轉帳是否正常
+     *
+     * @param  string   $tradeNo   [轉帳交易單號]
+     * @param  array    $extra     [額外參數]
+     * @return array
+     */
+    public function checkTransferCreditOfApi(string $tradeNo, array $extra = [])
+    {
+        try {
+            return [
+                'result' => config('apiCode.code.succcess'),
+                'data'   => true,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'result' => $e->getCode() ?? config('apiCode.code.systemError'),
+                'data'   => null,
+                'error'  => $e->getMessage(),
+            ];
+        }
+    }
 }

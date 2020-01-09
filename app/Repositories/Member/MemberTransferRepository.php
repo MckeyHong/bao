@@ -25,9 +25,10 @@ class MemberTransferRepository
      */
     public function getMemberRecordList($memberId, $startAt, $endAt, $field = ['*'])
     {
-        return MemberTransfer::select(['type', 'credit_before', 'credit', 'credit_after', 'created_at'])
+        return MemberTransfer::select(['type', 'credit_before', 'credit', 'credit_after', 'interest', 'created_at'])
                             ->member($memberId)
                             ->whereBetween('created_at', [$startAt, $endAt])
+                            ->orderBy('created_at', 'DESC')
                             ->simplePaginate(10);
     }
 

@@ -59,6 +59,7 @@
             <p>
               确定是否要提领$ <span id="credit" class="text-danger"></span> 元
               <input type="hidden" id="transferType" value="withdrawal" />
+              <input type="hidden" id="transferUrl" value="{{ asset('/withdrawal') }}" />
             </p>
             <p class="text-muted">* 注:其余额宝利息将重新计算配息</p>
           </div>
