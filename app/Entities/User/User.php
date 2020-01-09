@@ -3,13 +3,15 @@
 namespace App\Entities\User;
 
 use App\Entities\BaoModel;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 
-class User extends BaoModel implements Authenticatable
+class User extends BaoModel implements AuthorizableContract, AuthenticatableContract
 {
-    use Notifiable;
+    use Authenticatable, Authorizable, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +19,7 @@ class User extends BaoModel implements Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'active',
     ];
 
     /**

@@ -6,12 +6,7 @@
 
 require('./bootstrap');
 
-const axios = require('axios').default;
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-
 window.Vue = require('vue');
-
-window.moment = require('moment');
 
 /**
  * The following block of code may be used to automatically register your

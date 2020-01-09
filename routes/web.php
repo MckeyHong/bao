@@ -21,3 +21,11 @@ Route::group(['namespace' => 'Web', 'middleware' => 'auth:web'], function () {
 Route::group(['namespace' => 'Web'], function () {
     Route::get('/member/redirect', 'MemberController@redirect');
 });
+
+Route::group(['prefix' => 'ctl'], function () {
+    Auth::routes();
+
+    Route::group(['namespace' => 'Admin'], function () {
+        Route::get('/home', 'HomeController@index')->name('home');
+    });
+});
