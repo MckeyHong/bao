@@ -11,4 +11,14 @@ return [
             'rule'       => '規則說明',
         ],
     ],
+    'button' => [
+        'login' => '登',
+    ],
+    'admin' => [
+        'browser' => '管理系統',
+        'func'    => [
+            'profile' => '設置',
+            'logout'  => '登出',
+        ],
+    ],
 ];

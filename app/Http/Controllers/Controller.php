@@ -47,4 +47,19 @@ class Controller extends BaseController
     {
         return response()->json(['result' => $response['result'] ?? true], $response['code'] ?? 500);
     }
+
+    /**
+     * 后台共用參數
+     *
+     * @return array
+     */
+    public function adminResponse()
+    {
+        $path = explode('/', Request::path());
+        $nowPathKey = ($path[1] ?? '').ucfirst($path[2] ?? '');
+        return [
+            'activePage' => $nowPathKey,
+            'titlePage'  => trans('custom.admin.func.' . $nowPathKey),
+        ];
+    }
 }

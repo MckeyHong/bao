@@ -11,4 +11,14 @@ return [
             'rule'       => 'Rule',
         ],
     ],
+    'button' => [
+        'login' => 'Login',
+    ],
+    'admin' => [
+        'browser' => 'management system',
+        'func'    => [
+            'profile' => 'Setting',
+            'logout'  => 'Logout',
+        ],
+    ],
 ];
