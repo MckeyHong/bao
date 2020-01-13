@@ -42,4 +42,14 @@ class PlatformRepository
         return Platform::select(['id', 'name', 'present', 'future', 'active', 'created_at', 'updated_at'])
                         ->paginate(config('custom.admin.paginate'));
     }
+
+    /**
+     * 下拉選單
+     *
+     * @return mixed
+     */
+    public function dropdown()
+    {
+        return Platform::pluck('name', 'id');
+    }
 }

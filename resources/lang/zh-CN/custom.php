@@ -4,6 +4,7 @@ return [
     'websiteName' => '余额宝',
     'common' => [
         'noData' => '没有任何记录',
+        'all'    => '全部',
     ],
     'web' => [
         'func' => [
@@ -48,6 +49,12 @@ return [
                 'active'     => '状态',
                 'updated_at' => '最近更新时间',
             ],
+            'memberList' => [
+                'platform_id' => '平台',
+                'account'     => '帐号 (名称)',
+                'balance'     => '余额宝额度',
+                'active'      => '状态',
+            ],
             'systemLogin' => [
                 'created_at' => '登入时间',
                 'user'       => '帐号 (名称)',
@@ -57,13 +64,15 @@ return [
             ],
         ],
         'search' => [
-            'time'    => '时间',
-            'account' => '帐号',
-            'status'  => '状态',
+            'time'     => '时间',
+            'account'  => '帐号',
+            'status'   => '状态',
+            'platform' => '平台',
         ],
         'text' => [
             'action' => '操作',
             'log'    => '历程',
+            'record' => '纪录',
             'system' => [
                 'loginSuccess'  => '登入成功',
                 'loginFalse'    => '登入失败',

@@ -28,4 +28,31 @@ class MemberRepository
                                      ->where('account', $account)
                                      ->first();
     }
+
+    /**
+     * [控端] 列表清單
+     *
+     * @param  array   $params
+     * @return mixed
+     */
+    public function getAdminList($params)
+    {
+        $query = Member::select(['platform_id', 'account', 'name', 'credit', 'today_deposit', 'interest', 'active']);
+
+        if (isset($params['platform']) && $params['platform'] > 0) {
+            $query = $query->platform($params['platform']);
+        }
+
+        if (isset($params['status']) && $params['status'] > 0) {
+            $query = $query->active($params['status']);
+        }
+
+        if (isset($params['account']) && $params['account'] != '') {
+            $query = $query->where('account', 'LIKE', $params['account'] . '%');
+        }
+
+        return $query->orderBy('platform_id', 'ASC')
+                     ->orderBy('account', 'ASC')
+                     ->paginate(config('custom.admin.paginate'));
+    }
 }
