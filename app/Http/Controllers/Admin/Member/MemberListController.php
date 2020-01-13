@@ -26,7 +26,7 @@ class MemberListController extends Controller
     public function index(Request $request)
     {
         $dropdownSrv = new DropdownServices();
-        $platform = $dropdownSrv->getPlatform();
+        $platform = $dropdownSrv->dropdown('platform');
         // 參數驗證
         $params = [
             'platform' => (in_array($request->input('platform'), array_keys($platform))) ? $request->input('platform') : 0,

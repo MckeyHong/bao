@@ -16,7 +16,12 @@ return [
         ],
     ],
     'button' => [
-        'login' => '登入',
+        'login'  => '登入',
+        'add'    => '新增',
+        'edit'   => '编辑',
+        'delete' => '删除',
+        'log'    => '历程',
+        'search' => '搜寻',
     ],
     'admin' => [
         'browser' => '管理系统',
@@ -63,6 +68,13 @@ return [
                 'area'       => '地区',
                 'device'     => '装置',
             ],
+            'systemUser' => [
+                'role_id'    => '角色',
+                'account'    => '帐号',
+                'name'       => '名称',
+                'active'     => '状态',
+                'created_at' => '新建时间',
+            ],
             'systemLogin' => [
                 'created_at' => '登入时间',
                 'user'       => '帐号 (名称)',
@@ -75,7 +87,9 @@ return [
             'time'     => '时间',
             'account'  => '帐号',
             'status'   => '状态',
+            'active'   => '状态',
             'platform' => '平台',
+            'role'     => '角色',
         ],
         'text' => [
             'action' => '操作',
@@ -89,7 +103,9 @@ return [
             ],
             'enable'  => '启用',
             'disable' => '停用',
+            'add'     => '新增',
         ],
         'statusList' => ['全部', '启用', '停用'],
+        'activeList' => ['全部', '启用', '停用'],
     ],
 ];

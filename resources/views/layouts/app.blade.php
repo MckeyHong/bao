@@ -56,6 +56,10 @@
           padding: 10px 0 0 5px;
         }
 
+        .btn-search {
+            margin-left: 10px;
+        }
+
         .lists-icons {
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -66,6 +70,10 @@
 
         .lists-icon:hover {
             background-color: #ff9800 !important;
+        }
+
+        .lists-icons-multi {
+            margin-left: 5px;
         }
     </style>
     </head>

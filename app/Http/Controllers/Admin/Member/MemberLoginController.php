@@ -30,7 +30,7 @@ class MemberLoginController extends Controller
     public function index(Request $request)
     {
         $dropdownSrv = new DropdownServices();
-        $platform = $dropdownSrv->getPlatform();
+        $platform = $dropdownSrv->dropdown('platform');
         $firstDay = Carbon::now()->subMonth(2)->toDateString();
         $today = Carbon::now()->toDateString();
         // 參數驗證

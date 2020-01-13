@@ -100,6 +100,18 @@ trait Repository
     }
 
     /**
+     * 下拉選單
+     *
+     * @param string  $value
+     * @param string  $key
+     * @return mixed
+     */
+    public function dropdown($value = 'name', $key = 'id')
+    {
+        return $this->entity::pluck($value, $key);
+    }
+
+    /**
      * 新增資料
      *
      * @param  array  $parameters [新增資料陣列]
