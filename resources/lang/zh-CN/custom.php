@@ -55,6 +55,14 @@ return [
                 'balance'     => '余额宝额度',
                 'active'      => '状态',
             ],
+            'memberLogin' => [
+                'created_at' => '登入时间',
+                'platform_id' => '平台',
+                'member'     => '帐号 (名称)',
+                'login_ip'   => '登入IP',
+                'area'       => '地区',
+                'device'     => '装置',
+            ],
             'systemLogin' => [
                 'created_at' => '登入时间',
                 'user'       => '帐号 (名称)',

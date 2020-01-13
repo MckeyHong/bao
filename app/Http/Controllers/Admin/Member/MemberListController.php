@@ -18,7 +18,7 @@ class MemberListController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * 列表清單
      *
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Support\Renderable
