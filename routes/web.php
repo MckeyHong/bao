@@ -25,7 +25,7 @@ Route::group(['namespace' => 'Web'], function () {
 Route::group(['prefix' => 'ctl'], function () {
     Auth::routes();
 
-    Route::group(['namespace' => 'Admin', 'middleware' => 'auth:user'], function () {
+    Route::group(['namespace' => 'Admin', 'middleware' => ['auth:user', 'permission']], function () {
         Route::get('/home', 'HomeController@index')->name('home');
 
         Route::group(['prefix' => 'platform', 'namespace' => 'Platform'], function () {

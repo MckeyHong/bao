@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Cache;
 use Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -55,11 +56,37 @@ class Controller extends BaseController
      */
     public function adminResponse()
     {
+        $user = Auth::guard('user')->user();
         $path = explode('/', Request::path());
         $nowPathKey = ($path[1] ?? '').ucfirst($path[2] ?? '');
+        // 依帳號角色功能權限調整功能顯示清單
+        $userPermission = Cache::tags(['adminPermission'])->get($user['id']);
+        $permission = [];
+        foreach (config('permission.func') as $cate) {
+            $cate['active'] = $cate['aria'] = $cate['show'] = '';
+            $tmpMenu = [];
+            foreach ($cate['menu'] as $menu) {
+                $menu['active'] = '';
+                if ($nowPathKey == $menu['key']) {
+                    $cate['active'] = 'active';
+                    $cate['aria'] = 'true';
+                    $cate['show'] = 'show';
+                    $menu['active'] = 'active';
+                }
+                if (($userPermission[$menu['path']]['is_get'] ?? 2) == 1) {
+                    $tmpMenu[] = $menu;
+                }
+            }
+            if (count($tmpMenu) > 0) {
+                $cate['menu'] = $tmpMenu;
+                $permission[] = $cate;
+            }
+        }
+
         return [
-            'activePage' => $nowPathKey,
-            'titlePage'  => trans('custom.admin.func.' . $nowPathKey),
+            'sidebarMenu' => $permission,
+            'activePage'  => $nowPathKey,
+            'titlePage'   => trans('custom.admin.func.' . $nowPathKey),
         ];
     }
 }

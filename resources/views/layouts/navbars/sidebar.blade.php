@@ -17,26 +17,18 @@
             <p>{{ __('custom.admin.func.dashboard') }}</p>
         </a>
       </li>
-      @foreach (config('permission.func') as $funcCate)
-      @php
-      $sidebarActive = $sidebarAria = $sidebarShow  = '';
-      if (in_array($activePage, $funcCate['active'])) {
-        $sidebarActive = 'active';
-        $sidebarAria = 'true';
-        $sidebarShow = 'show';
-      }
-      @endphp
-      <li class="nav-item {{ $sidebarActive }}">
-        <a class="nav-link" data-toggle="collapse" href="#sidebar-{{ $funcCate['key'] }}" aria-expanded="{{ $sidebarAria }}">
+      @foreach ($sidebarMenu as $funcCate)
+      <li class="nav-item {{ $funcCate['active'] }}">
+        <a class="nav-link" data-toggle="collapse" href="#sidebar-{{ $funcCate['key'] }}" aria-expanded="{{ $funcCate['aria'] }}">
           <i class="material-icons">{{ $funcCate['icon'] }}</i>
           <p>{{ __('custom.admin.func.'. $funcCate['key']) }}
             <b class="caret"></b>
           </p>
         </a>
-        <div class="collapse {{ $sidebarShow }}" id="sidebar-{{ $funcCate['key'] }}">
+        <div class="collapse {{ $funcCate['show'] }}" id="sidebar-{{ $funcCate['key'] }}">
           <ul class="nav">
             @foreach ($funcCate['menu'] as $funcMenu)
-            <li class="nav-item{{ $activePage == $funcMenu['key'] ? ' active' : '' }}">
+            <li class="nav-item {{ $funcMenu['active'] }}">
               <a class="nav-link" href="{{ asset($funcMenu['path']) }}">
                 <span class="sidebar-mini"><i class="material-icons">menu</i></span>
                 <span class="sidebar-normal">{{ __('custom.admin.func.' . $funcMenu['key']) }} </span>
