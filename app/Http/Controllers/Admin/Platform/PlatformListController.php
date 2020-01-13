@@ -8,12 +8,12 @@ use App\Services\Admin\Platform\PlatformListServices;
 
 class PlatformListController extends Controller
 {
-    protected $platformListSrc;
+    protected $platformListSrv;
 
     public function __construct(
-        PlatformListServices $platformListSrc
+        PlatformListServices $platformListSrv
     ) {
-        $this->platformListSrc = $platformListSrc;
+        $this->platformListSrv = $platformListSrv;
     }
 
     /**
@@ -24,6 +24,6 @@ class PlatformListController extends Controller
      */
     public function index(Request $request)
     {
-        return view('admin.platform.list', array_merge($this->adminResponse(), ['lists' => $this->platformListSrc->index()['data']]));
+        return view('admin.platform.list', array_merge($this->adminResponse(), ['lists' => $this->platformListSrv->index()['data']]));
     }
 }

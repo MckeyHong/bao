@@ -12,12 +12,12 @@ class SystemLoginController extends Controller
 {
     use TimeTraits;
 
-    protected $systemLoginSrc;
+    protected $systemLoginSrv;
 
     public function __construct(
-        SystemLoginServices $systemLoginSrc
+        SystemLoginServices $systemLoginSrv
     ) {
-        $this->systemLoginSrc = $systemLoginSrc;
+        $this->systemLoginSrv = $systemLoginSrv;
     }
 
     /**
@@ -43,7 +43,7 @@ class SystemLoginController extends Controller
 
         return view('admin.system.login', array_merge($this->adminResponse(), [
             'get'   => $params,
-            'lists' => $this->systemLoginSrc->index($params)['data'],
+            'lists' => $this->systemLoginSrv->index($params)['data'],
         ]));
     }
 }
