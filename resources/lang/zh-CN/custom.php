@@ -32,7 +32,7 @@ return [
             'reportMember'     => '会员报表',
             'reportInterest'   => '利息报表',
             'system'           => '系统管理',
-            'systemPermission' => '权限管理',
+            'systemRole'       => '权限管理',
             'systemUser'       => '帐号管理',
             'systemLogin'      => '登入日志',
             'systemOperation'  => '操作日志',

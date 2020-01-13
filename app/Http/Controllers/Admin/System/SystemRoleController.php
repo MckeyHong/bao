@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin\System;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class SystemPermissionController extends Controller
+class SystemRoleController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,6 +23,6 @@ class SystemPermissionController extends Controller
      */
     public function index()
     {
-        return view('admin.system.permission', $this->adminResponse());
+        return view('admin.system.role', $this->adminResponse());
     }
 }

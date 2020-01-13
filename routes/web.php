@@ -45,7 +45,7 @@ Route::group(['prefix' => 'ctl'], function () {
         });
 
         Route::group(['prefix' => 'system', 'namespace' => 'System'], function () {
-            Route::get('/permission', 'SystemPermissionController@index');
+            Route::get('/role', 'SystemRoleController@index');
             Route::get('/user', 'SystemUserController@index');
             Route::get('/login', 'SystemLoginController@index');
             Route::get('/operation', 'SystemOperationController@index');

@@ -13,18 +13,18 @@
           </div>
           <div class="card-body">
             <p class="card-description text-center">
-            <div class="bmd-form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
+            <div class="bmd-form-group{{ $errors->has('account') ? ' has-danger' : '' }}">
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <i class="material-icons">email</i>
+                    <i class="material-icons">person</i>
                   </span>
                 </div>
-                <input type="email" name="email" class="form-control" placeholder="{{ __('Email...') }}" value="{{ old('email', 'mckey067@gmail.com') }}" required>
+                <input type="input" name="account" class="form-control" placeholder="{{ __('Account...') }}" value="{{ old('account', 'admin001') }}" required>
               </div>
-              @if ($errors->has('email'))
-                <div id="email-error" class="error text-danger pl-3" for="email" style="display: block;">
-                  <strong>{{ $errors->first('email') }}</strong>
+              @if ($errors->has('account'))
+                <div id="account-error" class="error text-danger pl-3" for="account" style="display: block;">
+                  <strong>{{ $errors->first('account') }}</strong>
                 </div>
               @endif
             </div>

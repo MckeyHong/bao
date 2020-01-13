@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use App\Services\Admin\System\SystemLoginServices;
 
 class LoginController extends Controller
 {
@@ -28,23 +29,43 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = 'ctl/home';
+    protected $systemLoginSrv;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(SystemLoginServices $systemLoginSrv)
     {
+        $this->systemLoginSrv = $systemLoginSrv;
         $this->middleware('guest')->except('logout');
     }
 
     protected function guard()
     {
-        // dd(1);
         return Auth::guard('user');
     }
+
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        $ip = get_real_ip($request->ip());
+        if ($this->attemptLogin($request)) {
+            $this->systemLoginSrv->store($ip, Auth::user());
+            return $this->sendLoginResponse($request);
+        }
+
+        $this->systemLoginSrv->store($ip, $request->all(), 2);
+
+
+        $this->incrementLoginAttempts($request);
+
+        return $this->sendFailedLoginResponse($request);
+    }
+
 
     /**
      * Log the user out of the application.
@@ -59,5 +80,10 @@ class LoginController extends Controller
         $request->session()->invalidate();
 
         return $this->loggedOut($request) ?: redirect('/ctl/home');
+    }
+
+    public function username()
+    {
+        return 'account';
     }
 }

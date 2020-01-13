@@ -34,10 +34,10 @@ return [
         ],
         [
             'key'    => 'system',
-            'active' => ['systemPermission', 'systemUser', 'systemLogin', 'systemOperation'],
+            'active' => ['systemRole', 'systemUser', 'systemLogin', 'systemOperation'],
             'icon'   => 'build',
             'menu'   => [
-                ['key' => 'systemPermission', 'path' => 'ctl/system/permission'],
+                ['key' => 'systemRole', 'path' => 'ctl/system/role'],
                 ['key' => 'systemUser', 'path' => 'ctl/system/user'],
                 ['key' => 'systemLogin', 'path' => 'ctl/system/login'],
                 ['key' => 'systemOperation', 'path' => 'ctl/system/operation'],

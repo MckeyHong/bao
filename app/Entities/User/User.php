@@ -19,7 +19,7 @@ class User extends BaoModel implements AuthorizableContract, AuthenticatableCont
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'active',
+        'name', 'account', 'password', 'active', 'role_id',
     ];
 
     /**
@@ -29,14 +29,5 @@ class User extends BaoModel implements AuthorizableContract, AuthenticatableCont
      */
     protected $hidden = [
         'password', 'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
     ];
 }

@@ -229,7 +229,7 @@ return [
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
         'Agent'        => Jenssegers\Agent\Facades\Agent::class,
-        'GeoIP'        => Torann\GeoIP\Facades\GeoIP::class,
+        'GeoIP'        => Torann\GeoIP\GeoIPFacade::class,
     ],
 
 ];
