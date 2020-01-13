@@ -3,8 +3,9 @@
 return [
     'websiteName' => '余额宝',
     'common' => [
-        'noData' => '没有任何记录',
-        'all'    => '全部',
+        'noData'    => '没有任何记录',
+        'all'       => '全部',
+        'plzSelect' => '请选择',
     ],
     'web' => [
         'func' => [
@@ -22,6 +23,8 @@ return [
         'delete' => '删除',
         'log'    => '历程',
         'search' => '搜寻',
+        'goList' => '返回列表',
+        'submit' => '确定',
     ],
     'admin' => [
         'browser' => '管理系统',
@@ -104,6 +107,34 @@ return [
             'enable'  => '启用',
             'disable' => '停用',
             'add'     => '新增',
+        ],
+        'detail' => [
+            'create' => [
+                'systemUser' => '新增帐号',
+            ],
+            'update' => [
+                'editUser' => '修改帐号',
+            ],
+        ],
+        'form' => [
+            'systemUser' => [
+                'account'               => '帐号',
+                'password'              => '密码',
+                'password_confirmation' => '确认密码',
+                'name'                  => '名称',
+                'role_id'               => '角色',
+                'active'                => '状态',
+            ],
+        ],
+        'placeholder' => [
+            'account'               => '4~30个英文数字组合',
+            'password'              => '6~20个英文数字组合',
+            'name'                  => '不得超过30个字元',
+            'password_confirmation' => '再次输入密码',
+        ],
+        'result' => [
+            'createSuccess' => '新建成功',
+            'createFalse'   => '新建失败',
         ],
         'statusList' => ['全部', '启用', '停用'],
         'activeList' => ['全部', '启用', '停用'],

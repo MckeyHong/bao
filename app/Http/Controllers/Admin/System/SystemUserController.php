@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin\System;
 
+use Cache;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use App\Services\Admin\DropdownServices;
 use App\Services\Admin\System\SystemUserServices;
 
@@ -21,7 +23,7 @@ class SystemUserController extends Controller
      * 列表清單
      *
      * @param \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Support\Facades\Blade
      */
     public function index(Request $request)
     {
@@ -34,10 +36,63 @@ class SystemUserController extends Controller
             'active'  => in_array($request->input('active'), [1, 2]) ? $request->input('active') : 0,
         ];
 
-        return view('admin.system.user', array_merge($this->adminResponse(), [
+        return view('admin.system.user', array_merge(array_merge($this->adminResponse(), $this->getExecuteResult()), [
             'get'   => $params,
             'role'  => $role,
             'lists' => $this->systemUserSrv->index($params, $role)['data'],
         ]));
+    }
+
+    /**
+     * 新增清單
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Support\Facades\Blade
+     */
+    public function getStore(Request $request)
+    {
+        $dropdownSrv = new DropdownServices();
+        $role = $dropdownSrv->dropdown('role');
+        return view('admin.system.userCreate', array_merge($this->adminResponse(), ['role' => $role]));
+    }
+
+    /**
+     * 新增清單
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function store(Request $request)
+    {
+        // 參數驗證
+        $this->buildAccountValidation();
+        $error = $request->validate([
+            'role_id'  => 'required|exists:roles,id',
+            'account'  => 'required|min:4|max:30|non_exists:0',
+            'password' => 'required|password|min:6|max:20',
+            'name'     => 'required|max:30',
+            'active'   => 'required|in:1,2',
+        ]);
+        // 執行結果
+        $result = $this->systemUserSrv->store($request->all());
+        if ($result['result']) {
+            Cache::put('executeResult', 'success', 5);
+            Cache::put('executeMessage', trans('custom.admin.result.createSuccess'), 5);
+        } else {
+            Cache::put('executeResult', 'danger', 5);
+            Cache::put('executeMessage', trans('custom.admin.result.createFalse'), 5);
+        }
+        return redirect('/ctl/system/user');
+    }
+
+    /**
+     * 建置帳號重複驗查詢
+     *
+     */
+    public function buildAccountValidation()
+    {
+        Validator::extend('non_exists', function ($attribute, $value, $parameters, $validator) {
+            return $this->systemUserSrv->checkAccountExists($value, $parameters[0]);
+        });
     }
 }

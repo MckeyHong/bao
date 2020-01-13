@@ -126,5 +126,6 @@
         <script src="{{ asset('js/admin/material-dashboard.js?v=2.1.1') }}" type="text/javascript"></script>
         <script src="{{ asset('js/admin/settings.js') }}"></script>
         @stack('js')
+        @stack('executejs')
     </body>
 </html>

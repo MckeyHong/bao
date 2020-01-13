@@ -61,6 +61,7 @@ class Controller extends BaseController
         $path = explode('/', Request::path());
         $nowPathKey = ($path[1] ?? '').ucfirst($path[2] ?? '');
         // 依帳號角色功能權限調整功能顯示清單
+        $activePath = '/ctl/home';
         $permission = [];
         $userPermission = Cache::tags(['adminPermission'])->get($user['id']);
         if ($userPermission == null) {
@@ -83,6 +84,7 @@ class Controller extends BaseController
                     $cate['aria'] = 'true';
                     $cate['show'] = 'show';
                     $menu['active'] = 'active';
+                    $activePath = $menu['path'];
                 }
                 if (($userPermission[$menu['path']]['is_get'] ?? 2) == 1) {
                     $tmpMenu[] = $menu;
@@ -95,9 +97,31 @@ class Controller extends BaseController
         }
 
         return [
-            'sidebarMenu' => $permission,
-            'activePage'  => $nowPathKey,
-            'titlePage'   => trans('custom.admin.func.' . $nowPathKey),
+            'sidebarMenu'    => $permission,
+            'activePage'     => $nowPathKey,
+            'activePath'     => $activePath,
+            'titlePage'      => trans('custom.admin.func.' . $nowPathKey),
+        ];
+    }
+
+    /**
+     * 取得編輯頁的執行結果
+     *
+     * @return array
+     */
+    public function getExecuteResult()
+    {
+        $executeResult = $executeMessage = '';
+        if (Cache::has('executeResult')) {
+            $executeResult = Cache::get('executeResult');
+            $executeMessage = Cache::get('executeMessage');
+            Cache::forget('executeResult');
+            Cache::forget('executeMessage');
+        }
+
+        return [
+            'executeResult'  => $executeResult,
+            'executeMessage' => $executeMessage,
         ];
     }
 }

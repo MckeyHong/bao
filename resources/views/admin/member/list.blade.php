@@ -71,7 +71,7 @@
                         @if ($value['active'] == '1')
                         <span class="text-success">{{ trans('custom.admin.text.enable') }}</span>
                         @else
-                        <span class="text-false">{{ trans('custom.admin.text.disable') }}</span>
+                        <span class="text-danger">{{ trans('custom.admin.text.disable') }}</span>
                         @endif
                     </td>
                     <td style="width:80px">&nbsp;</td>

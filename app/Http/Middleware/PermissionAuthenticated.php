@@ -30,7 +30,25 @@ class PermissionAuthenticated
             }
             Cache::tags(['adminPermission'])->put($user['id'], $permission, 1440);
         }
-        if (($permission[$request->path()]['is_' . strtolower($request->method())] ?? 2) != 1) {
+
+        $tmp = explode('/', $request->path());
+        if (count($tmp) > 3) { // 內頁
+            $path = $tmp[0] . '/' . $tmp[1] . '/' . $tmp[2];
+            switch ($tmp[3]) {
+                case 'create':
+                    $method = 'is_post';
+                    break;
+                case 'edit':
+                    $method = 'is_put';
+                    break;
+                default:
+                    $method = '';
+            }
+        } else {
+            $path = $request->path();
+            $method = 'is_' . strtolower($request->method());
+        }
+        if (($permission[$path][$method] ?? 2) != 1) {
             abort(403);
         }
 

@@ -5,6 +5,9 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
+        @if ($executeResult != '')
+          @extends('layouts.execute')
+        @endif
         <div class="card">
           <div class="card-body">
             <div class="search-bar">
@@ -45,7 +48,7 @@
                   </button>
                 </div>
                 <div class="float-right">
-                  <a href="#" class="btn btn-sm btn-primary">{{ trans('custom.admin.text.add') }}<div class="ripple-container"></div></a>
+                  <a href="{{ asset('ctl/system/user/create') }}" class="btn btn-sm btn-primary">{{ trans('custom.admin.text.add') }}<div class="ripple-container"></div></a>
                 </div>
                 <div class="clearfix"></div>
               </form>
@@ -75,7 +78,7 @@
                         @if ($value['active'] == '1')
                         <span class="text-success">{{ trans('custom.admin.text.enable') }}</span>
                         @else
-                        <span class="text-false">{{ trans('custom.admin.text.disable') }}</span>
+                        <span class="text-danger">{{ trans('custom.admin.text.disable') }}</span>
                         @endif
                     </td>
                     <td style="width: 150px">{{ $value['created_at'] }}</td>

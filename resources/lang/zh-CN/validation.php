@@ -41,6 +41,7 @@ return [
     'email'          => ':attribute 不是一个合法的邮箱。',
     'ends_with'      => ':attribute 必须以 :values 为结尾。',
     'exists'         => ':attribute 不存在。',
+    'non_exists'     => ':attribute 已存在，不得重复。',
     'file'           => ':attribute 必须是文件。',
     'filled'         => ':attribute 不能为空。',
     'gt'             => [
@@ -175,5 +176,8 @@ return [
         'time'                  => '时间',
         'available'             => '可用的',
         'size'                  => '大小',
+        'role_id'               => '角色',
+        'account'               => '帐号',
+        'active'                => '状态',
     ],
 ];
