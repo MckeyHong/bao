@@ -45,6 +45,18 @@ abstract class BaoModel extends Model
     }
 
     /**
+     * 取得對應狀態資訊
+     *
+     * @param  object  $query
+     * @param  integer $status
+     * @return mixed
+     */
+    public function scopeStatus($query, $status = 1)
+    {
+        return $query->where('status', $status);
+    }
+
+    /**
      * 取得連線名稱
      *
      * @return string

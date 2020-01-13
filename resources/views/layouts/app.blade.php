@@ -15,15 +15,6 @@
     <!-- CSS Files -->
     <link href="{{ asset('css/admin/material-dashboard.css?v=2.1.1') }}" rel="stylesheet" />
     <style>
-        .pagination {
-            margin: 15px 0;
-            border: 1px solid #eee;
-            border-right: 0;
-        }
-        .page-item {
-            border-right: 1px solid #eee;
-        }
-
         .table-bordered th {
             background: #eee;
             font-weight: bold !important;
@@ -36,6 +27,16 @@
             border: 1px solid #ddd !important;
             text-align: center;
         }
+
+        .pagination-block {
+            margin-top: 20px;
+            text-align: center !important;
+        }
+
+        .pagination-block nav {
+            display: inline-block !important;
+        }
+
     </style>
     </head>
     <body class="{{ $class ?? '' }}">

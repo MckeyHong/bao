@@ -19,7 +19,29 @@ class SystemLoginServices
     }
 
     /**
-     * 新增會員登入紀錄
+     * 取得登入日誌列表清單
+     *
+     * @param  array    $params
+     * @return array
+     */
+    public function index($params)
+    {
+        try {
+            return [
+                'result' => true,
+                'data'   => $this->userLoginRepo->getAdminList($params),
+            ];
+        } catch (\Exception $e) {
+            return [
+                'result' => false,
+                'data'   => [],
+                'error'  => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * 新增後後帳號登入紀錄
      *
      * @param  string   $ip
      * @param  array    $user
@@ -35,6 +57,7 @@ class SystemLoginServices
                 'user_name'    => $user['name'],
                 'login_ip'     => $ip,
                 'area'         => $this->areaSrv->getArea($ip),
+                'status'       => $status,
             ]);
             return ['result' => true];
         } catch (\Exception $e) {

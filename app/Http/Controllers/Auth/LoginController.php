@@ -54,15 +54,19 @@ class LoginController extends Controller
 
         $ip = get_real_ip($request->ip());
         if ($this->attemptLogin($request)) {
-            $this->systemLoginSrv->store($ip, Auth::user());
+            $user = Auth::user();
+            if ($user['active'] != 1) {
+                $this->guard()->logout();
+                $request->session()->invalidate();
+                $this->systemLoginSrv->store($ip, $user, 4);
+                $this->incrementLoginAttempts($request);
+                redirect('/ctl/login');
+            }
+            $this->systemLoginSrv->store($ip, $user);
             return $this->sendLoginResponse($request);
         }
-
-        $this->systemLoginSrv->store($ip, $request->all(), 2);
-
-
+        $this->systemLoginSrv->store($ip, ['user_account' => $request->input('account', '')], 4);
         $this->incrementLoginAttempts($request);
-
         return $this->sendFailedLoginResponse($request);
     }
 
@@ -75,9 +79,12 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
+        $user = Auth::user();
         $this->guard()->logout();
 
         $request->session()->invalidate();
+
+        $this->systemLoginSrv->store(get_real_ip($request->ip()), $user, 2);
 
         return $this->loggedOut($request) ?: redirect('/ctl/home');
     }

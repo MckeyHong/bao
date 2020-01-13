@@ -2,6 +2,9 @@
 
 return [
     'websiteName' => '余额宝',
+    'common' => [
+        'noData' => '没有任何记录',
+    ],
     'web' => [
         'func' => [
             '/'          => '',
@@ -46,5 +49,19 @@ return [
                 'status'     => '状态',
             ],
         ],
+        'search' => [
+            'time'    => '时间',
+            'account' => '帐号',
+            'status'  => '状态',
+        ],
+        'text' => [
+            'system' => [
+                'loginSuccess'  => '登入成功',
+                'loginFalse'    => '登入失败',
+                'logoutAuto'    => '强制登出',
+                'logoutSuccess' => '正常登出',
+            ]
+        ],
+        'statusList' => ['全部', '启用', '停用'],
     ],
 ];
