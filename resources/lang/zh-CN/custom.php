@@ -41,6 +41,13 @@ return [
             'systemOperation'  => '操作日志',
         ],
         'table' => [
+            'platformList' => [
+                'name'       => '名称',
+                'present'    => '目前利率',
+                'future'     => '预改利率',
+                'active'     => '状态',
+                'updated_at' => '最近更新时间',
+            ],
             'systemLogin' => [
                 'created_at' => '登入时间',
                 'user'       => '帐号 (名称)',
@@ -55,12 +62,16 @@ return [
             'status'  => '状态',
         ],
         'text' => [
+            'action' => '操作',
+            'log'    => '历程',
             'system' => [
                 'loginSuccess'  => '登入成功',
                 'loginFalse'    => '登入失败',
                 'logoutAuto'    => '强制登出',
                 'logoutSuccess' => '正常登出',
-            ]
+            ],
+            'enable'  => '启用',
+            'disable' => '停用',
         ],
         'statusList' => ['全部', '启用', '停用'],
     ],

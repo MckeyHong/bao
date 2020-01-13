@@ -15,14 +15,14 @@ class UserLoginRepository
     }
 
     /**
-     * [控端] 登入日誌列表清單
+     * [控端] 列表清單
      *
      * @param  array   $params
      * @return mixed
      */
     public function getAdminList($params)
     {
-        $query = UserLogin::select(['*'])
+        $query = UserLogin::select(['created_at', 'user_account', 'user_name', 'login_ip', 'area', 'status'])
                         ->whereBetween('created_at', [$params['start'], $params['end']]);
 
         if (isset($params['status']) && $params['status'] > 0) {

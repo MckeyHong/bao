@@ -30,4 +30,16 @@ class PlatformRepository
                           ->where('ip', $ip)
                           ->first();
     }
+
+
+    /**
+     * [控端] 列表清單
+     *
+     * @return mixed
+     */
+    public function getAdminList()
+    {
+        return Platform::select(['id', 'name', 'present', 'future', 'active', 'created_at', 'updated_at'])
+                        ->paginate(config('custom.admin.paginate'));
+    }
 }

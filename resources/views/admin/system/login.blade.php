@@ -1,26 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<style type="text/css">
-.search-bar {
-  margin-bottom: 10px;
-  line-height: 51px;
-}
-
-.search-label {
-  line-height: 51px;
-}
-
-.form-control-selector {
-  line-height: 36px;
-  padding: 0 15px;
-}
-
-.search-input {
-  height: 41px;
-  padding: 10px 0 0 5px;
-}
-</style>
 <div class="content">
   <div class="container-fluid">
     <div class="row">

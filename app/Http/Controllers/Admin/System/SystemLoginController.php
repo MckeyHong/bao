@@ -21,7 +21,7 @@ class SystemLoginController extends Controller
     }
 
     /**
-     * 登入日誌列表頁.
+     * 列表清單
      *
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Support\Renderable

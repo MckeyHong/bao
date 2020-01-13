@@ -37,6 +37,36 @@
             display: inline-block !important;
         }
 
+        .search-bar {
+          margin-bottom: 10px;
+          line-height: 51px;
+        }
+
+        .search-label {
+          line-height: 51px;
+        }
+
+        .form-control-selector {
+          line-height: 36px;
+          padding: 0 15px;
+        }
+
+        .search-input {
+          height: 41px;
+          padding: 10px 0 0 5px;
+        }
+
+        .lists-icons {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 3px 5px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .lists-icon:hover {
+            background-color: #ff9800 !important;
+        }
     </style>
     </head>
     <body class="{{ $class ?? '' }}">
