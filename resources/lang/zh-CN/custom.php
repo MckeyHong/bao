@@ -25,6 +25,7 @@ return [
         'search' => '搜寻',
         'goList' => '返回列表',
         'submit' => '确定',
+        'reset'  => '重置',
     ],
     'admin' => [
         'browser' => '管理系统',

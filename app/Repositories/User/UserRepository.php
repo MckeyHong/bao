@@ -34,7 +34,7 @@ class UserRepository
             $query = $query->where('user_account', 'LIKE', $params['account'] . '%');
         }
 
-        return $query->orderBy('account', 'ASC')
+        return $query->orderBy('created_at', 'DESC')
                      ->paginate(config('custom.admin.paginate'));
     }
 }

@@ -51,6 +51,10 @@
           padding: 0 15px;
         }
 
+        .search-button-block {
+            margin-top: -7px;
+        }
+
         .search-input {
           height: 41px;
           padding: 10px 0 0 5px;

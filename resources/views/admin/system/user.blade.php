@@ -5,9 +5,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        @if ($executeResult != '')
-          @extends('layouts.execute')
-        @endif
+        @extends('layouts.execute')
         <div class="card">
           <div class="card-body">
             <div class="search-bar">
@@ -42,7 +40,7 @@
                   </div>
                   <div class="clearfix"></div>
                 </div>
-                <div class="float-left">
+                <div class="float-left search-button-block">
                   <button type="submit" class="btn btn-white btn-round btn-just-icon btn-search" title="{{ trans('custom.button.search') }}">
                     <i class="material-icons">search</i>
                   </button>

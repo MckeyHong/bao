@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ asset('ctl/system/user') }}" autocomplete="off" class="form-horizontal">
+          <form id="operationForm" method="post" action="{{ asset('ctl/system/user') }}" autocomplete="off" class="form-horizontal">
             @csrf
             <input type="hidden" name="_method" value="post">
             <div class="card">
@@ -114,6 +114,7 @@
                 </div>
               </div>
               <div class="card-footer ml-auto mr-auto">
+                <button type="button" class="btn btn-default mr-4" onclick="document.getElementById('operationForm').reset();">{{ trans('custom.button.reset') }}</button>
                 <button type="submit" class="btn btn-primary">{{ trans('custom.button.submit') }}</button>
               </div>
             </div>
