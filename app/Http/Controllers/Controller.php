@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Api\Traits\Member\MemberCreditTraits;
+use App\Repositories\Role\RolePermissionRepository;
 
 class Controller extends BaseController
 {
@@ -60,8 +61,18 @@ class Controller extends BaseController
         $path = explode('/', Request::path());
         $nowPathKey = ($path[1] ?? '').ucfirst($path[2] ?? '');
         // 依帳號角色功能權限調整功能顯示清單
-        $userPermission = Cache::tags(['adminPermission'])->get($user['id']);
         $permission = [];
+        $userPermission = Cache::tags(['adminPermission'])->get($user['id']);
+        if ($userPermission == null) {
+            $userPermission = [];
+            $repo = new RolePermissionRepository();
+            $tmp = $repo->getListByRoleId($user['role_id']);
+            foreach ($tmp as $value) {
+                $value = $value->toArray();
+                $userPermission[$value['path']] = $value;
+            }
+            Cache::tags(['adminPermission'])->put($user['id'], $userPermission, 1440);
+        }
         foreach (config('permission.func') as $cate) {
             $cate['active'] = $cate['aria'] = $cate['show'] = '';
             $tmpMenu = [];
