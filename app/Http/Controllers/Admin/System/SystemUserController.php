@@ -57,7 +57,7 @@ class SystemUserController extends Controller
     }
 
     /**
-     * 新增清單
+     * 新增資料
      *
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Support\Renderable
@@ -76,11 +76,31 @@ class SystemUserController extends Controller
         // 執行結果
         $result = $this->systemUserSrv->store($request->all());
         if ($result['result']) {
-            Cache::put('executeResult', 'success', 5);
-            Cache::put('executeMessage', trans('custom.admin.result.createSuccess'), 5);
+            $this->setExecuteResult('success', trans('custom.admin.result.createSuccess'));
         } else {
-            Cache::put('executeResult', 'danger', 5);
-            Cache::put('executeMessage', trans('custom.admin.result.createFalse'), 5);
+            $this->setExecuteResult('danger', trans('custom.admin.result.createFalse'));
+        }
+        return redirect('/ctl/system/user');
+    }
+
+    /**
+     * 刪除資料
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param  inteeger                 $id
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function destroy(Request $request, $id)
+    {
+        $request['user_id'] = $id;
+        $error = $request->validate(['user_id' => 'required|exists:users,id']);
+
+        // 執行結果
+        $result = $this->systemUserSrv->destroy($id);
+        if ($result['result']) {
+            $this->setExecuteResult('success', trans('custom.admin.result.destroySuccess'));
+        } else {
+            $this->setExecuteResult('danger', trans('custom.admin.result.destroyFalse'));
         }
         return redirect('/ctl/system/user');
     }

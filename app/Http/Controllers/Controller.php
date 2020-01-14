@@ -105,7 +105,18 @@ class Controller extends BaseController
     }
 
     /**
-     * 取得編輯頁的執行結果
+     * 設定操作的執行結果
+     *
+     * @return array
+     */
+    public function setExecuteResult($result, $message)
+    {
+        Cache::put('executeResult', $result, 5);
+        Cache::put('executeMessage', $message, 5);
+    }
+
+    /**
+     * 取得設定操作的執行結果
      *
      * @return array
      */

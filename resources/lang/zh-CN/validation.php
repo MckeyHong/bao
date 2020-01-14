@@ -179,5 +179,6 @@ return [
         'role_id'               => '角色',
         'account'               => '帐号',
         'active'                => '状态',
+        'user_id'               => '帐号',
     ],
 ];

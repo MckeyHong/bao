@@ -77,6 +77,24 @@ class SystemUserServices
     }
 
     /**
+     * 刪除
+     *
+     * @param  integer $id
+     * @return array
+     */
+    public function destroy($id)
+    {
+        try {
+            return ['result' => $this->userRepo->destroy($id)];
+        } catch (\Exception $e) {
+            return [
+                'result' => false,
+                'error'  => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
      * 檢查帳號是否存在
      *
      * @param  string   $account

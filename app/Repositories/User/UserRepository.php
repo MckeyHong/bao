@@ -22,7 +22,7 @@ class UserRepository
      */
     public function getAdminList($params)
     {
-        $query = User::select(['account', 'name', 'role_id', 'active', 'created_at']);
+        $query = User::select(['id', 'account', 'name', 'role_id', 'active', 'created_at']);
 
         if (isset($params['role']) && $params['role'] > 0) {
             $query = $query->where('role_id', $params['role']);

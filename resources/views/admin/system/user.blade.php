@@ -68,6 +68,10 @@
                   <tr><td colspan="6">{{ trans('custom.common.noData') }}</td></tr>
                   @endif
                   @foreach ($lists as $value)
+                  @php
+                    $value['deletePath'] = asset('ctl/system/user') . '/' . $value['id'];
+                    $value['deleteMsg'] = trans('custom.admin.table.systemUser.account') . '：' . $value['account'];
+                  @endphp
                   <tr>
                     <td>{{ $value['role_id'] }}</td>
                     <td>{{ $value['account'] }}</td>
@@ -82,7 +86,7 @@
                     <td style="width: 150px">{{ $value['created_at'] }}</td>
                     <td style="width: 150px">
                         <i class="material-icons lists-icons" title="{{ trans('custom.button.edit') }}">edit</i>
-                        <i class="material-icons lists-icons lists-icons-multi" title="{{ trans('custom.button.delete') }}">delete</i>
+                        <i class="material-icons lists-icons lists-icons-multi" title="{{ trans('custom.button.delete') }}" onclick="deleteConfirm('{{ $value['deletePath'] }}', '{{ $value['deleteMsg'] }}')">delete</i>
                         <i class="material-icons lists-icons lists-icons-multi" title="{{ trans('custom.button.log') }}">description</i>
                     </td>
                   </tr>
@@ -101,4 +105,5 @@
     </div>
   </div>
 </div>
+@extends('layouts.modal.delete')
 @endsection

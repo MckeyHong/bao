@@ -42,7 +42,7 @@ class PermissionAuthenticated
                     $method = 'is_put';
                     break;
                 default:
-                    $method = '';
+                    $method = 'is_' . strtolower($request->method());
             }
         } else {
             $path = $request->path();

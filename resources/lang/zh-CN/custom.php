@@ -26,6 +26,7 @@ return [
         'goList' => '返回列表',
         'submit' => '确定',
         'reset'  => '重置',
+        'close'  => '关闭',
     ],
     'admin' => [
         'browser' => '管理系统',
@@ -134,10 +135,20 @@ return [
             'password_confirmation' => '再次输入密码',
         ],
         'result' => [
-            'createSuccess' => '新建成功',
-            'createFalse'   => '新建失败',
+            'createSuccess'  => '新建成功',
+            'createFalse'    => '新建失败',
+            'destroySuccess' => '删除成功',
+            'destroyFalse'   => '删除失败',
         ],
         'statusList' => ['全部', '启用', '停用'],
         'activeList' => ['全部', '启用', '停用'],
+        'modal' => [
+            'title' => [
+                'delete' => '系统提示讯息'
+            ],
+            'body' => [
+                'delete' => '确定要删除下面此资料??',
+            ],
+        ],
     ],
 ];
