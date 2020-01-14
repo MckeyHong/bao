@@ -77,6 +77,59 @@ class SystemUserServices
     }
 
     /**
+     * 取得帳號資訊
+     *
+     * @param  integer  $id
+     * @return array
+     */
+    public function getEdit($id)
+    {
+        try {
+            return [
+                'result' => true,
+                'data'   => $this->userRepo->find($id),
+            ];
+        } catch (\Exception $e) {
+            return [
+                'result' => false,
+                'data'   => [],
+                'error'  => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * 編輯
+     *
+     * @param  integer  $id
+     * @param  array    $request
+     * @return array
+     */
+    public function edit($id, $request)
+    {
+        try {
+            $result = DB::transaction(function () use ($id, $request) {
+                $params = [
+                    'role_id'  => $request['role_id'],
+                    'name'     => $request['name'],
+                    'active'   => $request['active'],
+                ];
+                if (isset($request['password']) && $request['password'] != '') {
+                    $params['password'] = Hash::make($request['password']);
+                }
+                $this->userRepo->update($id, $params);
+                return true;
+            });
+            return ['result' => $result];
+        } catch (\Exception $e) {
+            return [
+                'result' => false,
+                'error'  => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
      * 刪除
      *
      * @param  integer $id

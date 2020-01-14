@@ -114,8 +114,8 @@ return [
             'create' => [
                 'systemUser' => '新增帐号',
             ],
-            'update' => [
-                'editUser' => '修改帐号',
+            'edit' => [
+                'systemUser' => '修改帐号',
             ],
         ],
         'form' => [
@@ -135,8 +135,10 @@ return [
             'password_confirmation' => '再次输入密码',
         ],
         'result' => [
-            'createSuccess'  => '新建成功',
-            'createFalse'    => '新建失败',
+            'storeSuccess'   => '新建成功',
+            'storeFalse'     => '新建失败',
+            'editSuccess'    => '编辑成功',
+            'editFalse'      => '编辑失败',
             'destroySuccess' => '删除成功',
             'destroyFalse'   => '删除失败',
         ],

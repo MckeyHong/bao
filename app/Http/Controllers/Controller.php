@@ -107,10 +107,19 @@ class Controller extends BaseController
     /**
      * 設定操作的執行結果
      *
+     * @param string  $execute
+     * @param string  $head
      * @return array
      */
-    public function setExecuteResult($result, $message)
+    public function setExecuteResult($execute, $head)
     {
+        if ($execute) {
+            $result = 'success';
+            $message = trans('custom.admin.result.' . $head . 'Success');
+        } else {
+            $result = 'danger';
+            $message = trans('custom.admin.result.' . $head . 'False');
+        }
         Cache::put('executeResult', $result, 5);
         Cache::put('executeMessage', $message, 5);
     }

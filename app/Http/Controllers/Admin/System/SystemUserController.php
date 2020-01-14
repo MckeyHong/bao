@@ -20,7 +20,7 @@ class SystemUserController extends Controller
     }
 
     /**
-     * 列表清單
+     * 列表清單頁面
      *
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Support\Facades\Blade
@@ -44,7 +44,7 @@ class SystemUserController extends Controller
     }
 
     /**
-     * 新增清單
+     * 新增清單頁面
      *
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Support\Facades\Blade
@@ -75,11 +75,59 @@ class SystemUserController extends Controller
         ]);
         // 執行結果
         $result = $this->systemUserSrv->store($request->all());
-        if ($result['result']) {
-            $this->setExecuteResult('success', trans('custom.admin.result.createSuccess'));
-        } else {
-            $this->setExecuteResult('danger', trans('custom.admin.result.createFalse'));
+        $this->setExecuteResult($result['result'], 'store');
+        return redirect('/ctl/system/user');
+    }
+
+    /**
+     * 編輯資料頁面
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param  inteeger                 $id
+     * @return \Illuminate\Support\Facades\Blade
+     */
+    public function getEdit(Request $request, $id)
+    {
+        $request['id'] = $id;
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:users,id',
+        ]);
+        if ($validator->fails()) {
+            abort(404);
         }
+        $dropdownSrv = new DropdownServices();
+        $role = $dropdownSrv->dropdown('role');
+        return view('admin.system.userEdit', array_merge($this->adminResponse(), [
+            'role'   => $role,
+            'detail' => $this->systemUserSrv->getEdit($id)['data'],
+        ]));
+    }
+
+    /**
+     * 編輯資料
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param  inteeger                 $id
+     * @return \Illuminate\Support\Facades\Blade
+     */
+    public function edit(Request $request, $id)
+    {
+        // 參數驗證
+        $request['user_id'] = $id;
+        $params = [
+            'user_id'  => 'required|exists:users,id',
+            'role_id'  => 'required|exists:roles,id',
+            'name'     => 'required|max:30',
+            'active'   => 'required|in:1,2',
+        ];
+        if ($request->input('password', '') !== '' && $request->input('password', '') !== null) {
+            $params['password'] = 'password|min:6|max:20';
+        }
+        $request->validate($params);
+
+        // 執行結果
+        $result = $this->systemUserSrv->edit($id, $request->all());
+        $this->setExecuteResult($result['result'], 'edit');
         return redirect('/ctl/system/user');
     }
 
@@ -97,11 +145,7 @@ class SystemUserController extends Controller
 
         // 執行結果
         $result = $this->systemUserSrv->destroy($id);
-        if ($result['result']) {
-            $this->setExecuteResult('success', trans('custom.admin.result.destroySuccess'));
-        } else {
-            $this->setExecuteResult('danger', trans('custom.admin.result.destroyFalse'));
-        }
+        $this->setExecuteResult($result['result'], 'destroy');
         return redirect('/ctl/system/user');
     }
 

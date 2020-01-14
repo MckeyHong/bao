@@ -85,7 +85,7 @@
                     </td>
                     <td style="width: 150px">{{ $value['created_at'] }}</td>
                     <td style="width: 150px">
-                        <i class="material-icons lists-icons" title="{{ trans('custom.button.edit') }}">edit</i>
+                        <i class="material-icons lists-icons" title="{{ trans('custom.button.edit') }}" onclick="window.location.href='{{ asset('ctl/system/user/edit/' . $value['id']) }}'">edit</i>
                         <i class="material-icons lists-icons lists-icons-multi" title="{{ trans('custom.button.delete') }}" onclick="deleteConfirm('{{ $value['deletePath'] }}', '{{ $value['deleteMsg'] }}')">delete</i>
                         <i class="material-icons lists-icons lists-icons-multi" title="{{ trans('custom.button.log') }}">description</i>
                     </td>
