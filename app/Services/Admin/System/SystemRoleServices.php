@@ -93,4 +93,28 @@ class SystemRoleServices
             ];
         }
     }
+
+    /**
+     * 刪除
+     *
+     * @param  integer $id
+     * @return array
+     */
+    public function destroy($id)
+    {
+        try {
+            $result = DB::transaction(function () use ($id) {
+                $this->roleRepo->destroy($id);
+                $this->rolePermissionRepo->deleteByWhere('role_id', $id);
+                return true;
+            });
+
+            return ['result' => $result];
+        } catch (\Exception $e) {
+            return [
+                'result' => false,
+                'error'  => $e->getMessage(),
+            ];
+        }
+    }
 }

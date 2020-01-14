@@ -60,4 +60,22 @@ class SystemRoleController extends Controller
         $this->setExecuteResult($result['result'], 'store');
         return redirect('/ctl/system/role');
     }
+
+    /**
+     * 刪除資料
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param  inteeger                 $id
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function destroy(Request $request, $id)
+    {
+        $request['role_id'] = $id;
+        $error = $request->validate(['role_id' => 'required|exists:roles,id']);
+
+        // 執行結果
+        $result = $this->systemRoleSrv->destroy($id);
+        $this->setExecuteResult($result['result'], 'destroy');
+        return redirect('/ctl/system/role');
+    }
 }
