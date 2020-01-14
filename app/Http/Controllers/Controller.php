@@ -97,10 +97,11 @@ class Controller extends BaseController
         }
 
         return [
-            'sidebarMenu'    => $permission,
-            'activePage'     => $nowPathKey,
-            'activePath'     => $activePath,
-            'titlePage'      => trans('custom.admin.func.' . $nowPathKey),
+            'sidebarMenu' => $permission,
+            'activePage'  => $nowPathKey,
+            'activePath'  => $activePath,
+            'activeUrl'   => asset($activePath),
+            'titlePage'   => trans('custom.admin.func.' . $nowPathKey),
         ];
     }
 

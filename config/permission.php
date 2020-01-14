@@ -9,8 +9,8 @@ return [
             'active' => ['platformList', 'platformActivity'],
             'icon'   => 'group',
             'menu'   => [
-                ['key' => 'platformList', 'path' => 'ctl/platform/list'],
-                ['key' => 'platformActivity', 'path' => 'ctl/platform/activity'],
+                ['key' => 'platformList', 'path' => 'ctl/platform/list', 'permission' => ['is_get', 'is_put']],
+                ['key' => 'platformActivity', 'path' => 'ctl/platform/activity', 'permission' => ['is_get', 'is_post', 'is_put', 'is_delete']],
             ],
         ],
         [
@@ -18,9 +18,9 @@ return [
             'active' => ['memberList', 'memberTransfer', 'memberLogin'],
             'icon'   => 'person',
             'menu'   => [
-                ['key' => 'memberList', 'path' => 'ctl/member/list'],
-                ['key' => 'memberTransfer', 'path' => 'ctl/member/transfer'],
-                ['key' => 'memberLogin', 'path' => 'ctl/member/login'],
+                ['key' => 'memberList', 'path' => 'ctl/member/list', 'permission' => ['is_get']],
+                ['key' => 'memberTransfer', 'path' => 'ctl/member/transfer', 'permission' => ['is_get']],
+                ['key' => 'memberLogin', 'path' => 'ctl/member/login', 'permission' => ['is_get']],
             ],
         ],
         [
@@ -28,8 +28,8 @@ return [
             'active' => ['reportMember', 'reportInterest'],
             'icon'   => 'pie_chart',
             'menu'   => [
-                ['key' => 'reportMember', 'path' => 'ctl/report/member'],
-                ['key' => 'reportInterest', 'path' => 'ctl/report/interest'],
+                ['key' => 'reportMember', 'path' => 'ctl/report/member', 'permission' => ['is_get']],
+                ['key' => 'reportInterest', 'path' => 'ctl/report/interest', 'permission' => ['is_get']],
             ],
         ],
         [
@@ -37,10 +37,10 @@ return [
             'active' => ['systemRole', 'systemUser', 'systemLogin', 'systemOperation'],
             'icon'   => 'build',
             'menu'   => [
-                ['key' => 'systemRole', 'path' => 'ctl/system/role'],
-                ['key' => 'systemUser', 'path' => 'ctl/system/user'],
-                ['key' => 'systemLogin', 'path' => 'ctl/system/login'],
-                ['key' => 'systemOperation', 'path' => 'ctl/system/operation'],
+                ['key' => 'systemRole', 'path' => 'ctl/system/role', 'permission' => ['is_get', 'is_post', 'is_put', 'is_delete']],
+                ['key' => 'systemUser', 'path' => 'ctl/system/user', 'permission' => ['is_get', 'is_post', 'is_put', 'is_delete']],
+                ['key' => 'systemLogin', 'path' => 'ctl/system/login', 'permission' => ['is_get']],
+                ['key' => 'systemOperation', 'path' => 'ctl/system/operation', 'permission' => ['is_get']],
             ],
         ],
     ],

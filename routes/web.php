@@ -49,7 +49,16 @@ Route::group(['prefix' => 'ctl'], function () {
 
             // 系統管理
             Route::group(['prefix' => 'system', 'namespace' => 'System'], function () {
-                Route::get('/role', 'SystemRoleController@index');
+                // 角色管理
+                Route::group(['prefix' => 'role'], function () {
+                    Route::get('/', 'SystemRoleController@index');
+                    Route::get('/create', 'SystemRoleController@getStore');
+                    Route::get('/edit/{id}', 'SystemRoleController@getEdit');
+                    Route::post('/', 'SystemRoleController@store');
+                    Route::put('/{id}', 'SystemRoleController@edit');
+                    Route::delete('/{id}', 'SystemRoleController@destroy');
+                });
+
                 // 帳號管理
                 Route::group(['prefix' => 'user'], function () {
                     Route::get('/', 'SystemUserController@index');

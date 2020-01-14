@@ -21,7 +21,7 @@ class SystemUserServices
     }
 
     /**
-     * 取得登入日誌列表清單
+     * 取得列表清單
      *
      * @param  array  $params
      * @param  array  $role

@@ -6,6 +6,7 @@ return [
         'noData'    => '没有任何记录',
         'all'       => '全部',
         'plzSelect' => '请选择',
+        'allSelect' => '全选',
     ],
     'web' => [
         'func' => [
@@ -73,6 +74,11 @@ return [
                 'area'       => '地区',
                 'device'     => '装置',
             ],
+            'systemRole' => [
+                'name'       => '名称',
+                'active'     => '状态',
+                'created_at' => '新建时间',
+            ],
             'systemUser' => [
                 'role_id'    => '角色',
                 'account'    => '帐号',
@@ -112,13 +118,25 @@ return [
         ],
         'detail' => [
             'create' => [
+                'systemRole' => '新增角色',
                 'systemUser' => '新增帐号',
             ],
             'edit' => [
+                'systemRole' => '编辑角色',
                 'systemUser' => '修改帐号',
             ],
         ],
         'form' => [
+            'systemRole' => [
+                'name'       => '名称',
+                'permission' => '功能权限设定',
+                'active'     => '状态',
+                'tableFunc'  => '功能',
+                'is_get'     => '检视',
+                'is_post'    => '新增',
+                'is_put'     => '编辑',
+                'is_delete'  => '删除',
+            ],
             'systemUser' => [
                 'account'               => '帐号',
                 'password'              => '密码',
@@ -132,6 +150,7 @@ return [
             'account'               => '4~30个英文数字组合',
             'password'              => '6~20个英文数字组合',
             'name'                  => '不得超过30个字元',
+            'roleName'              => '不得超过20个字元',
             'password_confirmation' => '再次输入密码',
         ],
         'result' => [
