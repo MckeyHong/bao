@@ -3,10 +3,12 @@
 return [
     'websiteName' => '余额宝',
     'common' => [
-        'noData'    => '没有任何记录',
-        'all'       => '全部',
-        'plzSelect' => '请选择',
-        'allSelect' => '全选',
+        'noData'         => '没有任何记录',
+        'all'            => '全部',
+        'plzSelect'      => '请选择',
+        'allSelect'      => '全选',
+        'systemNotice'   => '系统提示',
+        'internalServer' => '系统忙录中，请稍后再试，谢谢。',
     ],
     'web' => [
         'func' => [
@@ -15,6 +17,52 @@ return [
             'withdrawal' => '一键提领',
             'record'     => '历程查询',
             'rule'       => '规则说明',
+        ],
+        'deposit' => [
+            'balance'  => '余额宝钱包',
+            'rate'     => '您的专属利率',
+            'interest' => '目前累计利息',
+            'deposit'  => '转入金额',
+            'betTotal' => '今日可存(昨日洗码量)',
+            'unit'     => '元',
+            'save'     => '立即转入',
+            'table' => [
+                'deposit'      => '转入金额',
+                'interestHour' => '每小时获得利息',
+                'interestDay'  => '当日获得利息',
+            ],
+            'modal' => [
+                'content'  => '确定要执行下面步骤?',
+                'transfer' => '转入',
+                'remark'   => '* 注:其余额宝利息将重新计算配息',
+            ],
+        ],
+        'withdrawal' => [
+            'balance' => '余额宝钱包',
+            'amount'  => '提领金额',
+            'unit'    => '元',
+            'save'    => '确定提领',
+            'modal' => [
+                'content' => '确定是否要提领',
+                'remark'  => '* 注:其余额宝利息将重新计算配息',
+            ],
+        ],
+        'record' => [
+            'start'         => '从',
+            'end'           => '自',
+            'yesterday'     => '昨日',
+            'today'         => '今日',
+            'lastWeek'      => '上周',
+            'thisWeek'      => '本周',
+            'totalInterest' => '总利息',
+            'loadMore'      => '载入更多...',
+            'table' => [
+                'created_at'    => '异动时间',
+                'credit_before' => '异动前钱包',
+                'credit'        => '异动金额',
+                'credit_after'  => '异动后钱包',
+                'interest'      => '生成利息',
+            ],
         ],
     ],
     'button' => [
@@ -215,7 +263,7 @@ return [
             ],
             'body' => [
                 'delete' => '确定要删除下面此资料??',
-                'close'  => '确定要關閉下面此资料??(當天結束)',
+                'close'  => '确定要關閉下面此资料??(当天結束)',
             ],
         ],
     ],

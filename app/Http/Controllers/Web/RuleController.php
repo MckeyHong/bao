@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,6 +16,6 @@ class RuleController extends Controller
      */
     public function index(Request $request)
     {
-        return view('web.rule', $this->webResponse());
+        return view('web.rule.' . App::getLocale(), $this->webResponse());
     }
 }

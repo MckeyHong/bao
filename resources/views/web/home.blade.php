@@ -46,42 +46,42 @@
 <section>
     <div>
         <div class="deposit-func-block">
-            <div class="float-left">余额宝钱包</div>
+            <div class="float-left">{{ __('custom.web.deposit.balance') }}</div>
             <div class="float-right">$ {{ amount_format($member['balance'], 2) }}</div>
             <div class="clearfix"></div>
         </div>
         <div class="deposit-func-block">
-            <div class="float-left">您的专属利率</div>
+            <div class="float-left">{{ __('custom.web.deposit.rate') }}</div>
             <div class="float-right">{{ amount_format($rate, 2) }} %</div>
             <div class="clearfix"></div>
         </div>
         <div class="deposit-func-block">
-            <div class="float-left">目前累计利息</div>
+            <div class="float-left">{{ __('custom.web.deposit.interest') }}</div>
             <div class="float-right">$ {{ amount_format($member['interest'], 8) }}</div>
             <div class="clearfix"></div>
         </div>
         <div class="deposit-func-block">
-            <div class="float-left">转入金额</div>
+            <div class="float-left">{{ __('custom.web.deposit.deposit') }}</div>
             <div class="float-right">
                 <input type="hidden" id="defaultMax" name="defaultMax" value="{{ $default_deposit }}" />
-                <input type="text" id="inputCredit" name="inputCredit" value="{{ floor_format($default_deposit, 2) }}" class="deposit-amount" onClick="this.select();" onchange="checkEnterCredit(this)" />元
+                <input type="text" id="inputCredit" name="inputCredit" value="{{ floor_format($default_deposit, 2) }}" class="deposit-amount" onClick="this.select();" onchange="checkEnterCredit(this)" />{{ __('custom.web.deposit.unit') }}
             </div>
             <div class="clearfix"></div>
         </div>
         <div>
-            <div class="text-center text-muted">今日可存(昨日洗码量)：$ {{ amount_format($betTotal, 2) }}</div>
+            <div class="text-center text-muted">{{ __('custom.web.deposit.betTotal') }}：$ {{ amount_format($betTotal, 2) }}</div>
         </div>
         <div class="deposit-button-block">
-            <button type="button" id="transferButton" class="btn btn-block btn-submit" onClick="transferConfirm()" @if ($default_deposit < 0.01) disabled @endif>立即转入</button>
+            <button type="button" id="transferButton" class="btn btn-block btn-submit" onClick="transferConfirm()" @if ($default_deposit < 0.01) disabled @endif>{{ __('custom.web.deposit.save') }}</button>
         </div>
     </div>
     <div class="table-block">
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <td align="center" class="interset-thead-td">转入金额</td>
-                    <td align="center" class="interset-thead-td">每小时获得利息</td>
-                    <td align="center" class="interset-thead-td">当日获得利息</td>
+                    <td align="center" class="interset-thead-td">{{ __('custom.web.deposit.table.deposit') }}</td>
+                    <td align="center" class="interset-thead-td">{{ __('custom.web.deposit.table.interestHour') }}</td>
+                    <td align="center" class="interset-thead-td">{{ __('custom.web.deposit.table.interestDay') }}</td>
                 </tr>
             </thead>
             <tbody>
@@ -99,23 +99,23 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="confirmModal">系统提示</h5>
+            <h5 class="modal-title" id="confirmModal">{{ __('custom.common.systemNotice') }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <p>确定要执行下面步骤?</p>
+            <p>{{ __('custom.web.deposit.modal.content') }}</p>
             <p>
                 <input type="hidden" id="transferType" value="deposit" />
                 <input type="hidden" id="transferUrl" value="{{ asset('/') }}" />
-                转入$ <span id="credit" class="text-danger"></span> 元
+                {{ __('custom.web.deposit.modal.transfer') }}$ <span id="credit" class="text-danger"></span> {{ __('custom.web.deposit.unit') }}
             </p>
-            <p class="text-muted">* 注:其余额宝利息将重新计算配息</p>
+            <p class="text-muted">{{ __('custom.web.deposit.modal.remark') }}</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-submit" onclick="doTransfer()">确定</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('custom.button.cancel') }}</button>
+            <button type="button" class="btn btn-submit" onclick="doTransfer()">{{ __('custom.button.submit') }}</button>
           </div>
         </div>
       </div>
