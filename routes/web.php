@@ -27,11 +27,27 @@ Route::group(['prefix' => 'ctl'], function () {
     // 已登入
     Route::group(['namespace' => 'Admin', 'middleware' => ['auth:user']], function () {
         Route::get('/home', 'HomeController@index')->name('home');
-        // 平台管理
+
         Route::group(['middleware' => 'permission'], function () {
+
+            // 平台管理
             Route::group(['prefix' => 'platform', 'namespace' => 'Platform'], function () {
-                Route::get('/list', 'PlatformListController@index');
-                Route::get('/activity', 'PlatformActivityController@index');
+                // 平台清單
+                Route::group(['prefix' => 'list'], function () {
+                    Route::get('/', 'PlatformListController@index');
+                    Route::get('/edit/{id}', 'SystemRoleController@getEdit');
+                });
+
+                //平台活動利率
+                Route::group(['prefix' => 'activity'], function () {
+                    Route::get('/', 'PlatformActivityController@index');
+                    Route::get('/create', 'PlatformActivityController@getStore');
+                    Route::get('/edit/{id}', 'PlatformActivityController@getEdit');
+                    Route::post('/', 'PlatformActivityController@store');
+                    Route::put('/{id}', 'PlatformActivityController@edit');
+                    Route::put('/close/{id}', 'PlatformActivityController@close');
+                    Route::delete('/{id}', 'PlatformActivityController@destroy');
+                });
             });
 
             // 會員管理
