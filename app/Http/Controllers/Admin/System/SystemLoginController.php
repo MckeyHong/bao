@@ -36,7 +36,7 @@ class SystemLoginController extends Controller
             'start' => (validate_date($request->input('start', '')) && $request->input('start') <= $today && $request->input('start') >= $firstDay) ? $request->input('start') : $today,
             'end'   => (validate_date($request->input('end', '')) && $request->input('end') <= $today && $request->input('end') >= $firstDay) ? $request->input('end') : $today,
             'account' => $request->input('account', ''),
-            'status'  => in_array($request->input('status'), [1, 2]) ? $request->input('status') : 0,
+            'status'  => in_array($request->input('status'), [1, 2, 3, 4]) ? $request->input('status') : 0,
         ];
         $params['start'] = ($params['start'] > $params['end']) ? $params['end'] : $params['start'];
         $params['start'] = $this->covertUTC8ToUTC($params['start']);

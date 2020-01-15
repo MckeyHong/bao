@@ -27,7 +27,7 @@
                   <div class="float-left search-label">{{ __('custom.admin.search.status') }}：</div>
                   <div class="float-left">
                     <select id="status" name="status" class="form-control-selector">
-                      @foreach (__('custom.admin.statusList') as $statusKey => $statusValue)
+                      @foreach (__('custom.admin.loginList') as $statusKey => $statusValue)
                       <option value="{{ $statusKey }}" @if($get['status'] == $statusKey) selected @endif>{{ $statusValue }}</option>
                       @endforeach
                     </select>
@@ -63,21 +63,7 @@
                     <td>{{ $value['user_account'] }} ({{ $value['user_name'] }})</td>
                     <td>{{ $value['login_ip'] }}</td>
                     <td>{{ $value['area'] }}</td>
-                    <td>
-                      @switch($value['status'])
-                        @case(2)
-                          <span class="text-warning">{{ __('custom.admin.text.system.logoutSuccess') }}</span>
-                        @break
-                        @case(3)
-                          <span class="text-warning">{{ __('custom.admin.text.system.logoutAuto') }}</span>
-                        @break
-                        @case(4)
-                          <span class="text-danger">{{ __('custom.admin.text.system.loginFalse') }}</span>
-                        @break
-                        @default
-                          <span class="text-success">{{ __('custom.admin.text.system.loginSuccess') }}</span>
-                      @endswitch
-                    </td>
+                    <td class="{{ $value['class'] }}">{{ __('custom.admin.loginList.' . $value['status']) }}</td>
                   </tr>
                   @endforeach
                 </tbody>

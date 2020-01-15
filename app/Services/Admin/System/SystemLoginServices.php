@@ -10,6 +10,8 @@ class SystemLoginServices
 {
     use TimeTraits;
 
+    const STATUS_COLOR_LIST = ['', 'text-success', 'text-warning', 'text-warning', 'text-danger'];
+
     protected $areaSrv;
     protected $userLoginRepo;
 
@@ -33,6 +35,7 @@ class SystemLoginServices
             $data = $this->userLoginRepo->getAdminList($params);
             foreach ($data as $value) {
                 $value['created_at'] = $this->covertUTCToUTC8($value['created_at']);
+                $value['class'] = self::STATUS_COLOR_LIST[$value['status']];
             }
             return [
                 'result' => true,
