@@ -182,5 +182,6 @@ return [
         'user_id'               => '帐号',
         'permission'            => '功能权限',
         'platform_id'           => '平台',
+        'activity_id'           => '平台活动利率资讯',
     ],
 ];

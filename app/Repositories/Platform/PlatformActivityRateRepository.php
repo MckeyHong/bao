@@ -30,4 +30,36 @@ class PlatformActivityRateRepository
                                     ->where('end_at', '>=', $date)
                                     ->first();
     }
+
+    /**
+     * [控端] 列表清單
+     *
+     * @param  array   $params
+     * @return mixed
+     */
+    public function getAdminList($params)
+    {
+        $query = PlatformActivityRate::select(['id', 'platform_id', 'start_at', 'end_at', 'rate', 'active']);
+
+        if (isset($params['platform']) && $params['platform'] > 0) {
+            $query = $query->platform($params['platform']);
+        }
+        if (isset($params['active']) && $params['active'] > 0) {
+            $query = $query->active($params['active']);
+        }
+
+        switch (($params['type']) ?? 2) {
+            case '1':
+                $query = $query->where('end_at', '>', $params['now_at']);
+                break;
+            case '3':
+                $query = $query->where('start_at', '<=', $params['now_at'])->where('end_at', '>=', $params['now_at']);
+                break;
+            default:
+                $query = $query->where('start_at', '>', $params['now_at']);
+        }
+
+
+        return $query->paginate(config('custom.admin.paginate'));
+    }
 }

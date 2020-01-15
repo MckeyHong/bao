@@ -46,7 +46,7 @@
                   </button>
                 </div>
                 <div class="float-right">
-                  <a href="{{ asset('ctl/system/user/create') }}" class="btn btn-sm btn-primary">{{ __('custom.admin.text.add') }}<div class="ripple-container"></div></a>
+                  <a href="{{ $activeUrl }}/create" class="btn btn-sm btn-primary">{{ __('custom.admin.text.add') }}<div class="ripple-container"></div></a>
                 </div>
                 <div class="clearfix"></div>
               </form>

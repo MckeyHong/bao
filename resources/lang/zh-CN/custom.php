@@ -55,10 +55,17 @@ return [
         'table' => [
             'platformList' => [
                 'name'       => '名称',
-                'present'    => '目前利率',
-                'future'     => '预改利率',
+                'present'    => '目前利率(%)',
+                'future'     => '预改利率(%)',
                 'active'     => '状态',
                 'updated_at' => '最近更新时间',
+            ],
+            'platformActivity' => [
+                'platform_id' => '平台',
+                'start_at'    => '活动开始日期',
+                'end_at'      => '活动结束日期',
+                'rate'        => '活动利率(%)',
+                'active'      => '状态',
             ],
             'memberList' => [
                 'platform_id' => '平台',
@@ -101,6 +108,7 @@ return [
             'active'   => '状态',
             'platform' => '平台',
             'role'     => '角色',
+            'type'     => '类别',
         ],
         'text' => [
             'action' => '操作',
@@ -169,15 +177,24 @@ return [
             'editFalse'      => '编辑失败',
             'destroySuccess' => '删除成功',
             'destroyFalse'   => '删除失败',
+            'closeSuccess'   => '关闭成功',
+            'closeFalse'     => '关闭失败',
         ],
         'statusList' => ['全部', '启用', '停用'],
         'activeList' => ['全部', '启用', '停用'],
+        'typeList'   => [
+            2 => '活动未开始',
+            3 => '活动进行中',
+            1 => '活动结束',
+        ],
         'modal' => [
             'title' => [
-                'delete' => '系统提示讯息'
+                'delete' => '系统提示讯息',
+                'close'  => '系統提示訊息',
             ],
             'body' => [
                 'delete' => '确定要删除下面此资料??',
+                'close'  => '确定要關閉下面此资料??(當天結束)',
             ],
         ],
     ],
