@@ -5,9 +5,9 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form id="operationForm" method="post" action="{{ asset('ctl/system/user') }}" autocomplete="off" class="form-horizontal">
+          <form id="operationForm" method="post" action="{{ $activeUrl }}" autocomplete="off" class="form-horizontal">
             @csrf
-            <input type="hidden" name="_method" value="post">
+            {{ method_field('POST') }}
             <div class="card">
               <div class="card-header card-header-primary">
                 <h4 class="card-title">{{ trans('custom.admin.detail.create.' . $activePage) }}</h4>
@@ -16,7 +16,7 @@
               <div class="card-body ">
                 <div class="row">
                   <div class="col-md-12 text-right">
-                      <a href="{{ asset($activePath) }}" class="btn btn-sm btn-primary">{{ trans('custom.button.goList') }}</a>
+                      <a href="{{ $activeUrl }}" class="btn btn-sm btn-primary">{{ trans('custom.button.goList') }}</a>
                   </div>
                 </div>
                 <div class="row">

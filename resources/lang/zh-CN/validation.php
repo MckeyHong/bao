@@ -180,5 +180,6 @@ return [
         'account'               => '帐号',
         'active'                => '状态',
         'user_id'               => '帐号',
+        'permission'            => '功能权限',
     ],
 ];

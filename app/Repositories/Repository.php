@@ -37,6 +37,20 @@ trait Repository
     }
 
     /**
+     * 依搜尋條件取得資料(where)
+     *
+     * @param  string  $whereField [搜尋條件欄位名稱]
+     * @param  array   $whereValue [搜尋條件資訊]
+     * @param  array   $field      [要搜尋的欄位, Ex.['id', 'name']]
+     * @return mixed
+     */
+    public function getByWhere($whereField = 'id', $whereValue = '', $field = ['*'])
+    {
+        return $this->entity::select($field)->where($whereField, $whereValue)->get();
+    }
+
+
+    /**
      * 依搜尋條件取得資料(whereIn)
      *
      * @param  string  $whereField [搜尋條件欄位名稱]
