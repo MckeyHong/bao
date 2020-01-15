@@ -9,11 +9,11 @@
         <div class="card">
           <div class="card-body">
             <div class="search-bar">
-              <form method="GET">
+              <form id="searchForm" method="GET">
                 <div class="float-left">
                   <div class="float-left search-label">{{ __('custom.admin.search.type') }}：</div>
                   <div class="float-left">
-                    <select id="type" name="type" class="form-control-selector">
+                    <select id="type" name="type" class="form-control-selector" onchange="document.getElementById('searchForm').submit();">
                       @foreach (__('custom.admin.typeList') as $typeKey => $typeValue)
                       <option value="{{ $typeKey }}" @if($get['type'] == $typeKey) selected @endif>{{ $typeValue }}</option>
                       @endforeach
