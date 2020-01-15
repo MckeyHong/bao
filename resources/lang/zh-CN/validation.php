@@ -42,6 +42,7 @@ return [
     'ends_with'      => ':attribute 必须以 :values 为结尾。',
     'exists'         => ':attribute 不存在。',
     'non_exists'     => ':attribute 已存在，不得重复。',
+    'old_password'   => ':attribute 输入有误。',
     'file'           => ':attribute 必须是文件。',
     'filled'         => ':attribute 不能为空。',
     'gt'             => [
@@ -186,5 +187,6 @@ return [
         'start_at'              => '开始日期',
         'end_at'                => '结束日期',
         'rate'                  => '利率',
+        'old_password'          => '目前密码',
     ],
 ];

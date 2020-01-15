@@ -69,7 +69,7 @@ class SystemUserController extends Controller
         $error = $request->validate([
             'role_id'  => 'required|exists:roles,id',
             'account'  => 'required|min:4|max:30|non_exists:0',
-            'password' => 'required|password|min:6|max:20',
+            'password' => 'required|confirmed|min:6|max:20',
             'name'     => 'required|max:30',
             'active'   => 'required|in:1,2',
         ]);
@@ -121,7 +121,7 @@ class SystemUserController extends Controller
             'active'   => 'required|in:1,2',
         ];
         if ($request->input('password', '') !== '' && $request->input('password', '') !== null) {
-            $params['password'] = 'password|min:6|max:20';
+            $params['password'] = 'confirmed|min:6|max:20';
         }
         $request->validate($params);
 

@@ -28,8 +28,13 @@ Route::group(['prefix' => 'ctl'], function () {
     Route::group(['namespace' => 'Admin', 'middleware' => ['auth:user']], function () {
         Route::get('/home', 'HomeController@index')->name('home');
 
-        Route::group(['middleware' => 'permission'], function () {
+        // 個人資訊
+        Route::group(['prefix' => 'system', 'namespace' => 'System'], function () {
+            Route::get('/profile', 'SystemProfileController@index');
+            Route::put('/profile', 'SystemProfileController@edit');
+        });
 
+        Route::group(['middleware' => 'permission'], function () {
             // 平台管理
             Route::group(['prefix' => 'platform', 'namespace' => 'Platform'], function () {
                 // 平台清單

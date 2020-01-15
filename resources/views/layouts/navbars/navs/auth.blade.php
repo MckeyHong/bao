@@ -18,7 +18,7 @@
             </p>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-            <a class="dropdown-item" href="{{ asset('profile') }}">{{ __('custom.admin.func.profileSetting') }}</a>
+            <a class="dropdown-item" href="{{ asset('ctl/system/profile') }}">{{ __('custom.admin.func.profileSetting') }}</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ asset('ctl/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('custom.admin.func.profileLogout') }}</a>
           </div>

@@ -32,7 +32,7 @@ return [
     'admin' => [
         'browser' => '管理系统',
         'func'    => [
-            'profile'          => '个人资讯',
+            'systemProfile'    => '个人资讯',
             'profileSetting'   => '设置',
             'profileLogout'    => '登出',
             'dashboard'        => '主页',
@@ -131,6 +131,7 @@ return [
                 'systemUser'       => '新增帐号',
             ],
             'edit' => [
+                'systemProfile'    => '编辑个人资讯',
                 'platformActivity' => '编辑平台活动利率',
                 'platformList'     => '编辑平台',
                 'systemRole'       => '编辑角色',
@@ -138,6 +139,13 @@ return [
             ],
         ],
         'form' => [
+            'systemProfile' => [
+                'account'               => '帐号',
+                'name'                  => '名称',
+                'old_password'          => '目前密码',
+                'password'              => '密码',
+                'password_confirmation' => '确认密码',
+            ],
             'platformList' => [
                 'name'         => '名称',
                 'present'      => '目前利率(%)',
@@ -181,6 +189,7 @@ return [
             'rateActivity'          => '范围为1 ~ 1000 (%)',
             'start_at'              => '格式：yyyy-mm-dd',
             'end_at'                => '格式：yyyy-mm-dd',
+            'old_password'          => '请输入目前登录密码',
         ],
         'result' => [
             'storeSuccess'   => '新建成功',
