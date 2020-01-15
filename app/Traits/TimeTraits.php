@@ -9,22 +9,39 @@ trait TimeTraits
     /**
      * 轉換時間格式(UTC+8  → UTD+0)
      *
-     * @param  datetime $dateTime [YYYY-mm-dd HH:i:s]
-     * @return datetime|integer
+     * @param  string $dateTime
+     * @param  string $format
+     * @return string
      */
-    public function covertUTC8ToUTC($dateTime)
+    public function covertUTC8ToUTC($dateTime, $format = 'datetime')
     {
-        return Carbon::parse($dateTime)->timezone('UTC')->toDateTimeString();
+        $dt = Carbon::parse($dateTime)->timezone('UTC');
+        switch ($format) {
+            case 'date':
+                $result = $dt->toDateString();
+                break;
+            default:
+                $result = $dt->toDateTimeString();
+        }
+        return $result;
     }
 
     /**
      * 轉換時間格式(UTC+0 → UTD+8)
      *
-     * @param  datetime|timestamp  $dateTime
-     * @return datetime
+     * @param  string $dateTime
+     * @param  string $format
+     * @return string
      */
-    public function covertUTCToUTC8($dateTime)
+    public function covertUTCToUTC8($dateTime, $format = 'datetime')
     {
-        return date('Y-m-d H:i:s', (strtotime($dateTime) + (8 * 3600)));
+        switch ($format) {
+            case 'date':
+                $type = 'Y-m-d';
+                break;
+            default:
+                $type = 'Y-m-d H:i:s';
+        }
+        return date($type, (strtotime($dateTime) + (8 * 3600)));
     }
 }

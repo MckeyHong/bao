@@ -2,11 +2,14 @@
 
 namespace App\Services\Admin\System;
 
+use App\Traits\TimeTraits;
 use App\Services\Common\AreaServices;
 use App\Repositories\User\UserLoginRepository;
 
 class SystemLoginServices
 {
+    use TimeTraits;
+
     protected $areaSrv;
     protected $userLoginRepo;
 
@@ -27,9 +30,13 @@ class SystemLoginServices
     public function index($params)
     {
         try {
+            $data = $this->userLoginRepo->getAdminList($params);
+            foreach ($data as $value) {
+                $value['created_at'] = $this->covertUTCToUTC8($value['created_at']);
+            }
             return [
                 'result' => true,
-                'data'   => $this->userLoginRepo->getAdminList($params),
+                'data'   => $data,
             ];
         } catch (\Exception $e) {
             return [

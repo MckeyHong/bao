@@ -81,7 +81,7 @@
               </table>
               <div class="pagination-block">
                 @if ($lists->count() > 0)
-                  {{ $lists->links() }}
+                  {{ $lists->appends($get)->links() }}
                 @endif
               </div>
             </div>

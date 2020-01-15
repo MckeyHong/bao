@@ -31,6 +31,7 @@ class SystemLoginController extends Controller
         // 參數驗證
         $firstDay = Carbon::now()->subMonth(2)->toDateString();
         $today = Carbon::now()->toDateString();
+
         $params = [
             'start' => (validate_date($request->input('start', '')) && $request->input('start') <= $today && $request->input('start') >= $firstDay) ? $request->input('start') : $today,
             'end'   => (validate_date($request->input('end', '')) && $request->input('end') <= $today && $request->input('end') >= $firstDay) ? $request->input('end') : $today,
@@ -38,12 +39,17 @@ class SystemLoginController extends Controller
             'status'  => in_array($request->input('status'), [1, 2]) ? $request->input('status') : 0,
         ];
         $params['start'] = ($params['start'] > $params['end']) ? $params['end'] : $params['start'];
-        $params['start'] = $this->covertUTC8ToUTC($params['start'] . ' 00:00:00');
-        $params['end'] = $this->covertUTC8ToUTC($params['end'] . ' 23:59:59');
+        $params['start'] = $this->covertUTC8ToUTC($params['start']);
+        $params['end'] = $this->covertUTC8ToUTC($params['end'], 'date') . ' 23:59:59';
+
+        $lists = $this->systemLoginSrv->index($params)['data'];
+        $params['start'] = Carbon::parse($params['start'])->toDateString();
+        $params['end'] = Carbon::parse($params['end'])->toDateString();
+
 
         return view('admin.system.login', array_merge($this->adminResponse(), [
             'get'   => $params,
-            'lists' => $this->systemLoginSrv->index($params)['data'],
+            'lists' => $lists,
         ]));
     }
 }

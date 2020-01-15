@@ -84,7 +84,7 @@
               </table>
               <div class="pagination-block">
                 @if ($lists->count() > 0)
-                  {{ $lists->links() }}
+                  {{ $lists->appends($get)->links() }}
                 @endif
               </div>
             </div>
@@ -94,4 +94,5 @@
     </div>
   </div>
 </div>
+@extends('layouts.search.datepickerInterval')
 @endsection

@@ -41,15 +41,17 @@ class MemberLoginController extends Controller
             'account'  => $request->input('account', ''),
             'status'   => in_array($request->input('status'), [1, 2]) ? $request->input('status') : 0,
         ];
-
         $params['start'] = ($params['start'] > $params['end']) ? $params['end'] : $params['start'];
-        $params['start'] = $this->covertUTC8ToUTC($params['start'] . ' 00:00:00');
-        $params['end'] = $this->covertUTC8ToUTC($params['end'] . ' 23:59:59');
+        $params['start'] = $this->covertUTC8ToUTC($params['start']);
+        $params['end'] = $this->covertUTC8ToUTC($params['end']);
+        $lists = $this->memberLoginSrv->index($params, $platform)['data'];
+        $params['start'] = Carbon::parse($params['start'])->toDateString();
+        $params['end'] = Carbon::parse($params['end'])->toDateString();
 
         return view('admin.member.login', array_merge($this->adminResponse(), [
             'get'      => $params,
             'platform' => $platform,
-            'lists'    => $this->memberLoginSrv->index($params, $platform)['data'],
+            'lists'    => $lists,
         ]));
     }
 }
