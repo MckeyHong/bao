@@ -5,18 +5,18 @@
         @csrf
         {{ method_field('DELETE') }}
         <div class="modal-header">
-          <h5 class="modal-title">{{ trans('custom.admin.modal.title.delete') }}</h5>
+          <h5 class="modal-title">{{ __('custom.admin.modal.title.delete') }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p>{{ trans('custom.admin.modal.body.delete') }}</p>
+          <p>{{ __('custom.admin.modal.body.delete') }}</p>
           <p id="deleteInfo"></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('custom.button.close') }}</button>
-          <button type="submit" class="btn btn-primary">{{ trans('custom.button.submit') }}</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('custom.button.close') }}</button>
+          <button type="submit" class="btn btn-primary">{{ __('custom.button.submit') }}</button>
         </div>
       </form>
     </div>

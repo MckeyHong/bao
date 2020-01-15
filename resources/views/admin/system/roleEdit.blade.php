@@ -10,22 +10,22 @@
             {{ method_field('PUT') }}
             <div class="card">
               <div class="card-header card-header-primary">
-                <h4 class="card-title">{{ trans('custom.admin.detail.edit.' . $activePage) }}</h4>
+                <h4 class="card-title">{{ __('custom.admin.detail.edit.' . $activePage) }}</h4>
                 <p class="card-category"></p>
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-12 text-right">
-                      <a href="{{ $activeUrl }}" class="btn btn-sm btn-primary">{{ trans('custom.button.goList') }}</a>
+                      <a href="{{ $activeUrl }}" class="btn btn-sm btn-primary">{{ __('custom.button.goList') }}</a>
                   </div>
                 </div>
                 <div class="row">
                   <label class="col-sm-2 col-form-label" for="name">
-                    <span class="text-danger">*</span>{{ trans('custom.admin.form.systemRole.name') }}
+                    <span class="text-danger">*</span>{{ __('custom.admin.form.systemRole.name') }}
                   </label>
                   <div class="col-sm-7">
                     <div class="form-group bmd-form-group">
-                      <input class="form-control" name="name" id="name" type="text" placeholder="{{ trans('custom.admin.placeholder.roleName') }}" value="{{ $detail['role']['name'] }}" required aria-required="true" maxlength="20">
+                      <input class="form-control" name="name" id="name" type="text" placeholder="{{ __('custom.admin.placeholder.roleName') }}" value="{{ $detail['role']['name'] }}" required aria-required="true" maxlength="20">
                        @if ($errors->has('name'))
                        <div class="error text-danger pl-3" for="name">
                            <strong>{{ $errors->first('name') }}</strong>
@@ -36,13 +36,13 @@
                 </div>
                 <div class="row">
                   <label class="col-sm-2 col-form-label" for="active">
-                    <span class="text-danger">*</span>{{ trans('custom.admin.form.systemRole.active') }}
+                    <span class="text-danger">*</span>{{ __('custom.admin.form.systemRole.active') }}
                   </label>
                   <div class="col-sm-7">
                     <div class="form-group bmd-form-group">
                        <select name="active" id="active" class="form-control">
-                          <option value="1" @if( $detail['role']['active'] == 1) selected @endif>{{ trans('custom.admin.text.enable') }}</option>
-                          <option value="2" @if( $detail['role']['active'] == 2) selected @endif>{{ trans('custom.admin.text.disable') }}</option>
+                          <option value="1" @if( $detail['role']['active'] == 1) selected @endif>{{ __('custom.admin.text.enable') }}</option>
+                          <option value="2" @if( $detail['role']['active'] == 2) selected @endif>{{ __('custom.admin.text.disable') }}</option>
                        </select>
                        @if ($errors->has('active'))
                        <div class="error text-danger pl-3" for="active">
@@ -54,7 +54,7 @@
                 </div>
                 <div class="row">
                   <label class="col-sm-2 col-form-label" for="active">
-                    <span class="text-danger">*</span>{{ trans('custom.admin.form.systemRole.permission') }}
+                    <span class="text-danger">*</span>{{ __('custom.admin.form.systemRole.permission') }}
                   </label>
                   <div class="col-sm-7">
                     <div class="form-group bmd-form-group">
@@ -78,8 +78,8 @@
                          <table class="table table-hover table-bordered">
                            <thead>
                              <tr>
-                               <th style="width:180px">{{ trans('custom.admin.form.systemRole.tableFunc') }}</th>
-                               <th>{{ trans('custom.admin.text.action') }}</th>
+                               <th style="width:180px">{{ __('custom.admin.form.systemRole.tableFunc') }}</th>
+                               <th>{{ __('custom.admin.text.action') }}</th>
                              </tr>
                            </thead>
                            <tbody>
@@ -141,8 +141,8 @@
                 </div>
               </div>
               <div class="card-footer ml-auto mr-auto">
-                <button type="button" class="btn btn-default mr-4" onclick="document.getElementById('operationForm').reset();">{{ trans('custom.button.reset') }}</button>
-                <button type="submit" class="btn btn-primary">{{ trans('custom.button.submit') }}</button>
+                <button type="button" class="btn btn-default mr-4" onclick="document.getElementById('operationForm').reset();">{{ __('custom.button.reset') }}</button>
+                <button type="submit" class="btn btn-primary">{{ __('custom.button.submit') }}</button>
               </div>
             </div>
           </form>
