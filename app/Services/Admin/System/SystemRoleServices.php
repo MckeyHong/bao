@@ -11,13 +11,16 @@ class SystemRoleServices
 {
     use TimeTraits;
 
+    protected $systemOperationSrv;
     protected $roleRepo;
     protected $rolePermissionRepo;
 
     public function __construct(
+        SystemOperationServices $systemOperationSrv,
         RoleRepository $roleRepo,
         RolePermissionRepository $rolePermissionRepo
     ) {
+        $this->systemOperationSrv = $systemOperationSrv;
         $this->roleRepo           = $roleRepo;
         $this->rolePermissionRepo = $rolePermissionRepo;
     }
@@ -64,25 +67,8 @@ class SystemRoleServices
                     'active' => $request['active'],
                 ]);
                 // 功能權限
-                foreach (config('permission.func') as $cate) {
-                    foreach ($cate['menu'] as $menu) {
-                        $params = [
-                            'role_id'   => $role['id'],
-                            'path'      => $menu['path'],
-                            'is_get'    => 2,
-                            'is_post'   => 2,
-                            'is_put'    => 2,
-                            'is_delete' => 2
-                        ];
-                        foreach ($menu['permission'] as $action) {
-                            $tmp = $menu['path'] . '-' . $action;
-                            if (in_array($tmp, $request['permission'])) {
-                                $params[$action] = 1;
-                            }
-                        }
-                        $this->rolePermissionRepo->store($params);
-                    }
-                }
+                $this->storePermission($role['id'], $request['permission']);
+                $this->systemOperationSrv->store($role['id'], 1, $role['name']);
                 return true;
             });
             return ['result' => $result];
@@ -158,32 +144,16 @@ class SystemRoleServices
     {
         try {
             $result = DB::transaction(function () use ($id, $request) {
+                $role = $this->roleRepo->find($id);
+                // 更新主資料
                 $this->roleRepo->update($id, [
                     'name'   => $request['name'],
                     'active' => $request['active'],
                 ]);
-
                 // 功能權限
                 $this->rolePermissionRepo->deleteByWhere('role_id', $id);
-                foreach (config('permission.func') as $cate) {
-                    foreach ($cate['menu'] as $menu) {
-                        $params = [
-                            'role_id'   => $id,
-                            'path'      => $menu['path'],
-                            'is_get'    => 2,
-                            'is_post'   => 2,
-                            'is_put'    => 2,
-                            'is_delete' => 2
-                        ];
-                        foreach ($menu['permission'] as $action) {
-                            $tmp = $menu['path'] . '-' . $action;
-                            if (in_array($tmp, $request['permission'])) {
-                                $params[$action] = 1;
-                            }
-                        }
-                        $this->rolePermissionRepo->store($params);
-                    }
-                }
+                $this->storePermission($id, $request['permission']);
+                $this->systemOperationSrv->store($id, 2, $role['name']);
                 return true;
             });
             return ['result' => $result];
@@ -208,11 +178,51 @@ class SystemRoleServices
     {
         try {
             $result = DB::transaction(function () use ($id) {
+                $role = $this->roleRepo->find($id);
                 $this->roleRepo->destroy($id);
                 $this->rolePermissionRepo->deleteByWhere('role_id', $id);
+                $this->systemOperationSrv->store($id, 3, $role['name']);
                 return true;
             });
 
+            return ['result' => $result];
+        } catch (\Exception $e) {
+            return [
+                'result' => false,
+                'error'  => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * 新增功能權限設定
+     *
+     * @param  integer  $roleId
+     * @param  array    $permission
+     * @return array
+     */
+    private function storePermission($roleId, $permission)
+    {
+        try {
+            foreach (config('permission.func') as $cate) {
+                foreach ($cate['menu'] as $menu) {
+                    $params = [
+                        'role_id'   => $roleId,
+                        'path'      => $menu['path'],
+                        'is_get'    => 2,
+                        'is_post'   => 2,
+                        'is_put'    => 2,
+                        'is_delete' => 2
+                    ];
+                    foreach ($menu['permission'] as $action) {
+                        $tmp = $menu['path'] . '-' . $action;
+                        if (in_array($tmp, $permission)) {
+                            $params[$action] = 1;
+                        }
+                    }
+                    $this->rolePermissionRepo->store($params);
+                }
+            }
             return ['result' => $result];
         } catch (\Exception $e) {
             return [

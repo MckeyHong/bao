@@ -11,6 +11,8 @@ use App\Services\Admin\Platform\PlatformActivityServices;
 
 class PlatformActivityController extends Controller
 {
+    const LIST_PATH = 'ctl/platform/activity';
+
     protected $platformActivitySrv;
 
     public function __construct(
@@ -57,7 +59,7 @@ class PlatformActivityController extends Controller
         // 執行結果
         $result = $this->platformActivitySrv->close($id);
         $this->setExecuteResult($result['result'], 'close');
-        return redirect('/ctl/platform/activity');
+        return redirect(self::LIST_PATH);
     }
 
     /**
@@ -85,7 +87,7 @@ class PlatformActivityController extends Controller
         // 執行結果
         $result = $this->platformActivitySrv->store($request->all());
         $this->setExecuteResult($result['result'], 'store');
-        return redirect('/ctl/platform/activity');
+        return redirect(self::LIST_PATH);
     }
 
     /**
@@ -135,7 +137,7 @@ class PlatformActivityController extends Controller
         // 執行結果
         $result = $this->platformActivitySrv->edit($id, $request->all());
         $this->setExecuteResult($result['result'], 'edit');
-        return redirect('/ctl/platform/activity');
+        return redirect(self::LIST_PATH);
     }
 
     /**
@@ -152,7 +154,7 @@ class PlatformActivityController extends Controller
         // 執行結果
         $result = $this->platformActivitySrv->destroy($id);
         $this->setExecuteResult($result['result'], 'destroy');
-        return redirect('/ctl/platform/activity');
+        return redirect(self::LIST_PATH);
     }
 
     /**

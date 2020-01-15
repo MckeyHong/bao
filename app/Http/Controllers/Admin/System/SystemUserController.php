@@ -11,6 +11,8 @@ use App\Services\Admin\System\SystemUserServices;
 
 class SystemUserController extends Controller
 {
+    const LIST_PATH = '/ctl/system/user';
+
     protected $systemUserSrv;
 
     public function __construct(
@@ -76,7 +78,7 @@ class SystemUserController extends Controller
         // 執行結果
         $result = $this->systemUserSrv->store($request->all());
         $this->setExecuteResult($result['result'], 'store');
-        return redirect('/ctl/system/user');
+        return redirect(self::LIST_PATH);
     }
 
     /**
@@ -128,7 +130,7 @@ class SystemUserController extends Controller
         // 執行結果
         $result = $this->systemUserSrv->edit($id, $request->all());
         $this->setExecuteResult($result['result'], 'edit');
-        return redirect('/ctl/system/user');
+        return redirect(self::LIST_PATH);
     }
 
     /**
@@ -146,7 +148,7 @@ class SystemUserController extends Controller
         // 執行結果
         $result = $this->systemUserSrv->destroy($id);
         $this->setExecuteResult($result['result'], 'destroy');
-        return redirect('/ctl/system/user');
+        return redirect(self::LIST_PATH);
     }
 
     /**

@@ -44,4 +44,12 @@ return [
             ],
         ],
     ],
+    'operation' => [
+        'ctl/system/profile'          => 1,
+        'ctl/platform/list'           => 2,
+        'ctl/platform/activity'       => 3,
+        'ctl/platform/activity/close' => 3,
+        'ctl/system/role'             => 4,
+        'ctl/system/user'             => 5,
+    ],
 ];

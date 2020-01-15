@@ -11,17 +11,17 @@
               <table class="table table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th>{{ trans('custom.admin.table.platformList.name') }}</th>
-                    <th>{{ trans('custom.admin.table.platformList.present') }}</th>
-                    <th>{{ trans('custom.admin.table.platformList.future') }}</th>
-                    <th>{{ trans('custom.admin.table.platformList.active') }}</th>
-                    <th>{{ trans('custom.admin.table.platformList.updated_at') }}</th>
-                    <th>{{ trans('custom.admin.text.action') }}</th>
+                    <th>{{ __('custom.admin.table.platformList.name') }}</th>
+                    <th>{{ __('custom.admin.table.platformList.present') }}</th>
+                    <th>{{ __('custom.admin.table.platformList.future') }}</th>
+                    <th>{{ __('custom.admin.table.platformList.active') }}</th>
+                    <th>{{ __('custom.admin.table.platformList.updated_at') }}</th>
+                    <th>{{ __('custom.admin.text.action') }}</th>
                   </tr>
                 </thead>
                 <tbody>
                   @if ($lists->count() == 0)
-                  <tr><td colspan="6">{{ trans('custom.common.noData') }}</td></tr>
+                  <tr><td colspan="6">{{ __('custom.common.noData') }}</td></tr>
                   @endif
                   @foreach ($lists as $value)
                   <tr>
@@ -30,9 +30,9 @@
                     <td>{{ $value['future'] }}</td>
                     <td>
                         @if ($value['active'] == '1')
-                        <span class="text-success">{{ trans('custom.admin.text.enable') }}</span>
+                        <span class="text-success">{{ __('custom.admin.text.enable') }}</span>
                         @else
-                        <span class="text-false">{{ trans('custom.admin.text.disable') }}</span>
+                        <span class="text-false">{{ __('custom.admin.text.disable') }}</span>
                         @endif
                     </td>
                     <td>{{ $value['updated_at'] }}</td>

@@ -9,6 +9,8 @@ use App\Services\Admin\System\SystemRoleServices;
 
 class SystemRoleController extends Controller
 {
+    const LIST_PATH = '/ctl/system/role';
+
     protected $systemRoleSrv;
 
     public function __construct(
@@ -59,7 +61,7 @@ class SystemRoleController extends Controller
         // 執行結果
         $result = $this->systemRoleSrv->store($request->all());
         $this->setExecuteResult($result['result'], 'store');
-        return redirect('/ctl/system/role');
+        return redirect(self::LIST_PATH);
     }
 
     /**
@@ -104,7 +106,7 @@ class SystemRoleController extends Controller
         // 執行結果
         $result = $this->systemRoleSrv->edit($id, $request->all());
         $this->setExecuteResult($result['result'], 'edit');
-        return redirect('/ctl/system/role');
+        return redirect(self::LIST_PATH);
     }
 
     /**
@@ -122,6 +124,6 @@ class SystemRoleController extends Controller
         // 執行結果
         $result = $this->systemRoleSrv->destroy($id);
         $this->setExecuteResult($result['result'], 'destroy');
-        return redirect('/ctl/system/role');
+        return redirect(self::LIST_PATH);
     }
 }
