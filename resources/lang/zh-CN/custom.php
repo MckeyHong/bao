@@ -126,13 +126,15 @@ return [
         ],
         'detail' => [
             'create' => [
-                'systemRole' => '新增角色',
-                'systemUser' => '新增帐号',
+                'platformActivity' => '新增平台活动利率',
+                'systemRole'       => '新增角色',
+                'systemUser'       => '新增帐号',
             ],
             'edit' => [
-                'platformList' => '编辑平台',
-                'systemRole'   => '编辑角色',
-                'systemUser'   => '修改帐号',
+                'platformActivity' => '编辑平台活动利率',
+                'platformList'     => '编辑平台',
+                'systemRole'       => '编辑角色',
+                'systemUser'       => '修改帐号',
             ],
         ],
         'form' => [
@@ -142,6 +144,13 @@ return [
                 'future'       => '预设利率(%)',
                 'active'       => '状态',
                 'futureRemark' => '若有修改，则隔天0点生效',
+            ],
+            'platformActivity' => [
+                'platform_id' => '平台',
+                'start_at'    => '开始日期',
+                'end_at'      => '结束日期',
+                'rate'        => '利率(%)',
+                'active'      => '状态',
             ],
             'systemRole' => [
                 'name'       => '名称',
@@ -169,6 +178,9 @@ return [
             'roleName'              => '不得超过20个字元',
             'password_confirmation' => '再次输入密码',
             'future'                => '范围为1 ~ 100 (%)',
+            'rateActivity'          => '范围为1 ~ 1000 (%)',
+            'start_at'              => '格式：yyyy-mm-dd',
+            'end_at'                => '格式：yyyy-mm-dd',
         ],
         'result' => [
             'storeSuccess'   => '新建成功',

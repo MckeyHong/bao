@@ -60,6 +60,37 @@ class PlatformActivityRateRepository
         }
 
 
-        return $query->paginate(config('custom.admin.paginate'));
+        return $query->orderBy('start_at', 'ASC')->paginate(config('custom.admin.paginate'));
+    }
+
+    /**
+     * 檢查是否有重複活動資訊
+     *
+     * @param  integer $id
+     * @param  integer $platformId
+     * @param  string  $startAt
+     * @param  string  $endAt
+     * @return mixed
+     */
+    public function checkActivityExist($id, $platformId, $startAt, $endAt)
+    {
+        return PlatformActivityRate::select(['id'])
+                                    ->platform($platformId)
+                                    ->where('id', '!=', $id)
+                                    ->where(function ($query) use ($startAt, $endAt) {
+                                        $query->where(function ($query) use ($startAt, $endAt) {
+                                            $query->where('start_at', '>=', $startAt)
+                                                  ->where('start_at', '<=', $endAt);
+                                        });
+                                        $query->orWhere(function ($query) use ($startAt, $endAt) {
+                                            $query->where('start_at', '<=', $startAt)
+                                                  ->where('end_at', '>=', $endAt);
+                                        });
+                                        $query->orWhere(function ($query) use ($startAt, $endAt) {
+                                            $query->where('end_at', '>=', $startAt)
+                                                  ->where('end_at', '<=', $endAt);
+                                        });
+                                    })
+                                    ->get();
     }
 }

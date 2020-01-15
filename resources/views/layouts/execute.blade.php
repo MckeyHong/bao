@@ -1,6 +1,6 @@
 @if ($executeResult != '' && $executeMessage != '')
     <div id="execute-show" class="alert alert-{{ $executeResult }}" role="alert" style="z-index:9999;display:none;">{{ $executeMessage }}</div>
-    @push('executejs')
+    @push('js')
         <script defer="defer">
         $('#execute-show').css('display', 'block');
         var closeExecute = () => {

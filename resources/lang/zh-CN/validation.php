@@ -183,5 +183,8 @@ return [
         'permission'            => '功能权限',
         'platform_id'           => '平台',
         'activity_id'           => '平台活动利率资讯',
+        'start_at'              => '开始日期',
+        'end_at'                => '结束日期',
+        'rate'                  => '利率',
     ],
 ];
