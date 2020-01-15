@@ -31,7 +31,6 @@ class PlatformRepository
                           ->first();
     }
 
-
     /**
      * [控端] 列表清單
      *
@@ -41,5 +40,17 @@ class PlatformRepository
     {
         return Platform::select(['id', 'name', 'present', 'future', 'active', 'created_at', 'updated_at'])
                         ->paginate(config('custom.admin.paginate'));
+    }
+
+    /**
+     * [排程] 取得要更新利率的平台清單
+     *
+     * @return mixed
+     */
+    public function getCronListForUpdateRate()
+    {
+        return Platform::select(['id', 'present', 'future'])
+                        ->whereRaw('present != future')
+                        ->get();
     }
 }
