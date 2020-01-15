@@ -17,12 +17,11 @@
                     <th>{{ trans('custom.admin.table.platformList.active') }}</th>
                     <th>{{ trans('custom.admin.table.platformList.updated_at') }}</th>
                     <th>{{ trans('custom.admin.text.action') }}</th>
-                    <th>{{ trans('custom.admin.text.log') }}</th>
                   </tr>
                 </thead>
                 <tbody>
                   @if ($lists->count() == 0)
-                  <tr><td colspan="5">{{ trans('custom.common.noData') }}</td></tr>
+                  <tr><td colspan="6">{{ trans('custom.common.noData') }}</td></tr>
                   @endif
                   @foreach ($lists as $value)
                   <tr>
@@ -38,10 +37,8 @@
                     </td>
                     <td>{{ $value['updated_at'] }}</td>
                     <td>
-                        <i class="material-icons lists-icons">edit</i>
-                    </td>
-                    <td>
-                        <i class="material-icons lists-icons">description</i>
+                        <i class="material-icons lists-icons" title="{{ __('custom.button.edit') }}" onclick="window.location.href='{{ $activeUrl }}/edit/{{ $value['id'] }}'">edit</i>
+                        <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}">description</i>
                     </td>
                   </tr>
                   @endforeach

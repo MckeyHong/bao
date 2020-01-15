@@ -35,7 +35,8 @@ Route::group(['prefix' => 'ctl'], function () {
                 // 平台清單
                 Route::group(['prefix' => 'list'], function () {
                     Route::get('/', 'PlatformListController@index');
-                    Route::get('/edit/{id}', 'SystemRoleController@getEdit');
+                    Route::get('/edit/{id}', 'PlatformListController@getEdit');
+                    Route::put('/{id}', 'PlatformListController@edit');
                 });
 
                 //平台活動利率

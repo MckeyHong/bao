@@ -181,5 +181,6 @@ return [
         'active'                => '状态',
         'user_id'               => '帐号',
         'permission'            => '功能权限',
+        'platform_id'           => '平台',
     ],
 ];

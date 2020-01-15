@@ -122,11 +122,19 @@ return [
                 'systemUser' => '新增帐号',
             ],
             'edit' => [
-                'systemRole' => '编辑角色',
-                'systemUser' => '修改帐号',
+                'platformList' => '编辑平台',
+                'systemRole'   => '编辑角色',
+                'systemUser'   => '修改帐号',
             ],
         ],
         'form' => [
+            'platformList' => [
+                'name'         => '名称',
+                'present'      => '目前利率(%)',
+                'future'       => '预设利率(%)',
+                'active'       => '状态',
+                'futureRemark' => '若有修改，则隔天0点生效',
+            ],
             'systemRole' => [
                 'name'       => '名称',
                 'permission' => '功能权限设定',
@@ -152,6 +160,7 @@ return [
             'name'                  => '不得超过30个字元',
             'roleName'              => '不得超过20个字元',
             'password_confirmation' => '再次输入密码',
+            'future'                => '范围为1 ~ 100 (%)',
         ],
         'result' => [
             'storeSuccess'   => '新建成功',
