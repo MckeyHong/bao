@@ -9,6 +9,7 @@ return [
         'allSelect'      => '全选',
         'systemNotice'   => '系统提示',
         'internalServer' => '系统忙录中，请稍后再试，谢谢。',
+        'settlement'     => '00:00 ~ 00:10 无法进行操作',
     ],
     'web' => [
         'func' => [

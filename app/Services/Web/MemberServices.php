@@ -3,11 +3,9 @@
 namespace App\Services\Web;
 
 use DB;
-use GeoIP;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Jenssegers\Agent\Agent;
 use App\Services\Web\MemberLoginServices;
 use App\Repositories\Member\MemberRepository;
 use App\Repositories\Platform\PlatformRepository;

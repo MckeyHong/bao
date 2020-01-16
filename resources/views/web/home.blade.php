@@ -72,7 +72,11 @@
             <div class="text-center text-muted">{{ __('custom.web.deposit.betTotal') }}：$ {{ amount_format($betTotal, 2) }}</div>
         </div>
         <div class="deposit-button-block">
+            @if ($workable)
             <button type="button" id="transferButton" class="btn btn-block btn-submit" onClick="transferConfirm()" @if ($default_deposit < 0.01) disabled @endif>{{ __('custom.web.deposit.save') }}</button>
+            @else
+            <button type="button" class="btn btn-block btn-submit" disabled>{{ __('custom.common.settlement') }}</button>
+            @endif
         </div>
     </div>
     <div class="table-block">

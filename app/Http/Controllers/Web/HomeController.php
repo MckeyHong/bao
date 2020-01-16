@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Traits\CommonTraits;
 use App\Services\Web\HomeServices;
 
 class HomeController extends Controller
 {
+    use CommonTraits;
+
     protected $homeSrv;
 
     public function __construct(
@@ -27,6 +30,7 @@ class HomeController extends Controller
         $info = array_merge($this->webResponse(), $this->homeSrv->index()['data']);
         // 計算預設可轉入的金額
         $info['default_deposit'] = ($info['default_deposit'] > $info['member']['platform_credit']) ? $info['member']['platform_credit'] : $info['default_deposit'];
+        $info['workable'] = $this->checkWorkable();
         return view('web.home', $info);
     }
 }

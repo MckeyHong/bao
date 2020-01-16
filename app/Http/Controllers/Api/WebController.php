@@ -6,10 +6,13 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Traits\CommonTraits;
 use App\Services\Api\WebServices;
 
 class WebController extends Controller
 {
+    use CommonTraits;
+
     private $member;
     protected $webSrv;
 
@@ -28,6 +31,9 @@ class WebController extends Controller
      */
     public function deposit(Request $request)
     {
+        if (!$this->checkWorkable()) {
+            return $this->apiResponse(['code' => 417, 'result' => false]);
+        }
         $platformCredit = $this->getMemberCreditOfApi($this->member['account'])['data'];
         $canDeposit = $this->webSrv->getTodayBetTotal($this->member['id']) - $this->member['today_deposit'];
         $request->validate([
@@ -44,6 +50,9 @@ class WebController extends Controller
      */
     public function withdrawal(Request $request)
     {
+        if (!$this->checkWorkable()) {
+            return $this->apiResponse(['code' => 417, 'result' => false]);
+        }
         $canWithdrawal = bcadd(($this->member['credit'] + $this->member['today_deposit']), $this->member['interest'], 2);
         $request->validate([
             'credit' => 'required|min:0.01|max:' . $canWithdrawal,

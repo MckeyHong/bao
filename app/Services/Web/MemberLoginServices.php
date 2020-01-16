@@ -2,17 +2,20 @@
 
 namespace App\Services\Web;
 
-use GeoIP;
 use Jenssegers\Agent\Agent;
+use App\Services\Common\AreaServices;
 use App\Repositories\Member\MemberLoginRepository;
 
 class MemberLoginServices
 {
+    protected $areaSrv;
     protected $memberLoginRepo;
 
     public function __construct(
+        AreaServices $areaSrv,
         MemberLoginRepository $memberLoginRepo
     ) {
+        $this->areaSrv         = $areaSrv;
         $this->memberLoginRepo = $memberLoginRepo;
     }
 
@@ -35,7 +38,7 @@ class MemberLoginServices
                 'member_name'    => $member['name'],
                 'member_account' => $member['account'],
                 'login_ip'       => $ip,
-                'area'           => $this->getArea($ip),
+                'area'           => $this->areaSrv->getArea($ip),
                 'device'         => ($agent->isMobile()) ? 1 : 2,
                 'device_info'    => [
                     'device'           => $agent->device(),
@@ -51,22 +54,6 @@ class MemberLoginServices
                 'result' => false,
                 'error'  => $e->getMessage(),
             ];
-        }
-    }
-
-    /**
-     * 取得IP所屬地區
-     *
-     * @param  string $ip
-     * @return string
-     */
-    public function getArea($ip)
-    {
-        try {
-            $info = GeoIp::getLocation($ip);
-            return ((isset($info['country']) && $info['country'] != '') ? $info['country'] . ', ' : ''). ($info['city'] ?? '');
-        } catch (\Exception $e) {
-            return '';
         }
     }
 }

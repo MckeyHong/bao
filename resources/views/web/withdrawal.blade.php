@@ -43,7 +43,11 @@
             <div class="clearfix"></div>
         </div>
         <div class="withdrawal-button-block">
+            @if ($workable)
             <button type="button" id="transferButton" class="btn btn-block btn-submit" onClick="transferConfirm()" @if ($member['balance'] < 0.01) disabled @endif>{{ __('custom.web.withdrawal.save') }}</button>
+            @else
+            <button type="button" class="btn btn-block btn-submit" disabled>{{ __('custom.common.settlement') }}</button>
+            @endif
         </div>
     </div>
     <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true">
