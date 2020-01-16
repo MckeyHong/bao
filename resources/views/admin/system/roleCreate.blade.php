@@ -93,7 +93,7 @@
                              <tr>
                               <td class="text-left">
                                 <div class="form-check">
-                                  <input type="checkbox" id="{{ $menu['key'] }}" data-type="menu" class="all-menu-allSelect menu cate-{{ $cate['key'] }}" value="1">
+                                  <input type="checkbox" id="{{ $menu['key'] }}" data-type="menu" data-parent="{{ $cate['key'] }}" class="all-menu-allSelect menu cate-{{ $cate['key'] }}" value="1">
                                   <label for="{{ $menu['key'] }}">
                                     {{ __('custom.admin.func.'. $menu['key']) }}
                                   </label>
@@ -102,7 +102,7 @@
                               <td>
                                 @foreach ($menu['permission'] as $permission)
                                 <div class="form-check float-left" style="width:20%">
-                                  <input type="checkbox" name="permission[]" id="{{ $menu['key'] . $permission }}" class="all-menu-allSelect cate-{{ $cate['key'] }} menu-{{ $menu['key'] }}"  value="{{ $menu['path'] . '-' . $permission }}">
+                                  <input type="checkbox" name="permission[]" id="{{ $menu['key'] . $permission }}" data-parent="{{ $menu['key'] }}" class="all-menu-allSelect cate-{{ $cate['key'] }} menu-{{ $menu['key'] }} permission"  value="{{ $menu['path'] . '-' . $permission }}">
                                   <label for="{{ $menu['key'] . $permission }}">
                                     {{ __('custom.admin.form.systemRole.' . $permission) }}
                                   </label>
@@ -136,7 +136,7 @@
 <script>
 $(function() {
   $('.cate, .menu, #allSelect').click(function() {
-    $('.' + $(this).data('type') + '-' + $(this).attr('id')).attr('checked', ($(this).is(':checked')) ? true : false);
+    $('.' + $(this).data('type') + '-' + $(this).attr('id')).prop('checked', ($(this).is(':checked')) ? true : false);
   });
 });
 </script>

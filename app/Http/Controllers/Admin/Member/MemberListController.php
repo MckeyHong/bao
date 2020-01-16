@@ -21,7 +21,7 @@ class MemberListController extends Controller
      * 列表清單
      *
      * @param \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Support\Facades\Blade
      */
     public function index(Request $request)
     {

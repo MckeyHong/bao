@@ -9,7 +9,7 @@ return [
         'allSelect'      => '全选',
         'systemNotice'   => '系统提示',
         'internalServer' => '系统忙录中，请稍后再试，谢谢。',
-        'settlement'     => '00:00 ~ 00:10 无法进行操作',
+        'settlement'     => '00:00 ~ 00:10 无法进行操作(UTC+8)',
     ],
     'web' => [
         'func' => [
@@ -200,7 +200,7 @@ return [
                 'present'      => '目前利率(%)',
                 'future'       => '预设利率(%)',
                 'active'       => '状态',
-                'futureRemark' => '若有修改，则隔天0点生效',
+                'futureRemark' => '若有修改，则隔天凌晨生效(UTC+8)',
             ],
             'platformActivity' => [
                 'platform_id' => '平台',

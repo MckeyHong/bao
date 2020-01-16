@@ -156,10 +156,7 @@
 <script>
 $(function() {
   $('.cate, .menu, #allSelect').click(function() {
-    const changedCheck = ($(this).prop("checked")) ? true : false;
-    console.log('.' + $(this).data('type') + '-' + $(this).attr('id'));
-    console.log(changedCheck);
-    $('.' + $(this).data('type') + '-' + $(this).attr('id')).attr('checked', changedCheck);
+    $('.' + $(this).data('type') + '-' + $(this).attr('id')).prop('checked', ($(this).is(':checked')) ? true : false);
   });
 });
 </script>
