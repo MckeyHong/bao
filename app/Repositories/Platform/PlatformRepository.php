@@ -49,7 +49,7 @@ class PlatformRepository
      */
     public function getCronListForUpdateRate()
     {
-        return Platform::select(['id', 'present', 'future'])
+        return Platform::select(['id', 'name', 'present', 'future'])
                         ->whereRaw('present != future')
                         ->get();
     }

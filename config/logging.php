@@ -54,6 +54,13 @@ return [
             'days' => 14,
         ],
 
+        'crontab' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/crontab/laravel.log'),
+            'level' => 'debug',
+            'days' => 14,
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),

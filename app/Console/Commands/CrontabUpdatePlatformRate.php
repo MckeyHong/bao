@@ -5,12 +5,14 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Cache;
 use Carbon\Carbon;
+use App\Traits\LoggingTraits;
 use App\Services\Common\RateServices;
 use App\Repositories\Platform\PlatformRepository;
 use App\Repositories\Platform\PlatformRateRecordRepository;
 
 class CrontabUpdatePlatformRate extends Command
 {
+    use LoggingTraits;
     /**
      * The name and signature of the console command.
      *
@@ -42,8 +44,11 @@ class CrontabUpdatePlatformRate extends Command
      */
     public function handle()
     {
+        $this->setLoggingStartAt();
+        $this->setLoggingChannel('crontab');
         $date = Carbon::yesterday()->toDateString();
         $nowDate = Carbon::now()->toDateString();
+        $logging = ['command' => $this->signature, 'date' => $date, 'update' => []];
         // 清除平台利率Cache
         Cache::tags(['rate', $date])->flush();
         // 宣告 Repository
@@ -65,7 +70,11 @@ class CrontabUpdatePlatformRate extends Command
                 ]);
                 // 將利率加至Cache機制
                 $rateSrv->getPlatformRate($platform['id'], $nowDate);
+                // Logging 紀錄
+                $logging['update'][] = ['name' => $platform['name'], 'present' => $platform['present'], 'future' => $platform['future']];
             }
         }
+        $this->setLoggingParams($logging);
+        $this->writeLogging();
     }
 }
