@@ -17,9 +17,9 @@ class CreateUserLoginTable extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->increments('id')->comment('PK');
-            $table->unsignedSmallInteger('user_id')->default(0)->comment('後台帳號Id (rel:users > id)');
-            $table->string('user_account', 30)->default('')->comment('後台帳號 (rel:users > account)');
-            $table->string('user_name', 30)->default('')->comment('後台帳號名稱 (rel:users > name)');
+            $table->unsignedSmallInteger('user_id')->default(0)->comment('後台帳號Id(rel:users > id)');
+            $table->string('user_account', 30)->default('')->comment('後台帳號(rel:users > account)');
+            $table->string('user_name', 30)->default('')->comment('後台帳號名稱(rel:users > name)');
             $table->string('login_ip', 46)->default('')->comment('登入Ip');
             $table->string('area', 50)->default('')->comment('地區');
             $table->unsignedTinyInteger('status')->default(1)->comment('狀態(1:登入成功, 2:正常登出, 3:強制登出, 4:登入失敗)');

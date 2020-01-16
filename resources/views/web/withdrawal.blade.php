@@ -1,29 +1,7 @@
 @extends('web.layouts.app')
 
 @section('css')
-<style type="text/css">
-.withdrawal-func-block {
-    border-bottom: 1px solid #cccccc;
-    margin-bottom: 5px;
-    padding: 0 15px;
-    line-height: 50px;
-}
-
-.withdrawal-amount {
-    text-align: right;
-    border: 0;
-}
-
-.withdrawal-button-block {
-    padding: 0 15px;
-    margin-top: 5vh;
-}
-
-.modal-content {
-    margin-top: 20vh;
-}
-
-</style>
+<link rel="stylesheet" href="{{ asset('/css/web/withdrawal.css') }}">
 @endsection
 
 @section('content')

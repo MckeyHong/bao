@@ -10,7 +10,9 @@
           <div class="card-body">
             <div class="search-bar">
                 <div class="float-right">
+                  @if (isset($actionPermission['is_post']) && $actionPermission['is_post'] == 1)
                   <a href="{{ $activeUrl }}/create" class="btn btn-sm btn-primary">{{ __('custom.admin.text.add') }}<div class="ripple-container"></div></a>
+                  @endif
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -32,7 +34,7 @@
                   @php
                     $value['editPath'] = $activeUrl . '/edit/' . $value['id'];
                     $value['deletePath'] = $activeUrl . '/' . $value['id'];
-                    $value['deleteMsg'] = __('custom.admin.table.systemRole.name') . '：' . $value['name'];
+                    $value['modalMsg'] = __('custom.admin.table.systemRole.name') . '：' . $value['name'];
                   @endphp
                   <tr>
                     <td>{{ $value['name'] }}</td>
@@ -46,9 +48,13 @@
                     <td style="width: 150px">{{ $value['created_at'] }}</td>
                     <td style="width: 150px">
                         @if ($value['is_operation'])
-                        <i class="material-icons lists-icons" title="{{ __('custom.button.edit') }}" onclick="window.location.href='{{ $value['editPath'] }}'">edit</i>
-                        <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.delete') }}" onclick="deleteConfirm('{{ $value['deletePath'] }}', '{{ $value['deleteMsg'] }}')">delete</i>
-                        <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}">description</i>
+                          @if (isset($actionPermission['is_put']) && $actionPermission['is_put'] == 1)
+                          <i class="material-icons lists-icons" title="{{ __('custom.button.edit') }}" onclick="window.location.href='{{ $value['editPath'] }}'">edit</i>
+                          @endif
+                          @if (isset($actionPermission['is_delete']) && $actionPermission['is_delete'] == 1)
+                            <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.delete') }}" onclick="deleteConfirm('{{ $value['deletePath'] }}', '{{ $value['modalMsg'] }}')">delete</i>
+                          @endif
+                          <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}" onclick="logConfirm({{ $funcKey }}, {{ $value['id'] }}, '{{ $value['modalMsg'] }}')">description</i>
                         @endif
                     </td>
                   </tr>
@@ -68,4 +74,5 @@
   </div>
 </div>
 @extends('layouts.modal.delete')
+@extends('layouts.modal.log')
 @endsection

@@ -46,7 +46,9 @@
                   </button>
                 </div>
                 <div class="float-right">
-                  <a href="{{ $activeUrl }}/create" class="btn btn-sm btn-primary">{{ __('custom.admin.text.add') }}<div class="ripple-container"></div></a>
+                  @if (isset($actionPermission['is_post']) && $actionPermission['is_post'] == 1)
+                    <a href="{{ $activeUrl }}/create" class="btn btn-sm btn-primary">{{ __('custom.admin.text.add') }}<div class="ripple-container"></div></a>
+                  @endif
                 </div>
                 <div class="clearfix"></div>
               </form>
@@ -85,8 +87,12 @@
                     </td>
                     <td style="width: 150px">{{ $value['created_at'] }}</td>
                     <td style="width: 150px">
-                        <i class="material-icons lists-icons" title="{{ __('custom.button.edit') }}" onclick="window.location.href='{{ $activeUrl . '/edit/' . $value['id'] }}'">edit</i>
-                        <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.delete') }}" onclick="deleteConfirm('{{ $value['deletePath'] }}', '{{ $value['deleteMsg'] }}')">delete</i>
+                        @if (isset($actionPermission['is_put']) && $actionPermission['is_put'] == 1)
+                         <i class="material-icons lists-icons" title="{{ __('custom.button.edit') }}" onclick="window.location.href='{{ $activeUrl . '/edit/' . $value['id'] }}'">edit</i>
+                        @endif
+                        @if (isset($actionPermission['is_delete']) && $actionPermission['is_delete'] == 1)
+                          <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.delete') }}" onclick="deleteConfirm('{{ $value['deletePath'] }}', '{{ $value['deleteMsg'] }}')">delete</i>
+                        @endif
                         <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}">description</i>
                     </td>
                   </tr>

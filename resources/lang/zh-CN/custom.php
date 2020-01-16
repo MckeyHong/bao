@@ -130,6 +130,21 @@ return [
                 'area'       => '地区',
                 'device'     => '装置',
             ],
+            'reportMember' => [
+                'date'                 => '日期',
+                'deposit_credit'       => '充值金额',
+                'interest'             => '利息',
+                'total_deposit_credit' => '总充值金额',
+                'total_interest'       => '总利息',
+            ],
+            'reportInterest' => [
+                'platform_id'          => '平台',
+                'date'                 => '日期',
+                'deposit_credit'       => '充值金额',
+                'interest'             => '利息',
+                'total_deposit_credit' => '总充值金额',
+                'total_interest'       => '总利息',
+            ],
             'systemRole' => [
                 'name'       => '名称',
                 'active'     => '状态',
@@ -148,6 +163,12 @@ return [
                 'login_ip'   => '登入IP',
                 'area'       => '地区',
                 'status'     => '状态',
+            ],
+            'modalLog' => [
+                'created_at' => '异动时间 / IP',
+                'user'       => '帐号 / 名称',
+                'type'       => '操作',
+                'content'    => '内容',
             ],
         ],
         'search' => [
@@ -262,10 +283,24 @@ return [
             'title' => [
                 'delete' => '系统提示讯息',
                 'close'  => '系統提示訊息',
+                'log'    => '历程操作纪录',
             ],
             'body' => [
                 'delete' => '确定要删除下面此资料??',
                 'close'  => '确定要關閉下面此资料??(当天結束)',
+            ],
+        ],
+        'operation' => [
+            'field' => [
+                'account'  => '帐号',
+                'name'     => '名称',
+                'platform' => '平台',
+                'role'     => '角色',
+            ],
+            'info' => [
+                'store'  => '新增资料',
+                'edit'   => '编辑资料',
+                'delete' => '删除资料',
             ],
         ],
     ],

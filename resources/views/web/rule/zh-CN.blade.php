@@ -1,29 +1,7 @@
 @extends('web.layouts.app')
 
 @section('css')
-<style type="text/css">
-.rule-block {
-    padding: 0 15px;
-}
-
-.rule-title {
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.rule-content-block {
-    margin-top: 3vh;
-}
-
-.rule-border {
-    border-bottom: 1px solid #cccccc;
-    padding-bottom: 10px;
-}
-
-.rule-bottom {
-    margin-bottom: 20px;
-}
-</style>
+<link rel="stylesheet" href="{{ asset('/css/web/rule.css') }}">
 @endsection
 
 @section('content')

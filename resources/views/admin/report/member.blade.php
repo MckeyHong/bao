@@ -35,12 +35,46 @@
                   <div class="clearfix"></div>
                 </div>
                 <div class="float-left">
-                  <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                  <button type="submit" class="btn btn-white btn-round btn-just-icon btn-search">
                     <i class="material-icons">search</i>
                   </button>
                 </div>
                 <div class="clearfix"></div>
               </form>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th>{{ __('custom.admin.table.reportMember.total_deposit_credit') }}</th>
+                    <th>{{ __('custom.admin.table.reportMember.total_interest') }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>$ 888,000.98</td>
+                    <td>$ 888,000.98</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th>{{ __('custom.admin.table.reportMember.date') }}</th>
+                    <th>{{ __('custom.admin.table.reportMember.deposit_credit') }}</th>
+                    <th>{{ __('custom.admin.table.reportMember.interest') }}</th>
+                    <th>{{ __('custom.admin.text.log') }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2020-01-15</td>
+                    <td>$ 31,000</td>
+                    <td>$ 12.22</td>
+                    <td style="width:70px"><i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}">description</i></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

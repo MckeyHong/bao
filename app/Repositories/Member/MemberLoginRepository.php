@@ -37,7 +37,6 @@ class MemberLoginRepository
             $query = $query->where('member_account', 'LIKE', $params['account'] . '%');
         }
 
-        return $query->orderBy('created_at', 'DESC')
-                     ->paginate(config('custom.admin.paginate'));
+        return $query->orderBy('created_at', 'DESC')->paginate(config('custom.admin.paginate'));
     }
 }

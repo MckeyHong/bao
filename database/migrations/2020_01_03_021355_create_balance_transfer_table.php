@@ -17,8 +17,8 @@ class CreateBalanceTransferTable extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->bigIncrements('id')->comment('PK');
-            $table->unsignedSmallInteger('platform_id')->comment('平台ID');
-            $table->unsignedBigInteger('member_id')->comment('會員ID');
+            $table->unsignedSmallInteger('platform_id')->comment('平台Id(rel:platforms > id)');
+            $table->unsignedBigInteger('member_id')->comment('會員Id(rel:members > id)');
             $table->string('no', 50)->comment('單號');
             $table->unsignedTinyInteger('type')->default(1)->comment('轉帳狀態(1：轉入，2：轉出)');
             $table->unsignedDecimal('credit_before', 30, 10)->default(0)->comment('轉帳前額度');

@@ -25,10 +25,11 @@ class SystemRoleController extends Controller
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Support\Facades\Blade
      */
-    public function index()
+    public function index(Request $request)
     {
         return view('admin.system.role', array_merge(array_merge($this->adminResponse(), $this->getExecuteResult()), [
-            'lists' => $this->systemRoleSrv->index()['data'],
+            'lists'   => $this->systemRoleSrv->index()['data'],
+            'funcKey' => config('permission.operation.' . $request->path()),
         ]));
     }
 

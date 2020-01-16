@@ -16,7 +16,7 @@ class CreateMembersTable extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->bigIncrements('id')->comment('PK');
-            $table->unsignedSmallInteger('platform_id')->comment('平台ID');
+            $table->unsignedSmallInteger('platform_id')->comment('平台Id(rel:platforms > id)');
             $table->string('account', 30)->comment('帳號');
             $table->string('password', 60)->comment('密碼');
             $table->string('name', 30)->default('')->comment('名稱');

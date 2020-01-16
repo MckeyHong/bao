@@ -19,7 +19,7 @@ class MemberInfoStatDailyRepository
      *
      * @param  integer $memberId
      * @param  string  $betAt
-     * @param  array  $field
+     * @param  array   $field
      * @return mixed
      */
     public function findByMemberIdAndBetAt($memberId, $betAt, $field = ['bet_total'])

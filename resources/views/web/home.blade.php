@@ -1,45 +1,7 @@
 @extends('web.layouts.app')
 
 @section('css')
-<style type="text/css">
-.deposit-func-block {
-    border-bottom: 1px solid #cccccc;
-    margin-bottom: 5px;
-    padding: 0 15px;
-    line-height: 50px;
-}
-
-.deposit-amount {
-    text-align: right;
-    border: 0;
-}
-
-.deposit-button-block {
-    padding: 0 15px;
-    margin-top: 5vh;
-}
-
-.modal-content {
-    margin-top: 20vh;
-}
-
-.interset-thead-td {
-    background-color: #EF5145;
-    color: #ffffff;
-}
-
-.table-block {
-    margin: 20px 0;
-    padding: 0 15px;
-}
-.table {
-    font-size: 0.8rem;
-}
-
-.table th, .table td {
-    padding: 0.5rem;
-}
-</style>
+<link rel="stylesheet" href="{{ asset('/css/web/home.css') }}">
 @endsection
 
 @section('content')

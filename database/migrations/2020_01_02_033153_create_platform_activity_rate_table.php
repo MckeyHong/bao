@@ -17,7 +17,7 @@ class CreatePlatformActivityRateTable extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedSmallInteger('platform_id')->comment('平台ID');
+            $table->unsignedSmallInteger('platform_id')->comment('平台Id(rel:platforms > id)');
             $table->date('start_at')->comment('活動開始日期');
             $table->date('end_at')->comment('活動結束日期');
             $table->unsignedDecimal('rate', 5, 2)->comment('活動利率%');

@@ -16,8 +16,8 @@ class CreateMemberInfoStatDailyTable extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->bigIncrements('id')->comment('PK');
-            $table->unsignedSmallInteger('platform_id')->comment('平台ID');
-            $table->unsignedBigInteger('member_id')->comment('會員ID');
+            $table->unsignedSmallInteger('platform_id')->comment('平台Id(rel:platforms > id)');
+            $table->unsignedBigInteger('member_id')->comment('會員Id(rel:members > id)');
             $table->date('bet_at')->comment('統計日期(下注日期)');
             $table->unsignedDecimal('bet_total', 20, 4)->default(0)->comment('昨日下注點數總額');
             $table->unsignedDecimal('deposit_credit', 20, 4)->default(0)->comment('今日已儲值金額');

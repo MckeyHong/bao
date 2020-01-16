@@ -26,6 +26,7 @@ Route::group(['prefix' => 'ctl'], function () {
     Auth::routes();
     // 已登入
     Route::group(['namespace' => 'Admin', 'middleware' => ['auth:user']], function () {
+        // 首頁資訊
         Route::get('/home', 'HomeController@index')->name('home');
 
         // 個人資訊
@@ -34,6 +35,7 @@ Route::group(['prefix' => 'ctl'], function () {
             Route::put('/profile', 'SystemProfileController@edit');
         });
 
+        // 功能權限
         Route::group(['middleware' => 'permission'], function () {
             // 平台管理
             Route::group(['prefix' => 'platform', 'namespace' => 'Platform'], function () {

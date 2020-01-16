@@ -17,9 +17,9 @@ class CreatePlatformWhitelistTable extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->mediumIncrements('id')->comment('PK');
-            $table->unsignedSmallInteger('platform_id')->comment('平台ID');
-            $table->string('ip', 46)->comment('允許IP');
-            $table->string('description', 30)->default('')->comment('IP描述');
+            $table->unsignedSmallInteger('platform_id')->comment('平台Id(rel:platforms > id)');
+            $table->string('ip', 46)->comment('允許Ip');
+            $table->string('description', 30)->default('')->comment('Ip描述');
             $table->timestamps();
 
             $table->unique(['platform_id', 'ip'], 'uk_' . $this->table . '_1');

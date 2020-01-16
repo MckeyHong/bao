@@ -37,8 +37,10 @@
                     </td>
                     <td>{{ $value['updated_at'] }}</td>
                     <td>
+                      @if (isset($actionPermission['is_put']) && $actionPermission['is_put'] == 1)
                         <i class="material-icons lists-icons" title="{{ __('custom.button.edit') }}" onclick="window.location.href='{{ $activeUrl }}/edit/{{ $value['id'] }}'">edit</i>
-                        <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}">description</i>
+                      @endif
+                      <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}">description</i>
                     </td>
                   </tr>
                   @endforeach

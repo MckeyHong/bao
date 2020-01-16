@@ -35,8 +35,8 @@
                   <div class="float-left"><input id="account" name="account" class="form-control search-input" value="{{ $get['account'] }}" /></div>
                   <div class="clearfix"></div>
                 </div>
-                <div class="float-right">
-                  <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                <div class="float-left">
+                  <button type="submit" class="btn btn-white btn-round btn-just-icon btn-search">
                     <i class="material-icons">search</i>
                   </button>
                 </div>

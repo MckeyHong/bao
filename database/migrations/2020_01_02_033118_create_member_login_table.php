@@ -16,10 +16,10 @@ class CreateMemberLoginTable extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->bigIncrements('id')->comment('PK');
-            $table->unsignedSmallInteger('platform_id')->comment('平台Id');
-            $table->unsignedBigInteger('member_id')->comment('會員Id');
-            $table->string('member_account', 30)->comment('會員帳號');
-            $table->string('member_name', 30)->comment('會員名稱');
+            $table->unsignedSmallInteger('platform_id')->comment('平台Id(rel:platforms > id)');
+            $table->unsignedBigInteger('member_id')->comment('會員Id(rel:members > id)');
+            $table->string('member_account', 30)->comment('會員帳號(rel:members > account)');
+            $table->string('member_name', 30)->comment('會員名稱(rel:members > name)');
             $table->string('login_ip', 46)->comment('登入Ip');
             $table->unsignedTinyInteger('device')->default(2)->comment('使用裝置(1：電腦，2：手機)');
             $table->json('device_info')->nullable()->comment('裝置詳細資訊');

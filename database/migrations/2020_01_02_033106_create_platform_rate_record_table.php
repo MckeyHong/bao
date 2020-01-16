@@ -16,9 +16,10 @@ class CreatePlatformRateRecordTable extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->smallIncrements('id')->comment('PK');
-            $table->unsignedSmallInteger('platform_id')->comment('平台ID');
+            $table->unsignedSmallInteger('platform_id')->comment('平台Id(rel:platforms > id)');
             $table->date('date_at')->comment('日期');
             $table->unsignedDecimal('present', 5, 2)->default(0)->comment('目前利率(%)');
+            $table->unsignedDecimal('future', 5, 2)->default(0)->comment('預設利率(%)');
             $table->timestamps();
 
             $table->unique(['platform_id', 'date_at'], 'uk_' . $this->table . '_1');

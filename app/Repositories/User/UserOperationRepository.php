@@ -13,4 +13,46 @@ class UserOperationRepository
     {
         $this->setEntity(UserOperation::class);
     }
+
+    /**
+     * [控端] 列表清單
+     *
+     * @param  array   $params
+     * @return mixed
+     */
+    public function getAdminList($params)
+    {
+        $query = UserOperation::select(['created_at', 'user_account', 'user_name', 'ip', 'func_key',  'type', 'targets', 'content'])
+                        ->whereBetween('created_at', [$params['start'], $params['end']]);
+
+        if (isset($params['func_key']) && $params['func_key'] > 0) {
+            $query = $query->where('func_key', $params['func_key']);
+        }
+
+        if (isset($params['type']) && $params['type'] > 0) {
+            $query = $query->where('type', $params['type']);
+        }
+
+        if (isset($params['user_id']) && $params['user_id'] > 0) {
+            $query = $query->where('user_id', $params['user_id']);
+        }
+        return $query->orderBy('created_at', 'DESC')
+                     ->paginate(config('custom.admin.paginate'));
+    }
+
+    /**
+     * [控端] 取得單筆資料的異動紀錄
+     *
+     * @param  integer  $funcKey
+     * @param  integer  $funcId
+     * @return mixed
+     */
+    public function getAdminSingleList($funcKey, $funcId)
+    {
+        return UserOperation::select(['created_at', 'user_account', 'user_name', 'ip', 'func_key',  'type', 'targets', 'content'])
+                            ->where('func_key', $funcKey)
+                            ->where('func_id', $funcId)
+                            ->orderBy('created_at', 'DESC')
+                            ->paginate(config('custom.admin.paginate'));
+    }
 }

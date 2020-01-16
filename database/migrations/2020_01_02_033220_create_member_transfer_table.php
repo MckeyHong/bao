@@ -16,8 +16,8 @@ class CreateMemberTransferTable extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->bigIncrements('id')->comment('PK');
-            $table->unsignedSmallInteger('platform_id')->comment('平台ID');
-            $table->unsignedBigInteger('member_id')->comment('會員ID');
+            $table->unsignedSmallInteger('platform_id')->comment('平台Id(rel:platforms > id)');
+            $table->unsignedBigInteger('member_id')->comment('會員Id(rel:members > id)');
             $table->unsignedTinyInteger('type')->default(1)->comment('異動類型(1:轉入、2:轉出、3:系統結算、4:系統轉出)');
             $table->decimal('credit_before', 30, 10)->default(0)->comment('異動前額度');
             $table->decimal('credit', 30, 10)->default(0)->comment('轉換額度');

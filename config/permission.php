@@ -1,8 +1,9 @@
 <?php
 
-// 后台功能清单
+// 後台功能清單權限設置及操作日誌功能清單
 
 return [
+    // 功能列表
     'func' => [
         [
             'key'    => 'platform',
@@ -44,6 +45,7 @@ return [
             ],
         ],
     ],
+    // 操作日誌 func_key
     'operation' => [
         'ctl/system/profile'          => 1,
         'ctl/platform/list'           => 2,

@@ -61,7 +61,7 @@
         }
 
         .btn-search {
-            margin-left: 10px;
+            margin: 0 0 0 10px;
         }
 
         .lists-icons {

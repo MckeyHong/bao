@@ -63,7 +63,7 @@ class Controller extends BaseController
         // 依帳號角色功能權限調整功能顯示清單
         $activePath = '/ctl/home';
         $permission = [];
-        $userPermission = Cache::tags(['adminPermission'])->get($user['id']);
+        $userPermission = Cache::tags(['adminPermission', $user['role_id']])->get($user['id']);
         if ($userPermission == null) {
             $userPermission = [];
             $repo = new RolePermissionRepository();
@@ -72,7 +72,7 @@ class Controller extends BaseController
                 $value = $value->toArray();
                 $userPermission[$value['path']] = $value;
             }
-            Cache::tags(['adminPermission'])->put($user['id'], $userPermission, 1440);
+            Cache::tags(['adminPermission', $user['role_id']])->put($user['id'], $userPermission, 1440);
         }
         foreach (config('permission.func') as $cate) {
             $cate['active'] = $cate['aria'] = $cate['show'] = '';
@@ -97,11 +97,12 @@ class Controller extends BaseController
         }
 
         return [
-            'sidebarMenu' => $permission,
-            'activePage'  => $nowPathKey,
-            'activePath'  => $activePath,
-            'activeUrl'   => asset($activePath),
-            'titlePage'   => trans('custom.admin.func.' . $nowPathKey),
+            'sidebarMenu'      => $permission,
+            'activePage'       => $nowPathKey,
+            'activePath'       => $activePath,
+            'activeUrl'        => asset($activePath),
+            'titlePage'        => trans('custom.admin.func.' . $nowPathKey),
+            'actionPermission' => $userPermission[$activePath] ?? ['is_get' => 2, 'is_post' => 2, 'is_put' => 2, 'is_delete' => 2],
         ];
     }
 
