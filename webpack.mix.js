@@ -11,12 +11,14 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.copyDirectory('resources/js', 'public/js')
+mix.copyDirectory('resources/js/admin', 'public/js/admin')
+   .copyDirectory('resources/js/vendor', 'public/js/vendor')
+   .copyDirectory('resources/js/web', 'public/js/web')
    .copyDirectory('resources/images', 'public/images')
    .copyDirectory('resources/css', 'public/css');
 
 
-mix.js('resources/js/app.js', 'public/js')
+mix.js('resources/js/app.js', 'public/js/app.js')
    .sass('resources/sass/app.scss', 'public/css');
 
 if (mix.inProduction()) {
