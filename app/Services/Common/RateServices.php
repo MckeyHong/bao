@@ -20,9 +20,8 @@ class RateServices
     {
         try {
             $date = (validate_date($date)) ? Carbon::now()->toDateString() : $date;
-            $cacheKey = 'rate-' . $date . '-' . $platformId;
-            if (Cache::has($cacheKey)) {
-                return floatval(Cache::get($cacheKey));
+            if (Cache::tags(['rate', $date])->has($platformId)) {
+                return Cache::tags(['rate', $date])->get($platformId);
             } else {
                 // 先檢查是否有活動利率
                 $repo = new PlatformActivityRateRepository();
@@ -34,7 +33,7 @@ class RateServices
                     $platform = $repo->find($platformId);
                     $rate = floatval($platform['present'] ?? 0);
                 }
-                Cache::put($cacheKey, $rate, now()->addMinutes(1440));
+                Cache::tags(['rate', $date])->put($platformId, $rate, now()->addMinutes(1440));
                 return $rate;
             }
         } catch (\Exception $e) {

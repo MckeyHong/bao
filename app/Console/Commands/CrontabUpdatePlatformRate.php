@@ -3,8 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use Cache;
 use Carbon\Carbon;
+use App\Services\Common\RateServices;
 use App\Repositories\Platform\PlatformRepository;
 use App\Repositories\Platform\PlatformRateRecordRepository;
 
@@ -42,6 +43,11 @@ class CrontabUpdatePlatformRate extends Command
     public function handle()
     {
         $date = Carbon::yesterday()->toDateString();
+        $nowDate = Carbon::now()->toDateString();
+        // 清除平台利率Cache
+        Cache::tags(['rate', $date])->flush();
+        // 宣告 Repository
+        $rateSrv = new RateServices();
         $platformRepo = new PlatformRepository();
         $platformRateRecordRepo = new PlatformRateRecordRepository();
         // 取得要更新利率的平台清單
@@ -57,6 +63,8 @@ class CrontabUpdatePlatformRate extends Command
                     'date_at'     => $date,
                     'present'     => $platform['present'],
                 ]);
+                // 將利率加至Cache機制
+                $rateSrv->getPlatformRate($platform['id'], $nowDate);
             }
         }
     }
