@@ -80,27 +80,27 @@ hr {
                     @foreach ($record['list'] as $value)
                     <div class="record-info-block bg-light">
                         <div>
-                            <div class="float-left">{{ __('custom.web.reocrd.table.created_at') }}</div>
+                            <div class="float-left">{{ __('custom.web.record.table.created_at') }}</div>
                             <div class="float-right">{{ $value['created_at'] }}</div>
                             <div class="clearfix"></div>
                         </div>
                         <div>
-                            <div class="float-left">{{ __('custom.web.reocrd.table.credit_before') }}</div>
+                            <div class="float-left">{{ __('custom.web.record.table.credit_before') }}</div>
                             <div class="float-right">$ {{ $value['credit_before'] }}</div>
                             <div class="clearfix"></div>
                         </div>
                         <div>
-                            <div class="float-left">{{ __('custom.web.reocrd.table.credit') }}</div>
+                            <div class="float-left">{{ __('custom.web.record.table.credit') }}</div>
                             <div class="float-right {{ $value['class'] }}">[{{ $value['type'] }}] $ {{ $value['credit'] }}</div>
                             <div class="clearfix"></div>
                         </div>
                         <div>
-                            <div class="float-left">{{ __('custom.web.reocrd.table.credit_after') }}</div>
+                            <div class="float-left">{{ __('custom.web.record.table.credit_after') }}</div>
                             <div class="float-right">$ {{ $value['credit_after'] }}</div>
                             <div class="clearfix"></div>
                         </div>
                         <div>
-                            <div class="float-left">{{ __('custom.web.reocrd.table.interest') }}</div>
+                            <div class="float-left">{{ __('custom.web.record.table.interest') }}</div>
                             <div class="float-right">$ {{ $value['interest'] }}</div>
                             <div class="clearfix"></div>
                         </div>

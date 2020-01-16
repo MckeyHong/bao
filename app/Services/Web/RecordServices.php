@@ -9,13 +9,6 @@ class RecordServices
 {
     use TimeTraits;
 
-    const TYPE_LIST = [
-        '1' => '转入',
-        '2' => '转出',
-        '3' => '系统结算',
-        '4' => '系统转出',
-    ];
-
     protected $memberTransferRepo;
 
     public function __construct(
@@ -91,7 +84,7 @@ class RecordServices
                 }
                 $value['interest'] = amount_format($value['interest'], 8);
                 $value['class'] = (in_array($value['type'], [1, 3])) ? 'text-success' : 'text-danger';
-                $value['type'] = self::TYPE_LIST[$value['type']];
+                $value['type'] = trans('custom.transferList.' . $value['type']);
             }
             return $record;
         } catch (\Exception $e) {
