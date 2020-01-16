@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Crontab;
 
 use Illuminate\Console\Command;
 use Cache;
@@ -10,7 +10,7 @@ use App\Services\Common\RateServices;
 use App\Repositories\Platform\PlatformRepository;
 use App\Repositories\Platform\PlatformRateRecordRepository;
 
-class CrontabUpdatePlatformRate extends Command
+class UpdatePlatformRate extends Command
 {
     use LoggingTraits;
     /**

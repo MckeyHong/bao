@@ -77,7 +77,6 @@ class WebServices
                 if ($platformCredit < $credit) {
                     throw new \Exception('平台额度不足', 417);
                 }
-
                 // 平台轉帳
                 $tradeNo = Str::uuid();
                 $response = $this->transferCreditOfApi($member['account'], $tradeNo, 'IN', $credit);

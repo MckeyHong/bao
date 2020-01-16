@@ -55,4 +55,16 @@ class MemberRepository
                      ->orderBy('account', 'ASC')
                      ->paginate(config('custom.admin.paginate'));
     }
+
+    /**
+     * [排程] 取得要進行結算的會員清單
+     *
+     * @return mixed
+     */
+    public function getCronListForSettlementInterest()
+    {
+        return Member::select(['id', 'platform_id', 'today_deposit', 'credit', 'interest', 'last_transfer_at'])
+                     ->where('today_deposit', '>', 0)
+                     ->get();
+    }
 }
