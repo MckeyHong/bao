@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/vendor/jquery.datetimepicker.min.css') }}" />
+@endpush
+
 @section('content')
 <div class="content">
   <div class="container-fluid">
@@ -11,9 +15,9 @@
               <form method="GET">
                 <div class="float-left">
                   <div class="float-left search-label">{{ __('custom.admin.search.time') }}：</div>
-                  <div class="float-left"><input id="start" name="start" class="form-control search-input"/></div>
+                  <div class="float-left"><input id="start" name="start" class="form-control search-input" value="{{ $get['start'] }}" /></div>
                   <div class="float-left search-label"> ~ </div>
-                  <div class="float-left"><input id="end" name="end" class="form-control search-input" /></div>
+                  <div class="float-left"><input id="end" name="end" class="form-control search-input"value="{{ $get['end'] }}" /></div>
                   <div class="clearfix"></div>
                 </div>
                 <div class="float-left search-label">、</div>
@@ -21,8 +25,9 @@
                   <div class="float-left search-label">{{ __('custom.admin.search.platform') }}：</div>
                   <div class="float-left">
                     <select id="platform" name="platform" class="form-control-selector">
+                      <option value="">{{ __('custom.common.all') }}</option>
                       @foreach ($platform as $platformKey => $platformValue)
-                      <option value="{{ $platformKey }}">{{ $platformValue }}</option>
+                      <option value="{{ $platformKey }}" @if ($platformKey == $get['platform']) selected @endif>{{ $platformValue }}</option>
                       @endforeach
                     </select>
                   </div>
@@ -46,8 +51,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>$ 888,000.98</td>
-                    <td>$ 888,000.98</td>
+                    <td style="width:50%">$ {{ amount_format($lists['total']['deposit_credit'], 2) }}</td>
+                    <td>$ {{ amount_format($lists['total']['transfer_interest'], 2) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -55,20 +60,21 @@
                 <thead>
                   <tr>
                     <th>{{ __('custom.admin.table.reportInterest.platform_id') }}</th>
-                    <th>{{ __('custom.admin.table.reportInterest.date') }}</th>
                     <th>{{ __('custom.admin.table.reportInterest.deposit_credit') }}</th>
                     <th>{{ __('custom.admin.table.reportInterest.interest') }}</th>
-                    <th>{{ __('custom.admin.text.log') }}</th>
                   </tr>
                 </thead>
                 <tbody>
+                  @if ($lists['lists']->count() == 0)
+                  <tr><td colspan="3">{{ __('custom.common.noData') }}</td></tr>
+                  @endif
+                  @foreach ($lists['lists'] as $value)
                   <tr>
-                    <td>350抢红包</td>
-                    <td>2020-01-15</td>
-                    <td>$ 31,000</td>
-                    <td>$ 12.22</td>
-                    <td style="width:70px"><i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}">description</i></td>
+                    <td>{{ $value['platform_id'] }}</td>
+                    <td>{{ amount_format($value['deposit_credit'], 2) }}</td>
+                    <td>{{ amount_format($value['transfer_interest'], 2) }}</td>
                   </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>
@@ -79,3 +85,21 @@
   </div>
 </div>
 @endsection
+
+@push('js')
+<script src="{{ asset('js/vendor/jquery.datetimepicker.full.min.js') }}"></script>
+<script>
+$(function () {
+    $('#start, #end').datetimepicker({
+        format: 'Y-m-d',
+        lang: 'zh',
+        minDate: '{{ $firstDay }}',
+        maxDate: 0,
+        timepicker: false,
+        onSelectDate: function (ct) {
+          $('#start').val(($('#start').val() <= $('#end').val()) ? $('#start').val() : $('#end').val());
+        }
+    });
+});
+</script>
+@endpush

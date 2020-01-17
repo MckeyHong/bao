@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Report;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Admin\DropdownServices;
@@ -25,18 +26,24 @@ class ReportInterestController extends Controller
      */
     public function index(Request $request)
     {
+        // 參數驗證
         $dropdownSrv = new DropdownServices();
         $platform = $dropdownSrv->dropdown('platform');
-        // 參數驗證
+        $firstDay = Carbon::now()->subMonth(6)->toDateString();
+        $defaultStartAt = Carbon::now()->subDay(6)->toDateString();
+        $defaultEndAt = Carbon::now()->toDateString();
         $params = [
+            'start'    => (validate_date($request->input('start', '')) && $request->input('start') >= $firstDay) ? $request->input('start') :  $defaultStartAt,
+            'end'      => (validate_date($request->input('end', '')) && $request->input('end') >= $firstDay) ? $request->input('end') :  $defaultEndAt,
             'platform' => (in_array($request->input('platform'), array_keys($platform))) ? $request->input('platform') : 0,
-            'account'  => $request->input('account', ''),
         ];
+        $params['start'] = ($params['start'] > $params['end']) ? $params['end'] : $params['start'];
 
         return view('admin.report.interest', array_merge($this->adminResponse(), [
             'get'      => $params,
             'platform' => $platform,
-            // 'lists'    => $this->memberListSrv->index($params, $platform)['data'],
+            'lists'    => $this->reportInterestSrv->index($params, $platform)['data'],
+            'firstDay' => $firstDay,
         ]));
     }
 }
