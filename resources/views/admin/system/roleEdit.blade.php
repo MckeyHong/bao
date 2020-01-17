@@ -103,7 +103,7 @@
                              <tr>
                               <td class="text-left">
                                 <div class="form-check">
-                                  <input type="checkbox" id="{{ $menu['key'] }}" data-type="menu" class="all-menu-allSelect menu cate-{{ $cate['key'] }}" value="1" @if($menu['check']) checked="checked" @endif>
+                                  <input type="checkbox" id="{{ $menu['key'] }}" data-parent="{{ $cate['key'] }}" data-type="menu" class="menu all-menu-allSelect menu cate-{{ $cate['key'] }}" value="1" @if($menu['check']) checked="checked" @endif>
                                   <label for="{{ $menu['key'] }}">
                                     {{ __('custom.admin.func.'. $menu['key']) }}
                                   </label>
@@ -120,7 +120,8 @@
                                   <input type="checkbox"
                                          name="permission[]"
                                          id="{{ $menu['key'] . $permission }}"
-                                         class="all-menu-allSelect cate-{{ $cate['key'] }} menu-{{ $menu['key'] }}"  value="{{ $menu['path'] . '-' . $permission }}"
+                                         data-parent="{{ $menu['key'] }}"
+                                         class="permission all-menu-allSelect cate-{{ $cate['key'] }} menu-{{ $menu['key'] }}"  value="{{ $menu['path'] . '-' . $permission }}"
                                          @if ($menu['permission_check'][$key]) checked="checked" @endif
                                   >
                                   <label for="{{ $menu['key'] . $permission }}">
@@ -153,11 +154,5 @@
 @endsection
 
 @push('js')
-<script>
-$(function() {
-  $('.cate, .menu, #allSelect').click(function() {
-    $('.' + $(this).data('type') + '-' + $(this).attr('id')).prop('checked', ($(this).is(':checked')) ? true : false);
-  });
-});
-</script>
+<script src="{{ asset('js/admin/permission.js') }}"></script>
 @endpush

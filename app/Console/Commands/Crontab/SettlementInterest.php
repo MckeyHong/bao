@@ -91,7 +91,9 @@ class SettlementInterest extends Command
                 ]);
             }
             // 系統轉回平台
-
+            if ($creditAfter >= 1) {
+                // todo
+            }
         }
 
 

@@ -133,11 +133,5 @@
 @endsection
 
 @push('js')
-<script>
-$(function() {
-  $('.cate, .menu, #allSelect').click(function() {
-    $('.' + $(this).data('type') + '-' + $(this).attr('id')).prop('checked', ($(this).is(':checked')) ? true : false);
-  });
-});
-</script>
+<script src="{{ asset('js/admin/permission.js') }}"></script>
 @endpush
