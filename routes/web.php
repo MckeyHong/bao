@@ -94,8 +94,13 @@ Route::group(['prefix' => 'ctl'], function () {
                 });
                 // 登入日誌
                 Route::get('/login', 'SystemLoginController@index');
+
                 // 操作日誌
-                Route::get('/operation', 'SystemOperationController@index');
+                Route::group(['prefix' => 'operation'], function () {
+                    Route::get('/', 'SystemOperationController@index');
+                    // 單筆 Log 資訊
+                    Route::get('/detail/{funcKey}/{funcId}', 'SystemOperationController@detail');
+                });
             });
         });
     });

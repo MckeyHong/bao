@@ -120,7 +120,7 @@
         <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
         <script src="{{ asset('js/admin/plugins/nouislider.min.js') }}"></script>
         <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+        <script src="{{ asset('js/admin/plugins/core.min.js') }}"></script>
         <!-- Library for adding dinamically elements -->
         <script src="{{ asset('js/admin/plugins/arrive.min.js') }}"></script>
         <!-- Chartist JS -->

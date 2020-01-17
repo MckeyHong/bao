@@ -9,7 +9,7 @@
 
         <div class="card card-login card-hidden mb-3">
           <div class="card-header card-header-primary text-center">
-            <h4 class="card-title"><strong>余额宝管理介面</strong></h4>
+            <h4 class="card-title"><strong>{{ __('custom.websiteName') }}</strong></h4>
           </div>
           <div class="card-body">
             <p class="card-description text-center">
@@ -20,7 +20,7 @@
                     <i class="material-icons">person</i>
                   </span>
                 </div>
-                <input type="input" name="account" class="form-control" placeholder="{{ __('Account...') }}" value="{{ old('account', 'admin001') }}" required>
+                <input type="input" name="account" class="form-control" placeholder="{{ __('custom.admin.form.login.account') }}" value="{{ old('account', 'admin888') }}" required>
               </div>
               @if ($errors->has('account'))
                 <div id="account-error" class="error text-danger pl-3" for="account" style="display: block;">
@@ -35,7 +35,7 @@
                     <i class="material-icons">lock_outline</i>
                   </span>
                 </div>
-                <input type="password" name="password" id="password" class="form-control" placeholder="{{ __('Password...') }}" value="{{ !$errors->has('password') ? "asd123" : "" }}" required>
+                <input type="password" name="password" id="password" class="form-control" placeholder="{{  __('custom.admin.form.login.password') }}" value="{{ !$errors->has('password') ? "asd123" : "" }}" required>
               </div>
               @if ($errors->has('password'))
                 <div id="password-error" class="error text-danger pl-3" for="password" style="display: block;">

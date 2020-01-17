@@ -4,12 +4,13 @@ namespace App\Services\Admin\System;
 
 use Auth;
 use Request;
+use App\Traits\AdminOperation;
 use App\Traits\TimeTraits;
 use App\Repositories\User\UserOperationRepository;
 
 class SystemOperationServices
 {
-    use TimeTraits;
+    use AdminOperation, TimeTraits;
 
     protected $userOperationRepo;
 
@@ -28,10 +29,7 @@ class SystemOperationServices
     public function index($params)
     {
         try {
-            $data = $this->userOperationRepo->getAdminList($params);
-            foreach ($data as $value) {
-                $value['created_at'] = $this->covertUTCToUTC8($value['created_at']);
-            }
+            $data = $this->handleOperationInfo($this->userOperationRepo->getAdminList($params));
             return [
                 'result' => true,
                 'data'   => $data,
@@ -46,15 +44,54 @@ class SystemOperationServices
     }
 
     /**
+     * 單筆歷程資料
+     *
+     * @param  string  $funcKey
+     * @param  integer $funcId
+     * @return array
+     */
+    public function detail($funcKey, $funcId)
+    {
+        try {
+            return [
+                'code'   => 200,
+                'result' => $this->handleOperationInfo($this->userOperationRepo->getAdminSingleList($funcKey, $funcId)),
+            ];
+        } catch (\Exception $e) {
+            return [
+                'code'   => 500,
+                'result' => null,
+                'error'  => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * 處理操作日誌資料顯示
+     *
+     * @param  mixed  $list
+     * @return mixed
+     */
+    private function handleOperationInfo($list)
+    {
+        foreach ($list as $value) {
+            $value['created_at'] = $this->covertUTCToUTC8($value['created_at']);
+            $value['targets'] = $this->covertOperation($value['targets']);
+            $value['content'] = $this->covertOperation($value['content']);
+        }
+        return $list;
+    }
+
+    /**
      * 新增操作日誌
      *
      * @param  integer  $funcId
      * @param  string   $type
-     * @param  string   $targets
-     * @param  string   $content
+     * @param  array    $targets
+     * @param  array    $content
      * @return array
      */
-    public function store($funcId, $type, $targets = '', $content = '')
+    public function store($funcId, $type, $targets = [], $content = [])
     {
         try {
             $user = Auth::user();

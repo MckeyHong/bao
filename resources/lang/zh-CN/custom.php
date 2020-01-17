@@ -9,7 +9,7 @@ return [
         'allSelect'      => '全选',
         'systemNotice'   => '系统提示',
         'internalServer' => '系统忙录中，请稍后再试，谢谢。',
-        'settlement'     => '00:00 ~ 00:10 无法进行操作(UTC+8)',
+        'settlement'     => '00:00 ~ 00:10 无法进行操作',
     ],
     'web' => [
         'func' => [
@@ -164,6 +164,13 @@ return [
                 'area'       => '地区',
                 'status'     => '状态',
             ],
+            'systemOperation' => [
+                'created_at' => '操作時間 / IP',
+                'user'       => '帐号 (名称)',
+                'func'       => '功能 / 操作',
+                'targets'    => '操作对象',
+                'content'    => '操作内容',
+            ],
             'modalLog' => [
                 'created_at' => '异动时间 / IP',
                 'user'       => '帐号 / 名称',
@@ -172,13 +179,15 @@ return [
             ],
         ],
         'search' => [
-            'time'     => '时间',
-            'account'  => '帐号',
-            'status'   => '状态',
-            'active'   => '状态',
-            'platform' => '平台',
-            'role'     => '角色',
-            'type'     => '类别',
+            'time'      => '时间',
+            'account'   => '帐号',
+            'status'    => '状态',
+            'active'    => '状态',
+            'platform'  => '平台',
+            'role'      => '角色',
+            'type'      => '类别',
+            'operation' => '功能',
+            'user'      => '人员',
         ],
         'text' => [
             'action' => '操作',
@@ -209,6 +218,10 @@ return [
             ],
         ],
         'form' => [
+            'login' => [
+                'account'  => '帐号',
+                'password' => '密码',
+            ],
             'systemProfile' => [
                 'account'               => '帐号',
                 'name'                  => '名称',
@@ -298,9 +311,21 @@ return [
                 'role'     => '角色',
             ],
             'info' => [
-                'store'  => '新增资料',
-                'edit'   => '编辑资料',
-                'delete' => '删除资料',
+                'store'   => '新增资料',
+                'edit'    => '编辑资料',
+                'destroy' => '删除资料',
+            ],
+            'funcKey' => [
+                1 => '个人资讯',
+                2 => '平台清单',
+                3 => '平台活动利率',
+                4 => '角色管理',
+                5 => '帐号管理',
+            ],
+            'type' => [
+                1 => '新增',
+                2 => '修改',
+                3 => '删除',
             ],
         ],
     ],

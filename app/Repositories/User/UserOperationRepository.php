@@ -25,16 +25,12 @@ class UserOperationRepository
         $query = UserOperation::select(['created_at', 'user_account', 'user_name', 'ip', 'func_key',  'type', 'targets', 'content'])
                         ->whereBetween('created_at', [$params['start'], $params['end']]);
 
-        if (isset($params['func_key']) && $params['func_key'] > 0) {
-            $query = $query->where('func_key', $params['func_key']);
+        if (isset($params['func']) && $params['func'] > 0) {
+            $query = $query->where('func_key', $params['func']);
         }
 
-        if (isset($params['type']) && $params['type'] > 0) {
-            $query = $query->where('type', $params['type']);
-        }
-
-        if (isset($params['user_id']) && $params['user_id'] > 0) {
-            $query = $query->where('user_id', $params['user_id']);
+        if (isset($params['user']) && $params['user'] > 0) {
+            $query = $query->where('user_id', $params['user']);
         }
         return $query->orderBy('created_at', 'DESC')
                      ->paginate(config('custom.admin.paginate'));
@@ -49,7 +45,7 @@ class UserOperationRepository
      */
     public function getAdminSingleList($funcKey, $funcId)
     {
-        return UserOperation::select(['created_at', 'user_account', 'user_name', 'ip', 'func_key',  'type', 'targets', 'content'])
+        return UserOperation::select(['created_at', 'user_account', 'user_name', 'ip',  'type', 'targets', 'content'])
                             ->where('func_key', $funcKey)
                             ->where('func_id', $funcId)
                             ->orderBy('created_at', 'DESC')

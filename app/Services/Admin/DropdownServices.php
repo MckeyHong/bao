@@ -4,6 +4,7 @@ namespace App\Services\Admin;
 
 use App\Repositories\Platform\PlatformRepository;
 use App\Repositories\Role\RoleRepository;
+use App\Repositories\User\UserRepository;
 
 class DropdownServices
 {
@@ -17,11 +18,14 @@ class DropdownServices
     {
         try {
             switch ($type) {
+                case 'platform':
+                    $repo = new PlatformRepository();
+                    break;
                 case 'role':
                     $repo = new RoleRepository();
                     break;
-                case 'platform':
-                    $repo = new PlatformRepository();
+                case 'user':
+                    $repo = new UserRepository();
                     break;
                 default:
                     throw new \Exception('not found');

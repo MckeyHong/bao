@@ -68,7 +68,13 @@ class SystemRoleServices
                 ]);
                 // 功能權限
                 $this->storePermission($role['id'], $request['permission']);
-                $this->systemOperationSrv->store($role['id'], 1, $role['name']);
+                // 操作日誌
+                $this->systemOperationSrv->store(
+                    $role['id'],
+                    1,
+                    [['type' => 'field', 'field' => 'name', 'data' => $role['name']]],
+                    [['type' => 'info', 'field' => '', 'data' => 'store']]
+                );
                 return true;
             });
             return ['result' => $result];
@@ -181,7 +187,13 @@ class SystemRoleServices
                 $role = $this->roleRepo->find($id);
                 $this->roleRepo->destroy($id);
                 $this->rolePermissionRepo->deleteByWhere('role_id', $id);
-                $this->systemOperationSrv->store($id, 3, $role['name']);
+                // 操作日誌
+                $this->systemOperationSrv->store(
+                    $role['id'],
+                    3,
+                    [['type' => 'field', 'field' => 'name', 'data' => $role['name']]],
+                    [['type' => 'info', 'field' => '', 'data' => 'destroy']]
+                );
                 return true;
             });
 

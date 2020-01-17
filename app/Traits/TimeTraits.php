@@ -15,15 +15,14 @@ trait TimeTraits
      */
     public function covertUTC8ToUTC($dateTime, $format = 'datetime')
     {
-        $dt = Carbon::parse($dateTime)->timezone('UTC');
         switch ($format) {
             case 'date':
-                $result = $dt->toDateString();
+                $type = 'Y-m-d';
                 break;
             default:
-                $result = $dt->toDateTimeString();
+                $type = 'Y-m-d H:i:s';
         }
-        return $result;
+        return date($type, (strtotime($dateTime) - (8 * 3600)));
     }
 
     /**
