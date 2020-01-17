@@ -126,9 +126,9 @@ class SystemUserController extends Controller
             $params['password'] = 'confirmed|min:6|max:20';
         }
         $request->validate($params);
-
+        $dropdownSrv = new DropdownServices();
         // 執行結果
-        $result = $this->systemUserSrv->edit($id, $request->all());
+        $result = $this->systemUserSrv->edit($id, $request->all(), $dropdownSrv->dropdown('role'));
         $this->setExecuteResult($result['result'], 'edit');
         return redirect(self::LIST_PATH);
     }

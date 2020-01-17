@@ -5,6 +5,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
+        @extends('layouts.execute')
         <div class="card">
           <div class="card-body">
             <div class="table-responsive">

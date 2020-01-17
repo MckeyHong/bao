@@ -12,12 +12,15 @@ class SystemUserServices
 {
     use TimeTraits;
 
+    protected $systemOperationSrv;
     protected $userRepo;
 
     public function __construct(
+        SystemOperationServices $systemOperationSrv,
         UserRepository $userRepo
     ) {
-        $this->userRepo = $userRepo;
+        $this->systemOperationSrv = $systemOperationSrv;
+        $this->userRepo           = $userRepo;
     }
 
     /**
@@ -58,13 +61,20 @@ class SystemUserServices
     {
         try {
             $result = DB::transaction(function () use ($request) {
-                $this->userRepo->store([
+                $user = $this->userRepo->store([
                     'role_id'  => $request['role_id'],
                     'account'  => $request['account'],
                     'password' => Hash::make($request['password']),
                     'name'     => $request['name'],
                     'active'   => $request['active'],
                 ]);
+                // 操作日誌
+                $this->systemOperationSrv->store(
+                    $user['id'],
+                    1,
+                    [['type' => 'field', 'field' => 'account', 'data' => $user['account']]],
+                    [['type' => 'info', 'field' => '', 'data' => 'store']]
+                );
                 return true;
             });
             return ['result' => $result];
@@ -103,21 +113,41 @@ class SystemUserServices
      *
      * @param  integer  $id
      * @param  array    $request
+     * @param  array    $role
      * @return array
      */
-    public function edit($id, $request)
+    public function edit($id, $request, $role)
     {
         try {
-            $result = DB::transaction(function () use ($id, $request) {
-                $params = [
-                    'role_id'  => $request['role_id'],
-                    'name'     => $request['name'],
-                    'active'   => $request['active'],
-                ];
+            $result = DB::transaction(function () use ($id, $request, $role) {
+                $user = $this->userRepo->find($id);
+                $params = $content = [];
+                if ($user['role_id'] != $request['role_id']) {
+                    $params['role_id'] = $request['role_id'];
+                    $content[] = ['type' => 'around', 'field' => 'role', 'data' => ['old' => $role[$user['role_id']], 'new' => $role[$request['role_id']]]];
+                }
+                if ($user['name'] != $request['name']) {
+                    $params['name'] = $request['name'];
+                    $content[] = ['type' => 'around', 'field' => 'name', 'data' => ['old' => $user['name'], 'new' => $request['name']]];
+                }
+                if ($user['active'] != $request['active']) {
+                    $params['active'] = $request['active'];
+                    $content[] = ['type' => 'around', 'field' => 'active', 'data' => ['old' => $user['active'], 'new' => $request['active']]];
+                }
                 if (isset($request['password']) && $request['password'] != '') {
                     $params['password'] = Hash::make($request['password']);
+                    $content[] = ['type' => 'info', 'field' => '', 'data' => 'password'];
                 }
-                $this->userRepo->update($id, $params);
+                if (count($params) > 0) {
+                    $this->userRepo->update($id, $params);
+                    // 操作日誌
+                    $this->systemOperationSrv->store(
+                        $id,
+                        2,
+                        [['type' => 'field', 'field' => 'account', 'data' => $user['account']]],
+                        $content
+                    );
+                }
                 return true;
             });
             return ['result' => $result];
@@ -138,7 +168,18 @@ class SystemUserServices
     public function destroy($id)
     {
         try {
-            return ['result' => $this->userRepo->destroy($id)];
+            $result = DB::transaction(function () use ($id) {
+                $user = $this->userRepo->find($id);
+                // 操作日誌
+                $this->systemOperationSrv->store(
+                    $id,
+                    3,
+                    [['type' => 'field', 'field' => 'account', 'data' => $user['account']]],
+                    [['type' => 'info', 'field' => '', 'data' => 'destroy']]
+                );
+                return $this->userRepo->destroy($id);
+            });
+            return ['result' => $result];
         } catch (\Exception $e) {
             return [
                 'result' => false,

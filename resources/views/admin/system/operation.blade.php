@@ -75,7 +75,7 @@
                     <td>{{ $value['user_account'] }}<br />{{ $value['user_name'] }}</td>
                     <td>{{ __('custom.admin.operation.funcKey.' . $value['func_key']) }}<br />{{ __('custom.admin.operation.type.' . $value['type']) }}</td>
                     <td>{{ $value['targets'] }}</td>
-                    <td>{{ $value['content'] }}</td>
+                    <td class="text-left">{!! $value['content'] !!}</td>
                   </tr>
                   @endforeach
                 </tbody>

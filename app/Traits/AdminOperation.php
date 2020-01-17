@@ -9,7 +9,7 @@ trait AdminOperation
      *
      *  [
      *     ['type' => 'field', 'field' => 'account', 'data' => 'xxxx']
-     *     ['type' => 'info', 'field' => 'delete', 'data' => '']
+     *     ['type' => 'info', 'field' => '', 'data' => 'store']
      *     ['type' => 'around', 'field' => 'rate', 'data' => ['old' => 1, 'new' => 2]]
      *  ]
      */
@@ -36,7 +36,11 @@ trait AdminOperation
                 case 'around': // 前後數值
                     $result .= ($result !== '') ? '<br />' : '';
                     $result .= trans('custom.admin.operation.field.' . $value['field']) . ' : ';
-                    $result .= $value['data']['old'] . ' → ' . $value['data']['new'];
+                    if ($value['field'] == 'active') {
+                        $result .= trans('custom.admin.operation.active.' . $value['data']['old']) . ' → ' . trans('custom.admin.operation.active.' . $value['data']['new']);
+                    } else {
+                        $result .= $value['data']['old'] . ' → ' . $value['data']['new'];
+                    }
                     break;
                 default:
             }

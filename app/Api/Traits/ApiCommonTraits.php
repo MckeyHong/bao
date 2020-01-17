@@ -27,24 +27,6 @@ trait ApiCommonTraits
     }
 
     /**
-     * 轉換遊戲API參數名稱
-     *
-     * @param  array   $parameters
-     * @return array
-     */
-    public function convertParameters(array $parameters = [])
-    {
-        $matchField = config('external.' . $this->getGameCode(), []);
-        foreach ($matchField as $value) {
-            if (isset($parameters[$value['platform']])) {
-                $parameters[$value['game']] = $parameters[$value['platform']];
-                unset($parameters[$value['platform']]);
-            }
-        }
-        return $parameters;
-    }
-
-    /**
      * 取得對應的平台Services
      *
      * @return Services

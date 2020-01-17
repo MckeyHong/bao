@@ -24,6 +24,7 @@ class CreateBalanceTransferTable extends Migration
             $table->unsignedDecimal('credit_before', 30, 10)->default(0)->comment('轉帳前額度');
             $table->unsignedDecimal('credit', 30, 10)->default(0)->comment('轉帳額度');
             $table->unsignedDecimal('credit_after', 30, 10)->default(0)->comment('轉帳後額度');
+            $table->unsignedTinyInteger('is_transfer')->default(2)->comment('轉帳(1：執行完畢，2：執行中)');
             $table->string('memo', 50)->default('')->comment('參照資訊');
             $table->timestamps();
 
