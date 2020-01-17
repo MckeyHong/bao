@@ -95,19 +95,9 @@
 @endsection
 
 @push('js')
-<script src="{{ asset('js/vendor/jquery.datetimepicker.full.min.js') }}"></script>
-<script type="text/javascript">
-$(function () {
-    $('#start, #end').datetimepicker({
-        format: 'Y-m-d H:i',
-        lang: 'zh',
-        minDate: '{{ $firstDay }}',
-        maxDate: 0,
-        maxTime: 0,
-        onSelectDate: function (ct) {
-          $('#start').val(($('#start').val() <= $('#end').val()) ? $('#start').val() : $('#end').val());
-        }
-    });
-});
+<script>
+  const minDate = '{{ $firstDay }}';
 </script>
+<script src="{{ asset('js/vendor/jquery.datetimepicker.full.min.js') }}"></script>
+<script src="{{ asset('js/admin/datetimepicker.js') }}"></script>
 @endpush

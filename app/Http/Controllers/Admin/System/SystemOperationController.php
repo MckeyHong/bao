@@ -6,13 +6,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Admin\DropdownServices;
-use App\Traits\TimeTraits;
 use App\Services\Admin\System\SystemOperationServices;
 
 class SystemOperationController extends Controller
 {
-    use TimeTraits;
-
     protected $systemOperationSrv;
 
     public function __construct(
@@ -42,17 +39,11 @@ class SystemOperationController extends Controller
             'user'  => (in_array($request->input('user'), array_keys($user))) ? $request->input('user') : 0,
         ];
         $params['start'] = ($params['start'] > $params['end']) ? $params['end'] : $params['start'];
-        $lists = $this->systemOperationSrv->index([
-            'func' => $params['func'],
-            'user' => $params['user'],
-            'start' => $this->covertUTC8ToUTC($params['start'] . ':00'),
-            'end' => $this->covertUTC8ToUTC($params['end'] . ':00'),
-        ])['data'];
 
         return view('admin.system.operation', array_merge($this->adminResponse(), [
             'user'     => $user,
             'get'      => $params,
-            'lists'    => $lists,
+            'lists'    => $this->systemOperationSrv->index($params)['data'],
             'firstDay' => $firstDay,
         ]));
     }

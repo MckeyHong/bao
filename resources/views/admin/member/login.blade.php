@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/vendor/jquery.datetimepicker.min.css') }}" />
+@endpush
+
 @section('content')
 <div class="content">
   <div class="container-fluid">
@@ -83,5 +87,12 @@
     </div>
   </div>
 </div>
-@extends('layouts.search.datepickerInterval')
 @endsection
+
+@push('js')
+<script>
+  const minDate = '{{ $firstDay }}';
+</script>
+<script src="{{ asset('js/vendor/jquery.datetimepicker.full.min.js') }}"></script>
+<script src="{{ asset('js/admin/datetimepicker.js') }}"></script>
+@endpush

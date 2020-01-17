@@ -29,6 +29,8 @@ class SystemOperationServices
     public function index($params)
     {
         try {
+            $params['start'] = $this->covertUTC8ToUTC($params['start'] . ':00');
+            $params['end'] = $this->covertUTC8ToUTC($params['end'] . ':00');
             $data = $this->handleOperationInfo($this->userOperationRepo->getAdminList($params));
             return [
                 'result' => true,

@@ -5,14 +5,11 @@ namespace App\Http\Controllers\Admin\Member;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Traits\TimeTraits;
 use App\Services\Admin\DropdownServices;
 use App\Services\Admin\Member\MemberLoginServices;
 
 class MemberLoginController extends Controller
 {
-    use TimeTraits;
-
     protected $memberLoginSrv;
 
     public function __construct(
@@ -31,27 +28,24 @@ class MemberLoginController extends Controller
     {
         $dropdownSrv = new DropdownServices();
         $platform = $dropdownSrv->dropdown('platform');
-        $firstDay = Carbon::now()->subMonth(2)->toDateString();
-        $today = Carbon::now()->toDateString();
         // 參數驗證
+        $firstDay = Carbon::now()->subMonth(2)->toDateString() . ' 00:00';
+        $defaultStartAt = Carbon::now()->toDateString() . ' 00:00';
+        $defaultEndAt = Carbon::now()->toDateString() . ' 23:59';
         $params = [
-            'start'    => (validate_date($request->input('start', '')) && $request->input('start') <= $today && $request->input('start') >= $firstDay) ? $request->input('start') : $today,
-            'end'      => (validate_date($request->input('end', '')) && $request->input('end') <= $today && $request->input('end') >= $firstDay) ? $request->input('end') : $today,
+            'start'   => (validate_date($request->input('start', ''), 'Y-m-d H:i') && $request->input('start') >= $firstDay) ? $request->input('start') :  $defaultStartAt,
+            'end'     => (validate_date($request->input('end', ''), 'Y-m-d H:i') && $request->input('end') >= $firstDay) ? $request->input('end') :  $defaultEndAt,
             'platform' => (in_array($request->input('platform'), array_keys($platform))) ? $request->input('platform') : 0,
             'account'  => $request->input('account', ''),
             'status'   => in_array($request->input('status'), [1, 2]) ? $request->input('status') : 0,
         ];
         $params['start'] = ($params['start'] > $params['end']) ? $params['end'] : $params['start'];
-        $params['start'] = $this->covertUTC8ToUTC($params['start']);
-        $params['end'] = $this->covertUTC8ToUTC($params['end']);
-        $lists = $this->memberLoginSrv->index($params, $platform)['data'];
-        $params['start'] = Carbon::parse($params['start'])->toDateString();
-        $params['end'] = Carbon::parse($params['end'])->toDateString();
 
         return view('admin.member.login', array_merge($this->adminResponse(), [
             'get'      => $params,
             'platform' => $platform,
-            'lists'    => $lists,
+            'lists'    => $this->memberLoginSrv->index($params, $platform)['data'],
+            'firstDay' => $firstDay,
         ]));
     }
 }

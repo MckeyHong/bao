@@ -32,6 +32,8 @@ class SystemLoginServices
     public function index($params)
     {
         try {
+            $params['start'] = $this->covertUTC8ToUTC($params['start'] . ':00');
+            $params['end'] = $this->covertUTC8ToUTC($params['end'] . ':00');
             $data = $this->userLoginRepo->getAdminList($params);
             foreach ($data as $value) {
                 $value['created_at'] = $this->covertUTCToUTC8($value['created_at']);
