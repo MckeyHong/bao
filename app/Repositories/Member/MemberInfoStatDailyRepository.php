@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Member;
 
+use DB;
 use App\Entities\Member\MemberInfoStatDaily;
 use App\Repositories\Repository;
 
@@ -22,7 +23,7 @@ class MemberInfoStatDailyRepository
      * @param  array   $field
      * @return mixed
      */
-    public function findByMemberIdAndBetAt($memberId, $betAt, $field = ['bet_total'])
+    public function findByMemberIdAndBetAt($memberId, $betAt, $field = ['bet_total', 'deposit_credit'])
     {
         return MemberInfoStatDaily::select($field)
                                   ->member($memberId)
@@ -45,5 +46,25 @@ class MemberInfoStatDailyRepository
             $query = $query->platform($params['platform']);
         }
         return $query->groupBy('platform_id')->get();
+    }
+
+    /**
+     * [會員端] 更新儲值/提領時相關資訊
+     *
+     * @param  integer  $memberId
+     * @param  string   $betAt
+     * @param  integer  $credit
+     * @param  integer  $interest
+     * @param  string   $symbol
+     * @return mixed
+     */
+    public function updateByWeb($memberId, $betAt, $credit = 0, $interest = 0, $symbol = '+')
+    {
+        return MemberInfoStatDaily::member($memberId)
+                                  ->where('bet_at', $betAt)
+                                  ->update([
+                                      'deposit_credit' => DB::raw('deposit_credit ' . $symbol . $credit),
+                                      'interest'       => DB::raw('interest + ' . $interest),
+                                  ]);
     }
 }

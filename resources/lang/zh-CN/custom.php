@@ -77,6 +77,7 @@ return [
         'submit' => '确定',
         'reset'  => '重置',
         'close'  => '关闭',
+        'cancel' => '取消',
     ],
     'admin' => [
         'browser' => '管理系统',

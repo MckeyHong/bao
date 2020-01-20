@@ -29,6 +29,7 @@ var doTransfer = () => {
 var checkEnterCredit = (obj) => {
     const defaultValue = parseFloat($('#defaultMax').val());
     obj.value = parseFloat((parseFloat(obj.value) > defaultValue) ? defaultValue : obj.value).toFixed(2);
+    obj.value = (isNaN(obj.value)) ? 0 : obj.value;
     if (obj.value < 0.01) {
         $('#transferButton').attr('disabled', true);
     } else {

@@ -9,6 +9,7 @@ use App\Api\Traits\Member\MemberCreditTraits;
 use App\Api\Traits\Transfer\TransferCreditTraits;
 use App\Services\Common\InterestServices;
 use App\Services\Common\RateServices;
+use App\Services\Common\TrasnferServices;
 use App\Services\Web\RecordServices;
 use App\Repositories\Balance\BalanceTransferRepository;
 use App\Repositories\Member\MemberInfoStatDailyRepository;
@@ -21,6 +22,7 @@ class WebServices
 
     protected $interestSrv;
     protected $rateSrv;
+    protected $trasnferSrv;
     protected $recordSrv;
     protected $balanceTransferRepo;
     protected $memberInfoStatDailyRepo;
@@ -30,6 +32,7 @@ class WebServices
     public function __construct(
         InterestServices $interestSrv,
         RateServices $rateSrv,
+        TrasnferServices $trasnferSrv,
         RecordServices $recordSrv,
         BalanceTransferRepository $balanceTransferRepo,
         MemberInfoStatDailyRepository $memberInfoStatDailyRepo,
@@ -38,6 +41,7 @@ class WebServices
     ) {
         $this->interestSrv             = $interestSrv;
         $this->rateSrv                 = $rateSrv;
+        $this->trasnferSrv             = $trasnferSrv;
         $this->recordSrv               = $recordSrv;
         $this->balanceTransferRepo     = $balanceTransferRepo;
         $this->memberInfoStatDailyRepo = $memberInfoStatDailyRepo;
@@ -77,53 +81,38 @@ class WebServices
                 if ($platformCredit < $credit) {
                     throw new \Exception('平台额度不足', 417);
                 }
-                // 平台轉帳
-                $tradeNo = Str::uuid();
-                $response = $this->transferCreditOfApi($member['account'], $tradeNo, 'IN', $credit);
-                if ($response['result'] != config('apiCode.code.succcess')) {
-                    throw new \Exception('平台转帐异常', 417);
-                }
-                $response = $this->checkTransferCreditOfApi($tradeNo);
-                if ($response['result'] != config('apiCode.code.succcess')) {
-                    throw new \Exception('平台转帐核對异常', 417);
-                }
-                $todayDepositBefore = bcadd($member['today_deposit'], $member['interest'], 2);
-                $todayDepositAfter = bcadd($todayDepositBefore, $credit, 2);
-                $this->balanceTransferRepo->store([
-                    'platform_id'   => $member['platform_id'],
-                    'member_id'     => $member['id'],
-                    'no'            => $tradeNo,
-                    'type'          => 1,
-                    'credit_before' => $todayDepositBefore,
-                    'credit'        => $credit,
-                    'credit_after'  => $todayDepositAfter,
-                ]);
-
-                // 計算計算&歷程查詢
-                $creditBefore = bcadd(($member['credit'] + $member['today_deposit']), $member['interest'], 2);
-                $rate = $this->rateSrv->getPlatformRate($member['platform_id']);
+                // 計算之前已儲值利息
+                $creditBefore = bcadd(($member['credit'] + $member['today_deposit']), $member['interest'], 8);
                 $interest = 0;
-                if ($member['last_transfer_at'] != null) {
+                $rate = $this->rateSrv->getPlatformRate($member['platform_id']);
+                if ($member['today_deposit'] > 0) {
                     $interest = $this->interestSrv->calculateInterest('', $member['today_deposit'], $rate, $member['last_transfer_at']);
                 }
-                $this->memberTransferRepo->store([
-                    'platform_id'   => $member['platform_id'],
-                    'member_id'     => $member['id'],
-                    'type'          => 1,
-                    'credit_before' => $creditBefore,
-                    'credit'        => $credit,
-                    'credit_after'  => $todayDepositAfter,
-                    'interest'      => $interest,
-                    'rate'          => $rate,
-                ]);
+                if ($interest > 0) {
+                    $this->memberRepo->update($member['id'], ['interest' => bcadd($member['interest'], $interest, 8)]);
+                }
+                // 平台轉帳
+                $result = $this->trasnferSrv->platform($member, $credit);
+                if ($result['result']) {
+                    $this->memberTransferRepo->store([
+                        'platform_id'   => $member['platform_id'],
+                        'member_id'     => $member['id'],
+                        'type'          => 1,
+                        'credit_before' => $creditBefore,
+                        'credit'        => $credit,
+                        'credit_after'  => bcadd(($creditBefore + $interest), $credit, 8),
+                        'interest'      => $interest,
+                        'rate'          => $rate,
+                    ]);
 
-                // 更新會員主資訊
-                $this->memberRepo->update($member['id'], [
-                    'today_deposit'    => $todayDepositAfter,
-                    'interest'         => bcadd($member['interest'], $interest, 8),
-                    'last_transfer_at' => Carbon::now()->toDateTimeString(),
-                ]);
-
+                    // 更新會員主資訊
+                    $this->memberRepo->update($member['id'], [
+                        'today_deposit'    => bcadd($member['today_deposit'], $credit, 2),
+                        'last_transfer_at' => Carbon::now()->toDateTimeString(),
+                    ]);
+                    // 更新統計資訊
+                    $this->memberInfoStatDailyRepo->updateByWeb($member['id'], Carbon::now()->toDateString(), $credit, $interest);
+                }
                 return true;
             });
 
@@ -151,58 +140,37 @@ class WebServices
     {
         try {
             $result = DB::transaction(function () use ($member, $credit) {
-                // 平台轉帳
-                $tradeNo = Str::uuid();
-                $response = $this->transferCreditOfApi($member['account'], $tradeNo, 'OUT', $credit);
-                if ($response['result'] != config('apiCode.code.succcess')) {
-                    throw new \Exception('平台转帐异常', 417);
-                }
-                $response = $this->checkTransferCreditOfApi($tradeNo);
-                if ($response['result'] != config('apiCode.code.succcess')) {
-                    throw new \Exception('平台转帐核對异常', 417);
-                }
-                $creditBefore = bcadd($member['today_deposit'], $member['interest'], 2);
-                $this->balanceTransferRepo->store([
-                    'platform_id'   => $member['platform_id'],
-                    'member_id'     => $member['id'],
-                    'no'            => $tradeNo,
-                    'type'          => 2,
-                    'credit_before' => $creditBefore,
-                    'credit'        => $credit,
-                    'credit_after'  => bcsub($creditBefore, $credit, 2),
-                ]);
-
-                if ($credit > $member['today_deposit']) {
-                    $todayDepositAfter = 0;
-                    $interestAfter = bcsub($member['interest'], ($credit - $member['today_deposit']), 2);
-                } else {
-                    $todayDepositAfter = bcsub($member['today_deposit'], $credit, 2);
-                    $interestAfter = $member['interest'];
-                }
-                // 計算計算&歷程查詢
-                $rate = $this->rateSrv->getPlatformRate($member['platform_id']);
+                // 計算之前已儲值利息
+                $creditBefore = bcadd(($member['credit'] + $member['today_deposit']), $member['interest'], 8);
                 $interest = 0;
-                if ($member['last_transfer_at'] != null) {
+                $rate = $this->rateSrv->getPlatformRate($member['platform_id']);
+                if ($member['today_deposit'] > 0) {
                     $interest = $this->interestSrv->calculateInterest('', $member['today_deposit'], $rate, $member['last_transfer_at']);
                 }
-                $this->memberTransferRepo->store([
-                    'platform_id'   => $member['platform_id'],
-                    'member_id'     => $member['id'],
-                    'type'          => 2,
-                    'credit_before' => $creditBefore,
-                    'credit'        => $credit,
-                    'credit_after'  => $todayDepositAfter,
-                    'interest'      => $interest,
-                    'rate'          => $rate,
-                ]);
-
-                // 更新會員主資訊
-                $this->memberRepo->update($member['id'], [
-                    'today_deposit'    => $todayDepositAfter,
-                    'interest'         => $interestAfter,
-                    'last_transfer_at' => Carbon::now()->toDateTimeString(),
-                ]);
-
+                if ($interest > 0) {
+                    $this->memberRepo->update($member['id'], ['interest' => bcadd($member['interest'], $interest, 8)]);
+                }
+                // 平台轉帳
+                $result = $this->trasnferSrv->platform($member, $credit, 'OUT');
+                if ($result['result']) {
+                    $this->memberTransferRepo->store([
+                        'platform_id'   => $member['platform_id'],
+                        'member_id'     => $member['id'],
+                        'type'          => 2,
+                        'credit_before' => $creditBefore,
+                        'credit'        => $credit,
+                        'credit_after'  => bcsub(($creditBefore + $interest), $credit, 8),
+                        'interest'      => $interest,
+                        'rate'          => $rate,
+                    ]);
+                    // 更新會員主資訊
+                    $this->memberRepo->update($member['id'], [
+                        'today_deposit'    => bcsub($member['today_deposit'], $credit, 2),
+                        'last_transfer_at' => Carbon::now()->toDateTimeString(),
+                    ]);
+                    // 更新統計資訊
+                    $this->memberInfoStatDailyRepo->updateByWeb($member['id'], Carbon::now()->toDateString(), $credit, $interest, '-');
+                }
                 return true;
             });
             return [

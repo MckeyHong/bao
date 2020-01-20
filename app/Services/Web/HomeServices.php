@@ -41,7 +41,7 @@ class HomeServices
                 'data'   => [
                     'rate'            => $rate,
                     'betTotal'        => $betTotal,
-                    'default_deposit' => $betTotal - $member['today_deposit'],
+                    'default_deposit' => $betTotal - $record['deposit_credit'],
                     'example'         => $this->getExampleInterest($rate),
                 ],
                 'error'  => null,

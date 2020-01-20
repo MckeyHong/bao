@@ -31,17 +31,17 @@ class TrasnferServices
             }
             $memberRepo = new MemberRepository();
             $member = $memberRepo->findWriteConnect($member['id']);
-            $creditBefore = bcadd(($member['credit'] + $member['today_deposit']), $member['interest'], 2);
+            $creditBefore = bcadd(($member['credit'] + $member['today_deposit']), $member['interest'], 8);
             if ($type == 'OUT') {
                 if ($creditBefore < $credit) {
                     throw new \Exception('提領額度超過錢包', 417);
                 }
-                $creditAfter = bcsub($creditBefore, $credit, 2);
+                $creditAfter = bcsub($creditBefore, $credit, 8);
             } else {
                 if ($this->getMemberCreditOfApi($member['account'])['data'] < $credit) {
                     throw new \Exception('平台额度不足', 417);
                 }
-                $creditAfter = bcadd($creditBefore, $credit, 2);
+                $creditAfter = bcadd($creditBefore, $credit, 8);
             }
 
             // 先將轉帳資料存到DB
