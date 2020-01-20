@@ -25,6 +25,9 @@ class InterestServices
                 case 'day':
                     $diffSeconds = 986400;
                     break;
+                case 'settlement':
+                    $diffSeconds = $dateTime;
+                    break;
                 default:
                     $diffSeconds = Carbon::now()->diffInSeconds($dateTime);
             }

@@ -67,4 +67,19 @@ class MemberRepository
                      ->where('today_deposit', '>', 0)
                      ->get();
     }
+
+
+    /**
+     * 遞增某資料的數值
+     *
+     * @param  integer  $id
+     * @param  string   $field
+     * @param  string   $value
+     * @param  array    $parameters
+     * @return mixed
+     */
+    public function incrementById($id, $field, $value, $parameters = [])
+    {
+        return Member::find($id)->increment($field, $value, $parameters);
+    }
 }
