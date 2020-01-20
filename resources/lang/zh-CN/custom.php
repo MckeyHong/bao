@@ -338,6 +338,14 @@ return [
                 1 => '启用',
                 2 => '停用',
             ],
+            'permissionAction' => [
+                'is_get'    => '检视',
+                'is_post'   => '新增',
+                'is_put'    => '编辑',
+                'is_delete' => '删除',
+                'add'       => '新增功能项目',
+                'delete'    => '移除功能项目',
+            ],
         ],
     ],
     'transferList' => [

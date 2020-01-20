@@ -11,6 +11,7 @@ trait AdminOperation
      *     ['type' => 'field', 'field' => 'account', 'data' => 'xxxx']
      *     ['type' => 'info', 'field' => '', 'data' => 'store']
      *     ['type' => 'around', 'field' => 'rate', 'data' => ['old' => 1, 'new' => 2]]
+     *     ['type' => 'permission', 'field' => '', 'data' => ['add' => [], 'delete' => []]]
      *  ]
      */
 
@@ -41,6 +42,23 @@ trait AdminOperation
                             $result .= trans('custom.admin.operation.active.' . $value['data']['old']) . ' → ' . trans('custom.admin.operation.active.' . $value['data']['new']);
                         } else {
                             $result .= $value['data']['old'] . ' → ' . $value['data']['new'];
+                        }
+                        break;
+                    case 'permission': // 功能權限
+                        foreach (['add', 'delete'] as $field) {
+                            $tmp = '';
+                            foreach ($value['data'][$field] as $funcKey => $funcValue) {
+                                $tmp .= trans('custom.admin.func.' . $funcKey) . '：';
+                                $tmpAction = '';
+                                foreach ($funcValue as $action) {
+                                    $tmpAction .= ($tmpAction !== '') ? ', ' : '';
+                                    $tmpAction .= trans('custom.admin.operation.permissionAction.' . $action);
+                                }
+                                $tmp .= $tmpAction . '<br />';
+                            }
+                            if ($tmp !== '') {
+                                $result .= (($result !== '') ? '<br />' : '') . trans('custom.admin.operation.permissionAction.' . $field) . '<br />' . $tmp;
+                            }
                         }
                         break;
                     default:

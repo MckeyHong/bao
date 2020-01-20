@@ -151,18 +151,69 @@ class SystemRoleServices
         try {
             $result = DB::transaction(function () use ($id, $request) {
                 $role = $this->roleRepo->find($id);
-                // 更新主資料
-                $this->roleRepo->update($id, [
-                    'name'   => $request['name'],
-                    'active' => $request['active'],
-                ]);
-                // 功能權限
-                $this->rolePermissionRepo->deleteByWhere('role_id', $id);
-                $this->storePermission($id, $request['permission']);
-                $this->systemOperationSrv->store($id, 2, $role['name']);
+                $params = $content = [];
+                foreach(['name', 'active'] as $field) {
+                    if ($role[$field] != $request[$field]) {
+                        $params[$field] = $request[$field];
+                        $content[] = ['type' => 'around', 'field' => $field, 'data' => ['old' => $role[$field], 'new' => $request[$field]]];
+                    }
+                }
+                if (count($params) > 0) {
+                    // 更新主資料
+                    $this->roleRepo->update($id, [
+                        'name'   => $request['name'],
+                        'active' => $request['active'],
+                    ]);
+                }
+
+                $contentOperation = ['add' => [], 'delete' => []];
+                $permission = $oldPermission = [];
+                $tmp = $this->rolePermissionRepo->getByWhere('role_id', $id, ['path', 'is_get', 'is_post', 'is_put', 'is_delete']);
+                foreach ($tmp as $value) {
+                    foreach (['is_get', 'is_post', 'is_put', 'is_delete'] as $field) {
+                        if ($value[$field] == '1') {
+                            $oldPermission[] = $value['path'] . '-' . $field;
+                        }
+                    }
+                }
+                foreach (config('permission.func') as $cate) {
+                    foreach ($cate['menu'] as $menu) {
+                        $permission[$menu['path']] = $menu['key'];
+                    }
+                }
+                $check = [
+                    ['left' => $request['permission'], 'right' => $oldPermission, 'type' => 'add'],
+                    ['left' => $oldPermission, 'right' => $request['permission'], 'type' => 'delete'],
+                ];
+                foreach ($check as $value) {
+                    $compare = array_diff($value['left'], $value['right']);
+                    if (count($compare) > 0) {
+                        foreach ($compare as $compValue) {
+                            $tmp = explode('-', $compValue);
+                            $tmpKey = $permission[$tmp[0]];
+                            $contentOperation[$value['type']][$permission[$tmp[0]]][] = $tmp[1];
+                        }
+                    }
+                }
+
+                if (count($contentOperation['add']) > 0 || count($contentOperation['delete']) > 0) {
+                    // 功能權限
+                    $this->rolePermissionRepo->deleteByWhere('role_id', $id);
+                    $this->storePermission($id, $request['permission']);
+                    $content[] = ['type' => 'permission', 'field' => '', 'data' => $contentOperation];
+                }
+
+                // 操作日誌
+                if (count($content) > 0) {
+                    $this->systemOperationSrv->store(
+                        $role['id'],
+                        2,
+                        [['type' => 'field', 'field' => 'name', 'data' => $role['name']]],
+                        $content
+                    );
+                }
                 return true;
             });
-            return ['result' => $result];
 
 
             return ['result' => $result];
