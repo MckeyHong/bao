@@ -114,7 +114,7 @@ class PlatformActivityController extends Controller
     }
 
     /**
-     * 新增資料
+     * 編輯資料
      *
      * @param \Illuminate\Http\Request  $request
      * @param  inteeger                 $id
@@ -125,15 +125,13 @@ class PlatformActivityController extends Controller
         // 參數驗證
         $request['activity_id'] = $id;
         $error = $request->validate([
-            'platform_id' => 'required|exists:platforms,id',
-            'start_at'    => 'required|date_format:Y-m-d|after_or_equal:' . Carbon::now()->toDateString(),
-            'end_at'      => 'required|date_format:Y-m-d|after_or_equal:start_at',
-            'rate'        => 'required|min:1|max:1000',
-            'active'      => 'required|in:1,2',
+            'start_at' => 'required|date_format:Y-m-d|after_or_equal:' . Carbon::now()->toDateString(),
+            'end_at'   => 'required|date_format:Y-m-d|after_or_equal:start_at',
+            'rate'     => 'required|min:1|max:1000',
+            'active'   => 'required|in:1,2',
         ]);
         $this->buildActivityValidation();
-        $error = $request->validate(['activity_id' => 'required|exists:platform_activity_rate,id|non_exists:' . $request->input('platform_id')  . ',' . $request->input('start_at') . ',' . $request->input('end_at')]);
-
+        $error = $request->validate(['activity_id' => 'required|exists:platform_activity_rate,id|non_exists:0,' . $request->input('start_at') . ',' . $request->input('end_at')]);
         // 執行結果
         $result = $this->platformActivitySrv->edit($id, $request->all());
         $this->setExecuteResult($result['result'], 'edit');

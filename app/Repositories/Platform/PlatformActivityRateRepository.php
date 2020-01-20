@@ -50,7 +50,7 @@ class PlatformActivityRateRepository
 
         switch (($params['type']) ?? 2) {
             case '1':
-                $query = $query->where('start_at', '<', $params['now_at'])->where('end_at', '>', $params['now_at']);
+                $query = $query->where('start_at', '<', $params['now_at'])->where('end_at', '<', $params['now_at']);
                 break;
             case '3':
                 $query = $query->where('start_at', '<=', $params['now_at'])->where('end_at', '>=', $params['now_at']);

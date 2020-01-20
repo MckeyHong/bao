@@ -22,29 +22,33 @@ trait AdminOperation
      */
     public function covertOperation($operation)
     {
-        $result = '';
-        foreach ($operation as $value) {
-            switch ($value['type']) {
-                case 'field': // 名稱-資訊
-                    $result .= ($result !== '') ? '<br />' : '';
-                    $result .= trans('custom.admin.operation.field.' . $value['field']) . ' : ' . $value['data'];
-                    break;
-                case 'info': // 純文字顯示
-                    $result .= ($result !== '') ? '<br />' : '';
-                    $result .= trans('custom.admin.operation.info.' . $value['data']);
-                    break;
-                case 'around': // 前後數值
-                    $result .= ($result !== '') ? '<br />' : '';
-                    $result .= trans('custom.admin.operation.field.' . $value['field']) . ' : ';
-                    if ($value['field'] == 'active') {
-                        $result .= trans('custom.admin.operation.active.' . $value['data']['old']) . ' → ' . trans('custom.admin.operation.active.' . $value['data']['new']);
-                    } else {
-                        $result .= $value['data']['old'] . ' → ' . $value['data']['new'];
-                    }
-                    break;
-                default:
+        try {
+            $result = '';
+            foreach ($operation as $value) {
+                switch ($value['type']) {
+                    case 'field': // 名稱-資訊
+                        $result .= ($result !== '') ? '<br />' : '';
+                        $result .= trans('custom.admin.operation.field.' . $value['field']) . ' : ' . $value['data'];
+                        break;
+                    case 'info': // 純文字顯示
+                        $result .= ($result !== '') ? '<br />' : '';
+                        $result .= trans('custom.admin.operation.info.' . $value['data']);
+                        break;
+                    case 'around': // 前後數值
+                        $result .= ($result !== '') ? '<br />' : '';
+                        $result .= trans('custom.admin.operation.field.' . $value['field']) . ' : ';
+                        if ($value['field'] == 'active') {
+                            $result .= trans('custom.admin.operation.active.' . $value['data']['old']) . ' → ' . trans('custom.admin.operation.active.' . $value['data']['new']);
+                        } else {
+                            $result .= $value['data']['old'] . ' → ' . $value['data']['new'];
+                        }
+                        break;
+                    default:
+                }
             }
+            return $result;
+        } catch (\Exception $e) {
+            return '';
         }
-        return $result;
     }
 }

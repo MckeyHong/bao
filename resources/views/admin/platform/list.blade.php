@@ -33,7 +33,7 @@
                         @if ($value['active'] == '1')
                         <span class="text-success">{{ __('custom.admin.text.enable') }}</span>
                         @else
-                        <span class="text-false">{{ __('custom.admin.text.disable') }}</span>
+                        <span class="text-danger">{{ __('custom.admin.text.disable') }}</span>
                         @endif
                     </td>
                     <td>{{ $value['updated_at'] }}</td>

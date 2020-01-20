@@ -50,7 +50,7 @@
                   </label>
                   <div class="col-sm-7">
                     <div class="form-group bmd-form-group">
-                      <input class="form-control" name="start_at" id="start_at" type="text" placeholder="{{ __('custom.admin.placeholder.start_at') }}" value="{{ old('start_at', '') }}" required aria-required="true">
+                      <input class="form-control" name="start_at" id="start_at" type="text" placeholder="{{ __('custom.admin.placeholder.start_at') }}" value="{{ old('start_at', '') }}" required aria-required="true" onkeydown="return false">
                        @if ($errors->has('start_at'))
                        <div class="error text-danger pl-3" for="start_at">
                            <strong>{{ $errors->first('start_at') }}</strong>
@@ -65,7 +65,7 @@
                   </label>
                   <div class="col-sm-7">
                     <div class="form-group bmd-form-group">
-                      <input class="form-control" name="end_at" id="end_at" type="text" placeholder="{{ __('custom.admin.placeholder.end_at') }}" value="{{ old('end_at', '') }}" required aria-required="true">
+                      <input class="form-control" name="end_at" id="end_at" type="text" placeholder="{{ __('custom.admin.placeholder.end_at') }}" value="{{ old('end_at', '') }}" required aria-required="true" onkeydown="return false">
                        @if ($errors->has('end_at'))
                        <div class="error text-danger pl-3" for="end_at">
                            <strong>{{ $errors->first('end_at') }}</strong>

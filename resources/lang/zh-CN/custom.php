@@ -234,7 +234,7 @@ return [
                 'present'      => '目前利率(%)',
                 'future'       => '预设利率(%)',
                 'active'       => '状态',
-                'futureRemark' => '若有修改，则隔天凌晨生效(UTC+8)',
+                'futureRemark' => '若有修改，则隔天凌晨生效',
             ],
             'platformActivity' => [
                 'platform_id' => '平台',
@@ -311,12 +311,16 @@ return [
                 'role'     => '角色',
                 'active'   => '状态',
                 'future'   => '預改利率',
+                'start_at' => '开始日期',
+                'end_at'   => '结束日期',
+                'rate'     => '活动利率',
             ],
             'info' => [
                 'store'    => '新增资料',
                 'edit'     => '编辑资料',
                 'destroy'  => '删除资料',
                 'password' => '修改密码',
+                'close'    => '关闭活动',
             ],
             'funcKey' => [
                 1 => '个人资讯',

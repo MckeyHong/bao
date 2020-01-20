@@ -21,11 +21,11 @@
                 </div>
                 <div class="row">
                   <label class="col-sm-2 col-form-label" for="platform_id">
-                    <span class="text-danger">*</span>{{ __('custom.admin.form.platformActivity.platform_id') }}
+                    {{ __('custom.admin.form.platformActivity.platform_id') }}
                   </label>
                   <div class="col-sm-7">
                     <div class="form-group bmd-form-group">
-                       <select name="platform_id" id="platform_id" class="form-control" required aria-required="true">
+                       <select name="platform_id" id="platform_id" class="form-control" required aria-required="true" disabled style="color:#ccc">
                             <option value="">{{ __('custom.common.plzSelect') }}</option>
                             @foreach ($platform as $platformKey => $platformValue)
                             <option value="{{ $platformKey }}" @if( $detail['platform_id'] == $platformKey) selected @endif>{{ $platformValue }}</option>
@@ -45,7 +45,7 @@
                   </label>
                   <div class="col-sm-7">
                     <div class="form-group bmd-form-group">
-                      <input class="form-control" name="start_at" id="start_at" type="text" placeholder="{{ __('custom.admin.placeholder.start_at') }}" value="{{ $detail['start_at'] }}" required aria-required="true">
+                      <input class="form-control" name="start_at" id="start_at" type="text" placeholder="{{ __('custom.admin.placeholder.start_at') }}" value="{{ $detail['start_at'] }}" required aria-required="true" onkeydown="return false">
                        @if ($errors->has('start_at'))
                        <div class="error text-danger pl-3" for="start_at">
                            <strong>{{ $errors->first('start_at') }}</strong>
@@ -60,7 +60,7 @@
                   </label>
                   <div class="col-sm-7">
                     <div class="form-group bmd-form-group">
-                      <input class="form-control" name="end_at" id="end_at" type="text" placeholder="{{ __('custom.admin.placeholder.end_at') }}" value="{{ $detail['end_at'] }}" required aria-required="true">
+                      <input class="form-control" name="end_at" id="end_at" type="text" placeholder="{{ __('custom.admin.placeholder.end_at') }}" value="{{ $detail['end_at'] }}" required aria-required="true" onkeydown="return false">
                        @if ($errors->has('end_at'))
                        <div class="error text-danger pl-3" for="end_at">
                            <strong>{{ $errors->first('end_at') }}</strong>
@@ -91,8 +91,8 @@
                   <div class="col-sm-7">
                     <div class="form-group bmd-form-group">
                        <select name="active" id="active" class="form-control">
-                          <option value="1" @if( old('active', '') == 1) selected @endif>{{ __('custom.admin.text.enable') }}</option>
-                          <option value="2" @if( old('active', '') == 2) selected @endif>{{ __('custom.admin.text.disable') }}</option>
+                          <option value="1" @if( $detail['active'] == 1) selected @endif>{{ __('custom.admin.text.enable') }}</option>
+                          <option value="2" @if( $detail['active'] == 2) selected @endif>{{ __('custom.admin.text.disable') }}</option>
                        </select>
                        @if ($errors->has('active'))
                        <div class="error text-danger pl-3" for="active">
