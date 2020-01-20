@@ -14,6 +14,11 @@ var getRecord = () => {
         page: $('#page').val()
     }}).then(function (response) {
         const { more, total, list } = response.data.result;
+        if ($('#page').val() == '1') {
+            $('#total-block').css('display', 'block');
+            $('#totalInterest').html(total);
+        }
+
         if (more !== true) {
             $('#more-block').css('display', 'none');
         } else {
@@ -21,10 +26,6 @@ var getRecord = () => {
             $('#page').val(parseInt($('#page').val()) + 1);
         }
 
-        if ($('#page').val() == '1') {
-            $('#total-block').css('display', 'block');
-            $('#totalInterest').html(total);
-        }
 
         let html = '';
         if (list.data.length === 0) {

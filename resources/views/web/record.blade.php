@@ -74,7 +74,7 @@
             </div>
             <div id="more-block" @if (!$record['list']->hasMorePages()) style="display:none" @endif>
                 <button type="button" class="btn btn-block btn-submit" onclick="getRecord()">{{ __('custom.web.record.loadMore') }}</button>
-                <input type="hidden" id="page" name="page" value="2" />
+                <input type="hidden" id="page" name="page" value="1" />
             </div>
         </div>
     </div>
