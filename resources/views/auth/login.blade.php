@@ -43,7 +43,21 @@
                 </div>
               @endif
             </div>
-            <div class="form-check mr-auto ml-3 mt-3">
+            <div class="bmd-form-group mt-3">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">translate</i>
+                  </span>
+                </div>
+                <select name="locale" id="locale" class="form-control">
+                  <option value="zh-CN">简体中文</option>
+                  <option value="zh-TW">繁體中文</option>
+                  <option value="en">English</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-check mr-auto ml-3 mt-3" style="display:none">
               <label class="form-check-label">
                 <input class="form-check-input" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('auth.rememberMe') }}
                 <span class="form-check-sign">

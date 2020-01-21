@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App;
+use Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -63,6 +65,10 @@ class LoginController extends Controller
                 redirect('/ctl/login');
             }
             $this->systemLoginSrv->store($ip, $user);
+            // 設定語系
+            $locale = (in_array($request->input('locale'), ['en', 'zh-CN', 'zh-TW'])) ? $request->input('locale') : config('app.fallback_locale');
+            Session::put('locale', $locale);
+
             return $this->sendLoginResponse($request);
         }
         $this->systemLoginSrv->store($ip, ['user_account' => $request->input('account', '')], 4);
