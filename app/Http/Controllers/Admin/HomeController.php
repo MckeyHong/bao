@@ -4,25 +4,28 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\Admin\HomeServices;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
+    protected $homeSrv;
+
+    public function __construct(
+        HomeServices $homeSrv
+    ) {
+        $this->homeSrv = $homeSrv;
     }
 
     /**
-     * Show the application dashboard.
+     * 列表清單
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Support\Facades\Blade
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.dashboard', $this->adminResponse());
+        return view('admin.dashboard', array_merge($this->adminResponse(), [
+            'lists' => $this->homeSrv->index()['data'],
+        ]));
     }
 }

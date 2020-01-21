@@ -69,4 +69,18 @@ class MemberTransferRepository
         return $query->orderBy('member_transfer.created_at', 'DESC')
                      ->paginate(config('custom.admin.paginate'));
     }
+
+    /**
+     * [控端]  取得首頁資訊
+     *
+     * @param  string $dateAt
+     * @return mixed
+     */
+    public function getByAdminDashboard($dateAt)
+    {
+        return MemberTransfer::selectRaw('type, COUNT(id) AS cnt, SUM(credit) AS credit, SUM(interest) AS interest')
+                             ->where('created_at', '>=', $dateAt)
+                             ->groupBy('type')
+                             ->get();
+    }
 }

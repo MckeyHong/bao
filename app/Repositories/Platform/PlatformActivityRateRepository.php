@@ -93,4 +93,20 @@ class PlatformActivityRateRepository
                                     })
                                     ->get();
     }
+
+    /**
+     * 取得指定日期是否有活動資訊
+     *
+     * @param  string   $date
+     * @return array
+     */
+    public function getByDate($date)
+    {
+        return PlatformActivityRate::select(['platform_id', 'rate'])
+                                   ->where('start_at', '<=', $date)
+                                   ->where('end_at', '>=', $date)
+                                   ->active(1)
+                                   ->pluck('rate', 'platform_id')
+                                   ->toArray();
+    }
 }

@@ -104,6 +104,19 @@ return [
             'systemOperation'  => '操作日志',
         ],
         'table' => [
+            'dashboard' => [
+                'title'    => '今日平台利率清单',
+                'platform' => '平台',
+                'activity' => '活动',
+                'rate'     => '今日利率',
+                'total'    => [
+                    'last'            => '最近 24 小时',
+                    'depositAmount'   => '总充值金额',
+                    'interest'        => '已产生利息',
+                    'depositCount'    => '充值次数',
+                    'withdrawalCount' => '提领次数',
+                ],
+            ],
             'platformList' => [
                 'name'       => '名称',
                 'present'    => '目前利率(%)',
