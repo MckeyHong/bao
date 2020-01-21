@@ -27,7 +27,7 @@ class CreateMemberInfoStatDailyTable extends Migration
             $table->timestamps();
 
             $table->unique(['member_id', 'bet_at'], 'uk_' . $this->table . '_1');
-            $table->index(['bet_at', 'member_id', 'transfer_interest'], 'idx_' . $this->table . '_1');
+            $table->index(['bet_at', 'platform_id'], 'idx_' . $this->table . '_1');
         });
 
         DB::statement("ALTER TABLE `" . $this->table . "` COMMENT '會員每日儲值統計'");

@@ -25,6 +25,8 @@ class CreateMemberLoginTable extends Migration
             $table->json('device_info')->nullable()->comment('裝置詳細資訊');
             $table->string('area', 50)->nullable()->comment('地區');
             $table->timestamps();
+
+            $table->index(['created_at'], 'idx_' . $this->table . '_1');
         });
 
         DB::statement("ALTER TABLE `".$this->table."` COMMENT '會員登入紀錄'");

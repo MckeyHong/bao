@@ -26,7 +26,8 @@ class CreateMemberTransferTable extends Migration
             $table->unsignedDecimal('rate', 5, 2)->default(0)->comment('目前利率(%)');
             $table->timestamps();
 
-            $table->index(['member_id', 'created_at'], 'idx_' . $this->table . '_1');
+            $table->index(['created_at'], 'idx_' . $this->table . '_1');
+            $table->index(['platform_id', 'member_id', 'created_at'], 'idx_' . $this->table . '_2');
         });
 
         DB::statement("ALTER TABLE `" . $this->table . "` COMMENT '會員餘額寶儲值歷程'");

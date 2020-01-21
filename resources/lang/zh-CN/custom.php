@@ -124,6 +124,16 @@ return [
                 'balance'     => '余额宝额度',
                 'active'      => '状态',
             ],
+            'memberTransfer' => [
+                'created_at'    => '時間',
+                'platform'      => '平台',
+                'member'        => '会员',
+                'type'          => '类型',
+                'credit_before' => '异动前额度',
+                'credit'        => '异动额度',
+                'credit_after'  => '异动后额度',
+                'interest'      => '利息',
+            ],
             'memberLogin' => [
                 'created_at' => '登入时间',
                 'platform_id' => '平台',

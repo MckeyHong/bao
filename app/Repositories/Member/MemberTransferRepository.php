@@ -46,4 +46,27 @@ class MemberTransferRepository
                             ->whereBetween('created_at', [$startAt, $endAt])
                             ->sum('interest');
     }
+
+    /**
+     * [控端] 會員歷程查詢
+     *
+     * @param  array  $params
+     * @return mixed
+     */
+    public function getAdminList($params)
+    {
+        $query = MemberTransfer::select(['members.account', 'member_transfer.platform_id', 'member_transfer.type', 'member_transfer.credit_before', 'member_transfer.credit', 'member_transfer.credit_after', 'member_transfer.interest', 'member_transfer.created_at'])
+                               ->leftjoin('members', 'members.id', '=', 'member_transfer.member_id')
+                               ->whereBetween('member_transfer.created_at', [$params['start'], $params['end']]);
+
+        if (isset($params['platform']) && $params['platform'] > 0) {
+            $query = $query->where('member_transfer.platform_id', $params['platform']);
+        }
+        if (isset($params['account']) && $params['account'] != '') {
+            $query = $query->where('members.account', $params['account']);
+        }
+
+        return $query->orderBy('member_transfer.created_at', 'DESC')
+                     ->paginate(config('custom.admin.paginate'));
+    }
 }
