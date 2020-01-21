@@ -39,9 +39,10 @@ class SystemUserController extends Controller
         ];
 
         return view('admin.system.user', array_merge(array_merge($this->adminResponse(), $this->getExecuteResult()), [
-            'get'   => $params,
-            'role'  => $role,
-            'lists' => $this->systemUserSrv->index($params, $role)['data'],
+            'get'     => $params,
+            'role'    => $role,
+            'lists'   => $this->systemUserSrv->index($params, $role)['data'],
+            'funcKey' => config('permission.operation.' . $request->path()),
         ]));
     }
 

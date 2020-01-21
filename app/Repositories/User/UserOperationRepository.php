@@ -45,10 +45,12 @@ class UserOperationRepository
      */
     public function getAdminSingleList($funcKey, $funcId)
     {
-        return UserOperation::select(['created_at', 'user_account', 'user_name', 'ip',  'type', 'targets', 'content'])
+        return UserOperation::select(['created_at', 'user_account', 'user_name', 'ip',  'type', 'content'])
                             ->where('func_key', $funcKey)
                             ->where('func_id', $funcId)
                             ->orderBy('created_at', 'DESC')
-                            ->paginate(config('custom.admin.paginate'));
+                            ->offset(0)
+                            ->limit(10)
+                            ->get();
     }
 }

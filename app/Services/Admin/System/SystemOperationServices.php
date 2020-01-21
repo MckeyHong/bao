@@ -55,9 +55,15 @@ class SystemOperationServices
     public function detail($funcKey, $funcId)
     {
         try {
+            $list = $this->userOperationRepo->getAdminSingleList($funcKey, $funcId);
+            foreach ($list as $value) {
+                $value['created_at'] = $this->covertUTCToUTC8($value['created_at']);
+                $value['type'] = trans('custom.admin.operation.type.' . $value['type']);
+                $value['content'] = $this->covertOperation($value['content']);
+            }
             return [
                 'code'   => 200,
-                'result' => $this->handleOperationInfo($this->userOperationRepo->getAdminSingleList($funcKey, $funcId)),
+                'result' => $list,
             ];
         } catch (\Exception $e) {
             return [

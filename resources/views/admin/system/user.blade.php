@@ -72,7 +72,7 @@
                   @foreach ($lists as $value)
                   @php
                     $value['deletePath'] = asset('ctl/system/user') . '/' . $value['id'];
-                    $value['deleteMsg'] = trans('custom.admin.table.systemUser.account') . '：' . $value['account'];
+                    $value['modalMsg'] = trans('custom.admin.table.systemUser.account') . '：' . $value['account'];
                   @endphp
                   <tr>
                     <td>{{ $value['role_id'] }}</td>
@@ -87,13 +87,15 @@
                     </td>
                     <td style="width: 150px">{{ $value['created_at'] }}</td>
                     <td style="width: 150px">
+                      @if ($value['id'] != 1)
                         @if (isset($actionPermission['is_put']) && $actionPermission['is_put'] == 1)
                          <i class="material-icons lists-icons" title="{{ __('custom.button.edit') }}" onclick="window.location.href='{{ $activeUrl . '/edit/' . $value['id'] }}'">edit</i>
                         @endif
                         @if (isset($actionPermission['is_delete']) && $actionPermission['is_delete'] == 1)
-                          <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.delete') }}" onclick="deleteConfirm('{{ $value['deletePath'] }}', '{{ $value['deleteMsg'] }}')">delete</i>
+                          <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.delete') }}" onclick="deleteConfirm('{{ $value['deletePath'] }}', '{{ $value['modalMsg'] }}')">delete</i>
                         @endif
-                        <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}">description</i>
+                        <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}" onclick="logConfirm({{ $funcKey }}, {{ $value['id'] }}, '{{ $value['modalMsg'] }}')">description</i>
+                      @endif
                     </td>
                   </tr>
                   @endforeach
@@ -112,4 +114,5 @@
   </div>
 </div>
 @extends('layouts.modal.delete')
+@extends('layouts.modal.log')
 @endsection

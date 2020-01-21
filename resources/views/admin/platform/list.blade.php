@@ -25,6 +25,9 @@
                   <tr><td colspan="6">{{ __('custom.common.noData') }}</td></tr>
                   @endif
                   @foreach ($lists as $value)
+                  @php
+                    $value['modalMsg'] = trans('custom.admin.table.platformList.name') . '：' . $value['name'] . '<br />';
+                  @endphp
                   <tr>
                     <td>{{ $value['name'] }}</td>
                     <td>{{ $value['present'] }}</td>
@@ -41,7 +44,7 @@
                       @if (isset($actionPermission['is_put']) && $actionPermission['is_put'] == 1)
                         <i class="material-icons lists-icons" title="{{ __('custom.button.edit') }}" onclick="window.location.href='{{ $activeUrl }}/edit/{{ $value['id'] }}'">edit</i>
                       @endif
-                      <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}">description</i>
+                      <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}" onclick="logConfirm({{ $funcKey }}, {{ $value['id'] }}, '{{ $value['modalMsg'] }}')">description</i>
                     </td>
                   </tr>
                   @endforeach
@@ -59,4 +62,5 @@
     </div>
   </div>
 </div>
+@extends('layouts.modal.log')
 @endsection

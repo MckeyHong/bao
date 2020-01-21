@@ -41,6 +41,7 @@ class PlatformActivityController extends Controller
             'get'      => $params,
             'platform' => $platform,
             'lists'    => $this->platformActivitySrv->index($params, $platform)['data'],
+            'funcKey'  => config('permission.operation.' . $request->path()),
         ]));
         return view('admin.platform.activity', $this->adminResponse());
     }

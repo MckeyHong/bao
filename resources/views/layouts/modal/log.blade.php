@@ -10,7 +10,7 @@
         <div class="modal-body">
           <div class="table-responsive">
             <div id="logInfo"></div>
-            <table class="table table-hover table-bordered">
+            <table id="logTable" class="table table-hover table-bordered">
               <thead>
                 <tr>
                   <th>{{ __('custom.admin.table.modalLog.created_at') }}</th>
@@ -20,12 +20,6 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>xxxx</td>
-                  <td>xxxx</td>
-                  <td>xxxx</td>
-                  <td>xxxx</td>
-                </tr>
               </tbody>
             </table>
           </div>
@@ -38,9 +32,32 @@
 </div>
 
 @push('js')
+<script src="{{ asset('js/admin.js') }}"></script>
 <script>
   var logConfirm = (funcKey, funcId, message) => {
+    $('#logTable > tbody').html('');
     $('#logInfo').html(message);
+    // 取得資料
+    axios.get('/ctl/system/operation/detail/' + funcKey + '/' + funcId)
+      .then(function (response) {
+          let layout = '';
+          response.data.result.forEach(function (item) {
+            layout += '<tr>';
+            layout += '<td style="width:230px">' + item.created_at + ' (' + item.ip + ')</td>';
+            layout += '<td style="width:150px">' + item.user_account + '(' + item.user_name + ')</td>';
+            layout += '<td style="width:70px">' + item.type + '</td>';
+            layout += '<td>' + item.content + '</td>';
+            layout += '</tr>';
+          });
+          if (layout === '') {
+            layout = '<tr><td colspan="4">{{ __('custom.common.noData') }}</td></tr>';
+          }
+          $('#logTable > tbody').append(layout);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log('error ' + error);
+      });
     $('#logModal').modal('show');
   }
 </script>

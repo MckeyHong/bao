@@ -27,7 +27,8 @@ class PlatformListController extends Controller
     {
         return view('admin.platform.list', array_merge(array_merge($this->adminResponse(), $this->getExecuteResult()),
             [
-                'lists' => $this->platformListSrv->index()['data']
+                'lists'   => $this->platformListSrv->index()['data'],
+                'funcKey' => config('permission.operation.' . $request->path()),
             ]
         ));
     }

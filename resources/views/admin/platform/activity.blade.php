@@ -79,10 +79,10 @@
                   @php
                     $value['deletePath'] = $activeUrl . '/' . $value['id'];
                     $value['colsePath'] = $activeUrl . '/close/' . $value['id'];
-                    $value['deleteMsg'] = trans('custom.admin.table.platformActivity.platform_id') . '：' . $value['platform_id'] . '<br />';
-                    $value['deleteMsg'] .= trans('custom.admin.table.platformActivity.start_at') . '：' . $value['start_at'] . '<br />';
-                    $value['deleteMsg'] .= trans('custom.admin.table.platformActivity.end_at') . '：' . $value['end_at'] . '<br />';
-                    $value['deleteMsg'] .= trans('custom.admin.table.platformActivity.rate') . '：' . $value['rate'] . '<br />';
+                    $value['modalMsg'] = trans('custom.admin.table.platformActivity.platform_id') . '：' . $value['platform_id'] . '<br />';
+                    $value['modalMsg'] .= trans('custom.admin.table.platformActivity.start_at') . '：' . $value['start_at'] . '<br />';
+                    $value['modalMsg'] .= trans('custom.admin.table.platformActivity.end_at') . '：' . $value['end_at'] . '<br />';
+                    $value['modalMsg'] .= trans('custom.admin.table.platformActivity.rate') . '：' . $value['rate'] . '<br />';
                   @endphp
                   <tr>
                     <td>{{ $value['platform_id'] }}</td>
@@ -102,13 +102,13 @@
                             <i class="material-icons lists-icons" title="{{ __('custom.button.edit') }}" onclick="window.location.href='{{ $activeUrl . '/edit/' . $value['id'] }}'">edit</i>
                           @endif
                           @if (isset($actionPermission['is_delete']) && $actionPermission['is_delete'] == 1)
-                            <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.delete') }}" onclick="deleteConfirm('{{ $value['deletePath'] }}', '{{ $value['deleteMsg'] }}')">delete</i>
+                            <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.delete') }}" onclick="deleteConfirm('{{ $value['deletePath'] }}', '{{ $value['modalMsg'] }}')">delete</i>
                           @endif
                         @endif
                         @if ($value['is_close'] && isset($actionPermission['is_put']) && $actionPermission['is_put'] == 1)
-                        <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.close') }}" onclick="closeConfirm('{{ $value['colsePath'] }}', '{{ $value['deleteMsg'] }}')">cancel</i>
+                        <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.close') }}" onclick="closeConfirm('{{ $value['colsePath'] }}', '{{ $value['modalMsg'] }}')">cancel</i>
                         @endif
-                        <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}">description</i>
+                        <i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}" onclick="logConfirm({{ $funcKey }}, {{ $value['id'] }}, '{{ $value['modalMsg'] }}')">description</i>
                     </td>
                   </tr>
                   @endforeach
@@ -128,4 +128,5 @@
 </div>
 @extends('layouts.modal.delete')
 @extends('layouts.modal.close')
+@extends('layouts.modal.log')
 @endsection
