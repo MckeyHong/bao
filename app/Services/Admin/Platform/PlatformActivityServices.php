@@ -136,7 +136,7 @@ class PlatformActivityServices
                 $activity = $this->platformActivityRateRepo->find($id);
                 $params = [];
                 $content = [['type' => 'info', 'field' => '', 'data' => 'edit']];
-                foreach(['start_at', 'end_at', 'rate', 'active'] as $field) {
+                foreach (['start_at', 'end_at', 'rate', 'active'] as $field) {
                     if ($activity[$field] != $request[$field]) {
                         $params[$field] = $request[$field];
                         $content[] = ['type' => 'around', 'field' => $field, 'data' => ['old' => $activity[$field], 'new' => $request[$field]]];

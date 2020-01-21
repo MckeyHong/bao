@@ -39,13 +39,30 @@ class MemberInfoStatDailyRepository
      */
     public function getAdminSummaryList($params)
     {
-        $query = MemberInfoStatDaily::selectRaw('platform_id, SUM(deposit_credit) AS deposit_credit, SUM(transfer_interest) AS transfer_interest')
+        $query = MemberInfoStatDaily::selectRaw('platform_id, SUM(deposit_credit) AS deposit_credit, SUM(interest) AS interest')
                                     ->whereBetween('bet_at', [$params['start'], $params['end']]);
 
         if (isset($params['platform']) && $params['platform'] > 0) {
             $query = $query->platform($params['platform']);
         }
         return $query->groupBy('platform_id')->get();
+    }
+
+    /**
+     * [控端] 利息報表 - 每日總表
+     *
+     * @param  integer $platformId
+     * @param  array   $params
+     * @return mixed
+     */
+    public function getAdminDailyList($platformId, $params)
+    {
+        return MemberInfoStatDaily::selectRaw('bet_at, SUM(deposit_credit) AS deposit_credit, SUM(interest) AS interest')
+                                  ->whereBetween('bet_at', [$params['start'], $params['end']])
+                                  ->platform($platformId)
+                                  ->groupBy('bet_at')
+                                  ->orderBy('bet_at', 'DESC')
+                                  ->get();
     }
 
     /**

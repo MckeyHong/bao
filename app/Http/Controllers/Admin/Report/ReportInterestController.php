@@ -29,6 +29,49 @@ class ReportInterestController extends Controller
         // 參數驗證
         $dropdownSrv = new DropdownServices();
         $platform = $dropdownSrv->dropdown('platform');
+        $params = $this->handleGetParameters($request, $platform);
+
+        return view('admin.report.interest', array_merge($this->adminResponse(), [
+            'get'      => $params,
+            'platform' => $platform,
+            'lists'    => $this->reportInterestSrv->index($params, $platform)['data'],
+            'firstDay' => Carbon::now()->subMonth(6)->toDateString(),
+        ]));
+    }
+
+    /**
+     * 明細清單
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param integer                   $platformId
+     * @return \Illuminate\Support\Facades\Blade
+     */
+    public function detail(Request $request, $platformId)
+    {
+        // 參數驗證
+        $dropdownSrv = new DropdownServices();
+        $platform = $dropdownSrv->dropdown('platform');
+        if (!in_array($platformId, array_keys($platform))) {
+            abort(404);
+        }
+        $params = $this->handleGetParameters($request, $platform);
+        return view('admin.report.interestDetail', array_merge($this->adminResponse(), [
+            'get'      => $params,
+            'goBack'   => asset('ctl/report/interest') .'?'. http_build_query($params),
+            'platform' => $platform[$platformId],
+            'lists'    => $this->reportInterestSrv->detail($platformId, $params)['data'],
+        ]));
+    }
+
+    /**
+     * 處理 GET 參數
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  array                     $platform
+     * @return array
+     */
+    private function handleGetParameters($request, $platform)
+    {
         $firstDay = Carbon::now()->subMonth(6)->toDateString();
         $defaultStartAt = Carbon::now()->subDay(6)->toDateString();
         $defaultEndAt = Carbon::now()->toDateString();
@@ -38,12 +81,6 @@ class ReportInterestController extends Controller
             'platform' => (in_array($request->input('platform'), array_keys($platform))) ? $request->input('platform') : 0,
         ];
         $params['start'] = ($params['start'] > $params['end']) ? $params['end'] : $params['start'];
-
-        return view('admin.report.interest', array_merge($this->adminResponse(), [
-            'get'      => $params,
-            'platform' => $platform,
-            'lists'    => $this->reportInterestSrv->index($params, $platform)['data'],
-            'firstDay' => $firstDay,
-        ]));
+        return $params;
     }
 }

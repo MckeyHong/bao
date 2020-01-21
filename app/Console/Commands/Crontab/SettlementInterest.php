@@ -82,8 +82,8 @@ class SettlementInterest extends Command
             $rate = $rateList[$member['platform_id']] ?? 0;
             $tmpTime = Carbon::parse($checkoutDateTime)->diffInSeconds($member['last_transfer_at']);
             $interest = $this->interestSrv->calculateInterest('settlement', $member['today_deposit'], $rate, $tmpTime);
-            $creditBefore = bcadd(($member['credit'] + $member['today_deposit']), $member['interest'], 2);
-            $creditAfter = bcadd($creditBefore, $interest, 2);
+            $creditBefore = bcadd(($member['credit'] + $member['today_deposit']), $member['interest'], 8);
+            $creditAfter = bcadd($creditBefore, $interest, 8);
             if ($interest > 0) {
                 $this->memberTransferRepo->store([
                     'platform_id'   => $member['platform_id'],
@@ -100,7 +100,7 @@ class SettlementInterest extends Command
             // 系統轉回平台
             if ($creditAfter >= 1) {
                 $credit = floor_format($creditAfter, 0);
-                $transferAfter = $creditAfter - $credit;
+                $transferAfter = bcsub($creditAfter, $credit, 8);
                 $result = $this->trasnferSrv->platform($member, $credit, 'OUT');
                 $this->memberRepo->update($member['id'], [
                     'credit'        => 0,

@@ -78,6 +78,7 @@ return [
         'reset'  => '重置',
         'close'  => '关闭',
         'cancel' => '取消',
+        'goBack' => '返回上层',
     ],
     'admin' => [
         'browser' => '管理系统',
@@ -194,6 +195,7 @@ return [
             'action' => '操作',
             'log'    => '历程',
             'record' => '纪录',
+            'detail' => '明细',
             'system' => [
                 'loginSuccess'  => '登入成功',
                 'loginFalse'    => '登入失败',

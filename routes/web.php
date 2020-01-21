@@ -69,6 +69,7 @@ Route::group(['prefix' => 'ctl'], function () {
             Route::group(['prefix' => 'report', 'namespace' => 'Report'], function () {
                 Route::get('/member', 'ReportMemberController@index');
                 Route::get('/interest', 'ReportInterestController@index');
+                Route::get('/interest/detail/{platformId}', 'ReportInterestController@detail');
             });
 
             // 系統管理

@@ -1,9 +1,5 @@
 @extends('layouts.app')
 
-@push('css')
-<link rel="stylesheet" type="text/css" href="{{ asset('css/vendor/jquery.datetimepicker.min.css') }}" />
-@endpush
-
 @section('content')
 <div class="content">
   <div class="container-fluid">
@@ -15,28 +11,19 @@
               <form method="GET">
                 <div class="float-left">
                   <div class="float-left search-label">{{ __('custom.admin.search.time') }}：</div>
-                  <div class="float-left"><input id="start" name="start" class="form-control search-input" value="{{ $get['start'] }}" /></div>
+                  <div class="float-left">{{ $get['start'] }}</div>
                   <div class="float-left search-label"> ~ </div>
-                  <div class="float-left"><input id="end" name="end" class="form-control search-input"value="{{ $get['end'] }}" /></div>
+                  <div class="float-left">{{ $get['end'] }}</div>
                   <div class="clearfix"></div>
                 </div>
                 <div class="float-left search-label">、</div>
                 <div class="float-left">
                   <div class="float-left search-label">{{ __('custom.admin.search.platform') }}：</div>
-                  <div class="float-left">
-                    <select id="platform" name="platform" class="form-control-selector">
-                      <option value="">{{ __('custom.common.all') }}</option>
-                      @foreach ($platform as $platformKey => $platformValue)
-                      <option value="{{ $platformKey }}" @if ($platformKey == $get['platform']) selected @endif>{{ $platformValue }}</option>
-                      @endforeach
-                    </select>
-                  </div>
+                  <div class="float-left">{{ $platform }}</div>
                   <div class="clearfix"></div>
                 </div>
-                <div class="float-left">
-                  <button type="submit" class="btn btn-white btn-round btn-just-icon btn-search">
-                    <i class="material-icons">search</i>
-                  </button>
+                <div class="float-right">
+                  <a href="{{ $goBack }}" class="btn btn-sm btn-primary">{{ __('custom.button.goBack') }}</a>
                 </div>
                 <div class="clearfix"></div>
               </form>
@@ -59,10 +46,9 @@
               <table class="table table-hover table-bordered">
                 <thead>
                   <tr>
-                    <th>{{ __('custom.admin.table.reportInterest.platform_id') }}</th>
+                    <th>{{ __('custom.admin.table.reportInterest.date') }}</th>
                     <th>{{ __('custom.admin.table.reportInterest.deposit_credit') }}</th>
                     <th>{{ __('custom.admin.table.reportInterest.interest') }}</th>
-                    <th>{{ __('custom.admin.text.detail') }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -71,10 +57,9 @@
                   @endif
                   @foreach ($lists['lists'] as $value)
                   <tr>
-                    <td>{{ $value['platform_name'] }}</td>
+                    <td>{{ $value['bet_at'] }}</td>
                     <td>{{ amount_format($value['deposit_credit'], 2) }}</td>
                     <td>{{ amount_format($value['interest'], 8) }}</td>
-                    <td><i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.admin.text.detail') }}" onclick="goDetail({{ $value['platform_id'] }})">date_range</i></td>
                   </tr>
                   @endforeach
                 </tbody>
@@ -89,23 +74,4 @@
 @endsection
 
 @push('js')
-<script src="{{ asset('js/vendor/jquery.datetimepicker.full.min.js') }}"></script>
-<script>
-var goDetail = (platformId) => {
-  document.location.href = '{{ asset('ctl/report/interest/detail') }}/' + platformId + window.location.search;
-};
-
-$(function () {
-    $('#start, #end').datetimepicker({
-        format: 'Y-m-d',
-        lang: 'zh',
-        minDate: '{{ $firstDay }}',
-        maxDate: 0,
-        timepicker: false,
-        onSelectDate: function (ct) {
-          $('#start').val(($('#start').val() <= $('#end').val()) ? $('#start').val() : $('#end').val());
-        }
-    });
-});
-</script>
 @endpush
