@@ -32,12 +32,30 @@ class MemberInfoStatDailyRepository
     }
 
     /**
+     * [控端] 會員報表 - 總表
+     *
+     * @param  array  $params
+     * @return mixed
+     */
+    public function getAdminSummaryByMember($params)
+    {
+        return MemberInfoStatDaily::selectRaw('member_info_stat_daily.bet_at AS bet_at, SUM(member_info_stat_daily.deposit_credit) AS deposit_credit, SUM(member_info_stat_daily.interest) AS interest')
+                                  ->leftjoin('members', 'members.id', '=', 'member_info_stat_daily.member_id')
+                                  ->whereBetween('member_info_stat_daily.bet_at', [$params['start'], $params['end']])
+                                  ->where('member_info_stat_daily.member_id', $params['platform'])
+                                  ->where('members.account', $params['account'])
+                                  ->groupBy('member_info_stat_daily.bet_at')
+                                  ->orderBy('member_info_stat_daily.bet_at', 'DESC')
+                                  ->get();
+    }
+
+    /**
      * [控端] 利息報表 - 總表
      *
      * @param  array  $params
      * @return mixed
      */
-    public function getAdminSummaryList($params)
+    public function getAdminSummaryByInterest($params)
     {
         $query = MemberInfoStatDaily::selectRaw('platform_id, SUM(deposit_credit) AS deposit_credit, SUM(interest) AS interest')
                                     ->whereBetween('bet_at', [$params['start'], $params['end']]);
@@ -55,7 +73,7 @@ class MemberInfoStatDailyRepository
      * @param  array   $params
      * @return mixed
      */
-    public function getAdminDailyList($platformId, $params)
+    public function getAdminDailyByInterest($platformId, $params)
     {
         return MemberInfoStatDaily::selectRaw('bet_at, SUM(deposit_credit) AS deposit_credit, SUM(interest) AS interest')
                                   ->whereBetween('bet_at', [$params['start'], $params['end']])

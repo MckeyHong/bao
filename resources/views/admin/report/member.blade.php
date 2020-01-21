@@ -52,8 +52,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>$ 888,000.98</td>
-                    <td>$ 888,000.98</td>
+                    <td style="width:50%">$ {{ amount_format($lists['total']['deposit_credit'], 2) }}</td>
+                    <td>$ {{ amount_format($lists['total']['interest'], 8) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -63,16 +63,19 @@
                     <th>{{ __('custom.admin.table.reportMember.date') }}</th>
                     <th>{{ __('custom.admin.table.reportMember.deposit_credit') }}</th>
                     <th>{{ __('custom.admin.table.reportMember.interest') }}</th>
-                    <th>{{ __('custom.admin.text.log') }}</th>
                   </tr>
                 </thead>
                 <tbody>
+                  @if (count($lists['lists']) == 0)
+                  <tr><td colspan="3">{{ __('custom.common.noData') }}</td></tr>
+                  @endif
+                  @foreach ($lists['lists'] as $value)
                   <tr>
-                    <td>2020-01-15</td>
-                    <td>$ 31,000</td>
-                    <td>$ 12.22</td>
-                    <td style="width:70px"><i class="material-icons lists-icons lists-icons-multi" title="{{ __('custom.button.log') }}">description</i></td>
+                    <td>{{ $value['bet_at'] }}</td>
+                    <td>{{ amount_format($value['deposit_credit'], 2) }}</td>
+                    <td>{{ amount_format($value['interest'], 8) }}</td>
                   </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>

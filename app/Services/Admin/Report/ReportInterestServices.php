@@ -30,7 +30,7 @@ class ReportInterestServices
             $params['start'] = $this->covertUTC8ToUTC($params['start'], 'date');
             $params['end'] = $this->covertUTC8ToUTC($params['end'], 'date');
             $total = ['deposit_credit' => 0, 'interest' => 0];
-            $data = $this->memberInfoStatDailyRepo->getAdminSummaryList($params);
+            $data = $this->memberInfoStatDailyRepo->getAdminSummaryByInterest($params);
             foreach ($data as $value) {
                 $value['platform_name'] = $platform[$value['platform_id']] ?? '';
                 $total['deposit_credit'] += $value['deposit_credit'];
@@ -46,7 +46,10 @@ class ReportInterestServices
         } catch (\Exception $e) {
             return [
                 'result' => false,
-                'data'   => [],
+                'data'   => [
+                    'lists' => $data,
+                    'total' => $total,
+                ],
                 'error'  => $e->getMessage(),
             ];
         }
@@ -65,7 +68,7 @@ class ReportInterestServices
             $params['start'] = $this->covertUTC8ToUTC($params['start'], 'date');
             $params['end'] = $this->covertUTC8ToUTC($params['end'], 'date');
             $total = ['deposit_credit' => 0, 'interest' => 0];
-            $data = $this->memberInfoStatDailyRepo->getAdminDailyList($platformId, $params);
+            $data = $this->memberInfoStatDailyRepo->getAdminDailyByInterest($platformId, $params);
             foreach ($data as $value) {
                 $total['deposit_credit'] += $value['deposit_credit'];
                 $total['interest'] += $value['interest'];
