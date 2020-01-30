@@ -19,7 +19,8 @@ Route::group(['namespace' => 'Web', 'middleware' => 'auth:web'], function () {
 });
 
 Route::group(['namespace' => 'Web'], function () {
-    Route::get('/member/redirect', 'MemberController@redirect');
+    Route::get('/member/redirect', 'MemberController@autoRedirect');
+    Route::get('/redirect', 'MemberController@redirect');
 });
 
 Route::group(['prefix' => 'ctl'], function () {

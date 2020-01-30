@@ -23,7 +23,22 @@ class MemberController extends Controller
      */
     public function redirect(Request $request)
     {
-        $result = $this->memberSrv->redirect($request->input('platform', ''), $request->input('account', ''), get_real_ip($request->ip()));
+        $result = $this->memberSrv->redirect($request->input('token', ''), get_real_ip($request->ip()));
+        if (!$result['result']) {
+            abort(404);
+        }
+        return redirect('/');
+    }
+
+    /**
+     * 會員自動導轉登入
+     *
+     * @param  Request $request
+     * @return Illuminate\Support\Facades\View
+     */
+    public function autoRedirect(Request $request)
+    {
+        $result = $this->memberSrv->autoRedirect($request->input('platform', ''), $request->input('account', ''), get_real_ip($request->ip()));
         if (!$result['result']) {
             abort(404);
         }
