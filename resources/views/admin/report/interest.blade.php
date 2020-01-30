@@ -67,7 +67,7 @@
                 </thead>
                 <tbody>
                   @if ($lists['lists']->count() == 0)
-                  <tr><td colspan="3">{{ __('custom.common.noData') }}</td></tr>
+                  <tr><td colspan="4">{{ __('custom.common.noData') }}</td></tr>
                   @endif
                   @foreach ($lists['lists'] as $value)
                   <tr>
