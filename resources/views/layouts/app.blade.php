@@ -64,6 +64,7 @@
         }
 
         .lists-icons {
+            margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 3px 5px;
