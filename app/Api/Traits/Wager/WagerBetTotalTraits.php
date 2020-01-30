@@ -16,8 +16,8 @@ trait WagerBetTotalTraits
             return [
                 'result' => config('apiCode.code.succcess'),
                 'data'   => [
-                    ['account' => 'GG888', 'bet_total' => 1000],
-                    ['account' => 'GG188', 'bet_total' => 2000],
+                    ['account' => 'FF1688', 'bet_total' => 1000],
+                    ['account' => 'DD888', 'bet_total' => 2000],
                 ],
             ];
         } catch (\Exception $e) {

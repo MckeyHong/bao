@@ -82,4 +82,16 @@ class MemberRepository
     {
         return Member::find($id)->increment($field, $value, $parameters);
     }
+
+    /**
+     * [排程] 取得某平台指定帳號的會員清單
+     *
+     * @param  integer $platformId
+     * @param  array   $accounts
+     * @return mixed
+     */
+    public function getListByPlatformIdAndAccount($platformId, $accounts = [])
+    {
+        return Member::platform($platformId)->whereIn('account', $accounts)->pluck('id', 'account');
+    }
 }
