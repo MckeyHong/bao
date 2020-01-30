@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Admin\Report;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Traits\TimeTraits;
 use App\Services\Admin\DropdownServices;
 use App\Services\Admin\Report\ReportMemberServices;
 
 class ReportMemberController extends Controller
 {
+    use TimeTraits;
+
     protected $reportMemberSrv;
 
     public function __construct(
@@ -49,11 +52,9 @@ class ReportMemberController extends Controller
     private function handleGetParameters($request, $platform)
     {
         $firstDay = Carbon::now()->subMonth(6)->toDateString();
-        $defaultStartAt = Carbon::now()->subDay(6)->toDateString();
-        $defaultEndAt = Carbon::now()->toDateString();
         $params = [
-            'start'    => (validate_date($request->input('start', '')) && $request->input('start') >= $firstDay) ? $request->input('start') :  $defaultStartAt,
-            'end'      => (validate_date($request->input('end', '')) && $request->input('end') >= $firstDay) ? $request->input('end') :  $defaultEndAt,
+            'start'   => $this->validateAdminDateTime($request->input('start', ''), $firstDay, Carbon::now()->subDay(6)->toDateString(), 'Y-m-d'),
+            'end'     => $this->validateAdminDateTime($request->input('end', ''), $firstDay, Carbon::now()->toDateString(), 'Y-m-d'),
             'platform' => (in_array($request->input('platform'), array_keys($platform))) ? $request->input('platform') : 0,
             'account'  => $request->input('account', ''),
         ];

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/vendor/jquery.datetimepicker.min.css') }}" />
+@endpush
+
 @section('content')
 <div class="content">
   <div class="container-fluid">
@@ -86,3 +90,21 @@
   </div>
 </div>
 @endsection
+
+@push('js')
+<script src="{{ asset('js/vendor/jquery.datetimepicker.full.min.js') }}"></script>
+<script>
+$(function () {
+    $('#start, #end').datetimepicker({
+        format: 'Y-m-d',
+        lang: 'zh',
+        minDate: '{{ $firstDay }}',
+        maxDate: 0,
+        timepicker: false,
+        onSelectDate: function (ct) {
+          $('#start').val(($('#start').val() <= $('#end').val()) ? $('#start').val() : $('#end').val());
+        }
+    });
+});
+</script>
+@endpush

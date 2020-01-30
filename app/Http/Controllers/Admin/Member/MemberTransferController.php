@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Admin\Member;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Traits\TimeTraits;
 use App\Services\Admin\DropdownServices;
 use App\Services\Admin\Member\MemberTransferServices;
 
 class MemberTransferController extends Controller
 {
+    use TimeTraits;
+
     protected $memberTransferSrv;
 
     public function __construct(
@@ -29,12 +32,11 @@ class MemberTransferController extends Controller
         // 參數驗證
         $dropdownSrv = new DropdownServices();
         $platform = $dropdownSrv->dropdown('platform');
+        $today = Carbon::now()->toDateString();
         $firstDay = Carbon::now()->subMonth(2)->toDateString() . ' 00:00';
-        $defaultStartAt = Carbon::now()->toDateString() . ' 00:00';
-        $defaultEndAt = Carbon::now()->toDateString() . ' 23:59';
         $params = [
-            'start'    => (validate_date($request->input('start'), 'Y-m-d H:i') && $request->input('start') >= $firstDay) ? $request->input('start') :  $defaultStartAt,
-            'end'      => (validate_date($request->input('end'), 'Y-m-d H:i') && $request->input('end') >= $firstDay) ? $request->input('end') :  $defaultEndAt,
+            'start'    => $this->validateAdminDateTime($request->input('start', ''), $firstDay, $today . ' 00:00'),
+            'end'      => $this->validateAdminDateTime($request->input('end', ''), $firstDay, $today . ' 23:59'),
             'platform' => (in_array($request->input('platform'), array_keys($platform))) ? $request->input('platform') : 0,
             'account'  => $request->input('account', ''),
         ];

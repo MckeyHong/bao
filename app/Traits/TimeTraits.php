@@ -43,4 +43,18 @@ trait TimeTraits
         }
         return date($type, (strtotime($dateTime) + (8 * 3600)));
     }
+
+    /**
+     * 驗證控端搜尋-時間參數
+     *
+     * @param  string $dateAt
+     * @param  string $firstDateAt
+     * @param  string $defaultAt
+     * @param  string $format
+     * @return string
+     */
+    public function validateAdminDateTime($dateAt, $firstDateAt, $defaultAt, $format = 'Y-m-d H:i')
+    {
+        return (validate_date($dateAt, $format) && $dateAt >= $firstDateAt) ? $dateAt :  $defaultAt;
+    }
 }
