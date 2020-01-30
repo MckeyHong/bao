@@ -26,7 +26,7 @@ Route::group(['namespace' => 'Web'], function () {
 Route::group(['prefix' => 'ctl'], function () {
     Auth::routes();
     // 已登入
-    Route::group(['namespace' => 'Admin', 'middleware' => ['auth:user', 'locale']], function () {
+    Route::group(['namespace' => 'Admin', 'middleware' => ['auth:user', 'locale', 'use.check:user']], function () {
         // 首頁資訊
         Route::get('/home', 'HomeController@index')->name('home');
 

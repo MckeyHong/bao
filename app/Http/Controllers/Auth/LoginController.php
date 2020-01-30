@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App;
+use Redis;
 use Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Services\Admin\System\SystemLoginServices;
 
 class LoginController extends Controller
@@ -39,10 +41,11 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct(SystemLoginServices $systemLoginSrv)
-    {
-        $this->systemLoginSrv = $systemLoginSrv;
+    public function __construct(
+        SystemLoginServices $systemLoginSrv
+    ) {
         $this->middleware('guest')->except('logout');
+        $this->systemLoginSrv = $systemLoginSrv;
     }
 
     protected function guard()
@@ -53,22 +56,19 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $this->validateLogin($request);
-
         $ip = get_real_ip($request->ip());
-        if ($this->attemptLogin($request)) {
+        $request['active'] = 1;
+        if ($this->guard()->attempt($request->only('account', 'password', 'active'))) {
             $user = Auth::user();
-            if ($user['active'] != 1) {
-                $this->guard()->logout();
-                $request->session()->invalidate();
-                $this->systemLoginSrv->store($ip, $user, 4);
-                $this->incrementLoginAttempts($request);
-                redirect('/ctl/login');
-            }
             $this->systemLoginSrv->store($ip, $user);
+            // 設定單用戶
+            $time = time();
+            $singleToken = md5($ip . $user['id'] . $time);
+            Redis::set('STRING_SINGLETOKEN_' . $user['id'], $time);
+            Session::put('SINGLETOKEN', $singleToken);
             // 設定語系
             $locale = (in_array($request->input('locale'), ['en', 'zh-CN', 'zh-TW'])) ? $request->input('locale') : config('app.fallback_locale');
             Session::put('locale', $locale);
-
             return $this->sendLoginResponse($request);
         }
         $this->systemLoginSrv->store($ip, ['user_account' => $request->input('account', '')], 4);
