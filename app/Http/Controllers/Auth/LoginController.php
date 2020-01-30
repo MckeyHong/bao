@@ -89,7 +89,7 @@ class LoginController extends Controller
         $this->guard()->logout();
 
         $request->session()->invalidate();
-
+        Redis::set('STRING_SINGLETOKEN_' . $user['id'], '');
         $this->systemLoginSrv->store(get_real_ip($request->ip()), $user, 2);
 
         return $this->loggedOut($request) ?: redirect('/ctl/home');

@@ -3,9 +3,11 @@
 namespace App\Services\Admin\System;
 
 use DB;
+use Redis;
 use App\Traits\TimeTraits;
 use App\Repositories\Role\RoleRepository;
 use App\Repositories\Role\RolePermissionRepository;
+use App\Repositories\User\UserRepository;
 
 class SystemRoleServices
 {
@@ -14,15 +16,18 @@ class SystemRoleServices
     protected $systemOperationSrv;
     protected $roleRepo;
     protected $rolePermissionRepo;
+    protected $userRepo;
 
     public function __construct(
         SystemOperationServices $systemOperationSrv,
         RoleRepository $roleRepo,
-        RolePermissionRepository $rolePermissionRepo
+        RolePermissionRepository $rolePermissionRepo,
+        UserRepository $userRepo
     ) {
         $this->systemOperationSrv = $systemOperationSrv;
         $this->roleRepo           = $roleRepo;
         $this->rolePermissionRepo = $rolePermissionRepo;
+        $this->userRepo           = $userRepo;
     }
 
     /**
@@ -152,10 +157,16 @@ class SystemRoleServices
             $result = DB::transaction(function () use ($id, $request) {
                 $role = $this->roleRepo->find($id);
                 $params = $content = [];
-                foreach(['name', 'active'] as $field) {
+                foreach (['name', 'active'] as $field) {
                     if ($role[$field] != $request[$field]) {
                         $params[$field] = $request[$field];
                         $content[] = ['type' => 'around', 'field' => $field, 'data' => ['old' => $role[$field], 'new' => $request[$field]]];
+                    }
+                    if ($request['active'] != 1) {
+                        $users = $this->userRepo->getByWhere('role_id', $id, ['id']);
+                        foreach ($users as $value) {
+                            Redis::set('STRING_SINGLETOKEN_' . $value['id'], '');
+                        }
                     }
                 }
                 if (count($params) > 0) {

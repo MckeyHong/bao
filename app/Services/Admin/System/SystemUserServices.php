@@ -3,6 +3,7 @@
 namespace App\Services\Admin\System;
 
 use DB;
+use Redis;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\TimeTraits;
 use App\Services\Common\AreaServices;
@@ -133,9 +134,13 @@ class SystemUserServices
                 if ($user['active'] != $request['active']) {
                     $params['active'] = $request['active'];
                     $content[] = ['type' => 'around', 'field' => 'active', 'data' => ['old' => $user['active'], 'new' => $request['active']]];
+                    if ($request['active'] != 1) {
+                        Redis::set('STRING_SINGLETOKEN_' . $id, '');
+                    }
                 }
                 if (isset($request['password']) && $request['password'] != '') {
                     $params['password'] = Hash::make($request['password']);
+                    Redis::set('STRING_SINGLETOKEN_' . $id, '');
                     $content[] = ['type' => 'info', 'field' => '', 'data' => 'password'];
                 }
                 if (count($params) > 0) {
