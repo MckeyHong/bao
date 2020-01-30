@@ -64,7 +64,6 @@
         }
 
         .lists-icons {
-            margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 3px 5px;
@@ -78,6 +77,18 @@
 
         .lists-icons-multi {
             margin-left: 5px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .lists-icons {
+                margin-top: 5px;
+            }
+        }
+
+        @media screen and (min-width: 601px) {
+            .lists-icons {
+                margin-top: 0px;
+            }
         }
     </style>
     @stack('css')
