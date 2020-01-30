@@ -40,7 +40,7 @@ class ApiVerify
             return $next($request);
         } catch (\Exception $e) {
             return [
-                'code'  => $e->getCode() ?? config('apiCode.notAPICode'),
+                'code'  => $e->getCode() ?? config('custom.api.code.systemError'),
                 'error' => $e->getMessage(),
             ];
         }

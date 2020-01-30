@@ -18,12 +18,12 @@ trait TransferCreditTraits
     {
         try {
             return [
-                'result' => config('apiCode.code.succcess'),
+                'result' => config('custom.api.code.succcess'),
                 'data'   => true,
             ];
         } catch (\Exception $e) {
             return [
-                'result' => $e->getCode() ?? config('apiCode.code.systemError'),
+                'result' => $e->getCode() ?? config('custom.api.code.systemError'),
                 'data'   => null,
                 'error'  => $e->getMessage(),
             ];
@@ -41,12 +41,12 @@ trait TransferCreditTraits
     {
         try {
             return [
-                'result' => config('apiCode.code.succcess'),
+                'result' => config('custom.api.code.succcess'),
                 'data'   => true,
             ];
         } catch (\Exception $e) {
             return [
-                'result' => $e->getCode() ?? config('apiCode.code.systemError'),
+                'result' => $e->getCode() ?? config('custom.api.code.systemError'),
                 'data'   => null,
                 'error'  => $e->getMessage(),
             ];

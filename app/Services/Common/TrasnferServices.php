@@ -59,12 +59,12 @@ class TrasnferServices
             ]);
             // 執行轉帳
             $response = $this->transferCreditOfApi($member['account'], $no, $type, $credit);
-            if ($response['result'] != config('apiCode.code.succcess')) {
+            if ($response['result'] != config('custom.api.code.succcess')) {
                 throw new \Exception('平台转帐异常', 417);
             }
             // 檢查轉帳狀態
             $response = $this->checkTransferCreditOfApi($no);
-            if ($response['result'] != config('apiCode.code.succcess')) {
+            if ($response['result'] != config('custom.api.code.succcess')) {
                 throw new \Exception('平台转帐核對异常', 417);
             }
             $balanceTransferRepo->update($balanceTransfer['id'], ['is_transfer' => 1]);

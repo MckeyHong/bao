@@ -14,7 +14,7 @@ trait WagerBetTotalTraits
     {
         try {
             return [
-                'result' => config('apiCode.code.succcess'),
+                'result' => config('custom.api.code.succcess'),
                 'data'   => [
                     ['account' => 'FF1688', 'bet_total' => 1000],
                     ['account' => 'DD888', 'bet_total' => 2000],
@@ -22,7 +22,7 @@ trait WagerBetTotalTraits
             ];
         } catch (\Exception $e) {
             return [
-                'result' => $e->getCode() ?? config('apiCode.code.systemError'),
+                'result' => $e->getCode() ?? config('custom.api.code.systemError'),
                 'data'   => [],
                 'error'  => $e->getMessage(),
             ];
